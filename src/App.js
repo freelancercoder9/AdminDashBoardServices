@@ -4,7 +4,7 @@ import Example from "./Example";
 
 function App() {
   return (
-    <div className="App">
+    <div style={{ height: "50vh" }} className="App">
       <Example></Example>
     </div>
   );
