@@ -13,7 +13,7 @@ function App() {
     setSelectedButtonValue(selectedButtonValue);
   };
   return (
-    <div style={{ height: "100vh" }} className="App">
+    <div style={{ height: "100vh", width: "100%" }} className="App">
       <HeaderComp></HeaderComp>
       <div style={{ display: "flex", flexDirection: "row", width: "100%", flex: 1 }}>
         <LeftNavComp onClickLeftNav={onClickLeftNav}></LeftNavComp>

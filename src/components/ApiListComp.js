@@ -85,17 +85,19 @@ const ApiListComp = () => {
   );
 
   return (
-    <div style={{}}>
+    <div style={{ flex: 1 }}>
       {isPopUp === true && (
         <div
           style={{
-            width: "100%",
-            height: "100%",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
             position: "absolute",
             zIndex: 10,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "rgba(52, 52, 52, 0.3)",
+            backgroundColor: "rgba(52, 52, 52, 0.8)",
           }}
         >
           <PopUpComp onClickCancel={onClickCancel} selectedRowData={selectedRowData}></PopUpComp>
