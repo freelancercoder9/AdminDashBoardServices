@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const PopUpComp = (props) => {
+  const devStatusType = ["NOT_STARTED", "PENDING", "IN_PROGRESS", "COMPLETED"];
+  // const defaultOption = options[0];
   const [apiName, setapiName] = useState(props.selectedRowData.apiName);
   const [appInstName, setAppInstName] = useState(props.selectedRowData.appInstanceDetails.appInstanceName);
   const [apiRequestType, setApiRequestType] = useState(props.selectedRowData.apiRequestType);
@@ -11,6 +15,10 @@ const PopUpComp = (props) => {
   const [uatStatusDate, setUatStatusDate] = useState(props.selectedRowData.uatCompletedDate);
   const [prodStatus, setProdStatus] = useState(props.selectedRowData.prodStatus);
   const [prodStatusDate, setProdStatusDate] = useState(props.selectedRowData.prodCompletedDate);
+
+  const dropDownData = (data) => {
+    console.log("dropDownData:", data);
+  };
 
   return (
     <div
@@ -122,16 +130,26 @@ const PopUpComp = (props) => {
             alignItems: "center",
           }}
         >
-          <h4 style={{ width: "30%", textAlign: "start" }}>Dev Status</h4>
-          <input
+          <h4 style={{ width: "30%", textAlign: "start", backgroundColor: "yellow" }}>Dev Status</h4>
+          {/* <input
             type="text"
             style={{ width: "60%", height: 20 }}
             value={devStatus}
             onChange={(e) => {
               setDevStatus(e.target.value);
             }}
-          />
+          /> */}
+          <div style={{ width: "60%", height: 15 }}>
+            <Dropdown
+              options={devStatusType}
+              onChange={dropDownData}
+              value={devStatus}
+              placeholder="Select an option"
+            />
+            ;
+          </div>
         </div>
+
         <div
           style={{
             width: "100%",
@@ -227,7 +245,6 @@ const PopUpComp = (props) => {
             }}
           />
         </div>
-
         <div style={{ marginTop: 20 }}>
           <button
             style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30 }}
