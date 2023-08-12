@@ -2,96 +2,72 @@ import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import PopUpComp from "./PopUpComp";
-import { getAllApiDetails, updateApiDetails } from "../services/ApiServiceDetails";
+import { createConsumerDetails } from "../services/ApiServiceDetails";
+import PopUpConsumer from "./PopUpConsumer";
+import { consumer_getAllApiDetails } from "../services/ApiServiceDetails";
 
-const ApiListComp = () => {
+const CreateConsumer = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
-  const [apiListData, setApiListData] = useState([]);
   const [editFlowFlag, setEditFlowFlag] = useState(true);
+  const [consumerListData, setConsumerListData] = useState([]);
 
   useEffect(() => {
-    getAllApiDetails_service();
+    consumer_getAllApiDetails_service();
   }, []);
 
-  const getAllApiDetails_service = async () => {
-    const response = await getAllApiDetails();
-    console.log("response in ApiListComp screen:", response.data);
-    setApiListData(response.data.getAllApiDetails);
+  const consumer_getAllApiDetails_service = async () => {
+    console.log("consumer_getAllApiDetails in screen");
+    const response = await consumer_getAllApiDetails();
+    console.log("response consumer_getAllApiDetails:", response.data);
+    setConsumerListData(response.data.consumer_getAllApiDetails);
   };
+
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
   };
-  const onClickSave = async (objectData, appInstanceID) => {
-    console.log("onClickSave", objectData, appInstanceID);
+  const onClickSave = async (objectData) => {
+    console.log("onClickSave", objectData);
 
-    const response = await updateApiDetails(objectData, appInstanceID);
+    const response = await createConsumerDetails(objectData);
     console.log("response in update service in screen:", response);
     if (response !== null && response.data !== null) {
-      getAllApiDetails_service();
+      // getAllApiDetails_service();
     }
     setIsPopUp(false);
   };
 
-  //should be memoized or stable
   const columns = useMemo(
     () => [
       {
-        accessorKey: "apiName", //access nested data with dot notation
-        header: "API Name",
+        accessorKey: "appCode", //access nested data with dot notation
+        header: "App Code",
         // size: 150,
       },
       {
-        accessorKey: "appInstanceDetails.appInstanceName",
-        header: "App Instance Name",
+        accessorKey: "primaryOwner",
+        header: "Primary Owner",
         // size: 150,
       },
       {
-        accessorKey: "apiRequestType",
-        header: "API Request Type",
+        accessorKey: "primaryOwnerEmail",
+        header: "Primary Owner Email",
         // size: 30,
       },
       {
-        accessorKey: "developerName",
-        header: "Developer Name",
+        accessorKey: "secondaryOwner",
+        header: "Secondary Owner",
         // size: 50,
       },
       {
-        accessorKey: "devStatus", //normal accessorKey
-        header: "Dev Status",
+        accessorKey: "secondaryOwnerEmail", //normal accessorKey
+        header: "Secondary Owner Email",
         // size: 50,
       },
-      // {
-      //   accessorKey: "devCompletedDate",
-      //   header: "Dev Completed Date",
-      //   size: 100,
-      // },
-      {
-        accessorKey: "uatStatus",
-        header: "Uat Status",
-        // size: 100,
-      },
-      // {
-      //   accessorKey: "uatCompletedDate",
-      //   header: "Uat Completed Date",
-      //   size: 100,
-      // },
-      {
-        accessorKey: "prodStatus",
-        header: "Prod Status",
-        // size: 100,
-      },
-      // {
-      //   accessorKey: "prodCompletedDate",
-      //   header: "Prod Completed Date",
-      //   size: 100,
-      // },
     ],
     []
   );
-
   return (
     <div style={{ flex: 1 }}>
       {isPopUp === true && (
@@ -108,12 +84,12 @@ const ApiListComp = () => {
             backgroundColor: "rgba(52, 52, 52, 0.8)",
           }}
         >
-          <PopUpComp
+          <PopUpConsumer
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
-          ></PopUpComp>
+          ></PopUpConsumer>
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -132,12 +108,12 @@ const ApiListComp = () => {
             setIsPopUp(true);
           }}
         >
-          Add New API
+          Add New Consumer
         </button>
       </div>
       <MaterialReactTable
         columns={columns}
-        data={apiListData}
+        data={consumerListData}
         enableRowActions
         enableStickyHeader
         positionActionsColumn="last"
@@ -171,4 +147,4 @@ const ApiListComp = () => {
   );
 };
 
-export default ApiListComp;
+export default CreateConsumer;

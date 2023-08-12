@@ -1,66 +1,71 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import PopUpComp from "./PopUpComp";
-import { getAllApiDetails, updateApiDetails } from "../services/ApiServiceDetails";
+import PopUpInstComp from "./PopUpInstComp";
+import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
 
-const ApiListComp = () => {
+const AppInstComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
-  const [apiListData, setApiListData] = useState([]);
   const [editFlowFlag, setEditFlowFlag] = useState(true);
 
-  useEffect(() => {
-    getAllApiDetails_service();
-  }, []);
+  const [apiInstData, setApiInstData] = useState([]);
 
-  const getAllApiDetails_service = async () => {
-    const response = await getAllApiDetails();
-    console.log("response in ApiListComp screen:", response.data);
-    setApiListData(response.data.getAllApiDetails);
-  };
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
   };
-  const onClickSave = async (objectData, appInstanceID) => {
-    console.log("onClickSave", objectData, appInstanceID);
-
-    const response = await updateApiDetails(objectData, appInstanceID);
-    console.log("response in update service in screen:", response);
+  const onClickSave = async (objectData) => {
+    console.log("onClickSave:", objectData);
+    const response = await createAppInstance(objectData);
+    console.log("response in AppInstComp screen:", response.data);
     if (response !== null && response.data !== null) {
-      getAllApiDetails_service();
+      getAllAppInstances();
+      setIsPopUp(false);
     }
-    setIsPopUp(false);
   };
+  useEffect(() => {
+    getAllAppInstances_services();
+  }, []);
 
-  //should be memoized or stable
+  const getAllAppInstances_services = async () => {
+    console.log("getAllAppInstances");
+    const response = await getAllAppInstances();
+    console.log("response in inst screen:", response.data);
+    setApiInstData(response.data.getAllAppInstances);
+  };
   const columns = useMemo(
     () => [
       {
-        accessorKey: "apiName", //access nested data with dot notation
-        header: "API Name",
-        // size: 150,
-      },
-      {
-        accessorKey: "appInstanceDetails.appInstanceName",
+        accessorKey: "appInstanceName", //access nested data with dot notation
         header: "App Instance Name",
         // size: 150,
       },
       {
-        accessorKey: "apiRequestType",
-        header: "API Request Type",
-        // size: 30,
+        accessorKey: "appInstanceType",
+        header: "App Instance Type",
+        // size: 150,
       },
       {
-        accessorKey: "developerName",
-        header: "Developer Name",
+        accessorKey: "lastUatDeployedDate",
+        header: "Last Uat Deployed Date",
         // size: 50,
       },
       {
-        accessorKey: "devStatus", //normal accessorKey
-        header: "Dev Status",
+        accessorKey: "lastProdDeployedDate",
+        header: "Last Prod Deployed Date",
+        // size: 30,
+      },
+
+      {
+        accessorKey: "uatDeployedEnv",
+        header: "Uat Deployed Env",
+        // size: 100,
+      },
+      {
+        accessorKey: "prodDeployedEnv", //normal accessorKey
+        header: "Prod Deployed Env",
         // size: 50,
       },
       // {
@@ -68,30 +73,9 @@ const ApiListComp = () => {
       //   header: "Dev Completed Date",
       //   size: 100,
       // },
-      {
-        accessorKey: "uatStatus",
-        header: "Uat Status",
-        // size: 100,
-      },
-      // {
-      //   accessorKey: "uatCompletedDate",
-      //   header: "Uat Completed Date",
-      //   size: 100,
-      // },
-      {
-        accessorKey: "prodStatus",
-        header: "Prod Status",
-        // size: 100,
-      },
-      // {
-      //   accessorKey: "prodCompletedDate",
-      //   header: "Prod Completed Date",
-      //   size: 100,
-      // },
     ],
     []
   );
-
   return (
     <div style={{ flex: 1 }}>
       {isPopUp === true && (
@@ -108,12 +92,12 @@ const ApiListComp = () => {
             backgroundColor: "rgba(52, 52, 52, 0.8)",
           }}
         >
-          <PopUpComp
+          <PopUpInstComp
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
-          ></PopUpComp>
+          ></PopUpInstComp>
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -132,12 +116,12 @@ const ApiListComp = () => {
             setIsPopUp(true);
           }}
         >
-          Add New API
+          Add New Inst
         </button>
       </div>
       <MaterialReactTable
         columns={columns}
-        data={apiListData}
+        data={apiInstData}
         enableRowActions
         enableStickyHeader
         positionActionsColumn="last"
@@ -171,4 +155,4 @@ const ApiListComp = () => {
   );
 };
 
-export default ApiListComp;
+export default AppInstComp;

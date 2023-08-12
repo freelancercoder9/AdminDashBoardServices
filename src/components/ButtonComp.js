@@ -9,6 +9,7 @@ const ButtonComp = (props) => {
         style={{
           backgroundColor: buttonValue === 1 ? "red" : "blue",
           color: "white",
+          fontWeight: "bold",
           borderRadius: 5,
           borderWidth: 1,
           padding: 10,
@@ -19,28 +20,13 @@ const ButtonComp = (props) => {
           props.onClickLeftNav(1);
         }}
       >
-        Create new API
-      </button>
-      <button
-        style={{
-          backgroundColor: buttonValue === 2 ? "red" : "blue",
-          color: "white",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
-        }}
-        onClick={() => {
-          setButtonValue(2);
-          props.onClickLeftNav(2);
-        }}
-      >
-        Create new Consumer
+        App Inst List
       </button>
       <button
         style={{
           backgroundColor: buttonValue === 3 ? "red" : "blue",
           color: "white",
+          fontWeight: "bold",
           borderRadius: 5,
           borderWidth: 1,
           padding: 10,
@@ -55,8 +41,26 @@ const ButtonComp = (props) => {
       </button>
       <button
         style={{
+          backgroundColor: buttonValue === 2 ? "red" : "blue",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: 5,
+          borderWidth: 1,
+          padding: 10,
+          marginBottom: 10,
+        }}
+        onClick={() => {
+          setButtonValue(2);
+          props.onClickLeftNav(2);
+        }}
+      >
+        Create new Consumer
+      </button>
+      <button
+        style={{
           backgroundColor: buttonValue === 4 ? "red" : "blue",
           color: "white",
+          fontWeight: "bold",
           borderRadius: 5,
           borderWidth: 1,
           padding: 10,
