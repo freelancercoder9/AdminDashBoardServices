@@ -4,11 +4,13 @@ import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui
 import { Box, IconButton } from "@mui/material";
 import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
+import LoadingIndicator from "./LoadingIndicator";
 
 const AppInstComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
 
   const [apiInstData, setApiInstData] = useState([]);
 
@@ -30,6 +32,7 @@ const AppInstComp = () => {
   }, []);
 
   const getAllAppInstances_services = async () => {
+    setLoadingIndicator(true);
     console.log("getAllAppInstances");
     const response = await getAllAppInstances();
     console.log("response in inst screen:", response.data);
@@ -57,6 +60,7 @@ const AppInstComp = () => {
       tempData.push(objData);
     });
     setApiInstData(tempData);
+    setLoadingIndicator(false);
   };
   const columns = useMemo(
     () => [
@@ -101,6 +105,8 @@ const AppInstComp = () => {
   );
   return (
     <div style={{ flex: 1 }}>
+      {loadingIndicator && <LoadingIndicator></LoadingIndicator>}
+
       {isPopUp === true && (
         <div
           style={{
