@@ -7,7 +7,7 @@ import LeftNavComp from "./components/LeftNavComp";
 import RightNavComp from "./components/RightNavComp";
 
 function App() {
-  const [selectedButtonValue, setSelectedButtonValue] = useState();
+  const [selectedButtonValue, setSelectedButtonValue] = useState(1);
   const onClickLeftNav = (selectedButtonValue) => {
     console.log("onClickLeftNav ", selectedButtonValue);
     setSelectedButtonValue(selectedButtonValue);
