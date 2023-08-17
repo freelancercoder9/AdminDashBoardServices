@@ -3,13 +3,29 @@ import Dropdown from "react-dropdown";
 import "../styles.css";
 
 const PopUpConsumer = (props) => {
-  const appCodeList = ["MDCM", "MDCM", "MDCM"];
   const [appCode, setAppCode] = useState();
   const [primaryOwner, setPrimaryOwner] = useState();
   const [secondaryOwner, setSecondaryOwner] = useState();
   const [primaryOwnerEmail, setPrimaryOwnerEmail] = useState();
   const [secondaryOwnerEmail, setSecondaryOwnerEmail] = useState();
   const [setsetselectedID, setSetsetselectedID] = useState();
+
+  useEffect(() => {
+    if (props.editFlowFlag === true) {
+      setAppCode(props.selectedRowData.appCode);
+      setPrimaryOwner(props.selectedRowData.primaryOwner);
+      setSecondaryOwner(props.selectedRowData.secondaryOwner);
+      setPrimaryOwnerEmail(props.selectedRowData.primaryOwnerEmail);
+      setSecondaryOwnerEmail(props.selectedRowData.secondaryOwnerEmail);
+      setSetsetselectedID(props.selectedRowData.id);
+    } else {
+      setAppCode();
+      setPrimaryOwner();
+      setSecondaryOwner();
+      setPrimaryOwnerEmail();
+      setSecondaryOwnerEmail();
+    }
+  }, []);
 
   return (
     <div
@@ -62,19 +78,15 @@ const PopUpConsumer = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>App Instance Type</h4>
-            <div style={{ width: "47%" }}>
-              <Dropdown
-                className="myClassName"
-                options={appCodeList}
-                onChange={(e) => {
-                  console.log("va : ", e);
-                  setAppCode(e.value);
-                }}
-                value={appCode}
-                placeholder="Select an option"
-              />
-            </div>
+            <h4 style={{ width: "45%", textAlign: "start" }}>App Code</h4>
+            <input
+              type="text"
+              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
+              value={appCode}
+              onChange={(e) => {
+                setAppCode(e.target.value);
+              }}
+            />
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>Primary Owner</h4>
@@ -145,13 +157,13 @@ const PopUpConsumer = (props) => {
 
         <div style={{ marginTop: 20 }}>
           <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30 }}
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
             onClick={props.onClickCancel}
           >
             Cancel
           </button>
           <button
-            style={{ padding: 7, backgroundColor: "blue", color: "white" }}
+            style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
               const objectData = {
                 appCode: appCode,

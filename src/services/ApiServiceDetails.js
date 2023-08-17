@@ -1,6 +1,7 @@
 import axios from "axios";
 // const api_endpoint = "http://localhost:8080/";
-const api_endpoint = "http://192.168.18.3:8080/";
+//const api_endpoint = "http://192.168.18.3:8080/";
+const api_endpoint = "https://servicesdashboardapi.onrender.com/";
 
 export const getAllApiDetails = async () => {
   console.log("getAllApiDetails");
@@ -169,34 +170,36 @@ export const createConsumerDetails = async (objectData) => {
 
   return res;
 };
-export const consumer_getAllApiDetails = async () => {
-  console.log("createConsumerDetails in service");
+export const consumer_getAllConsumers = async () => {
+  console.log("consumer_getAllConsumers in service");
 
   const res = axios
-    .post(api_endpoint + "consumerDetails/getAllApiDetails")
+    .get(api_endpoint + "consumerDetails/getAllConsumers")
     .then((response) => {
-      console.log("Response From  consumer_getAllApiDetails Server : ", response.data);
+      console.log("Response From  consumer_getAllConsumers Server : ", response.data);
 
       if (response.status === 200) {
         return {
           returnCode: 0,
           data: {
-            consumer_getAllApiDetails: response.data,
+            consumer_getAllConsumers: response.data,
           },
         };
+      } else {
+        console.log("consumer_getAllConsumers in else Condition:", response);
       }
       //   else if (response.data === "201") {
       //     return {
       //       returnCode: -1,
-      //       returnMessage: " getAllApiDetails request failed, please try again",
+      //       returnMessage: " consumer_getAllConsumers request failed, please try again",
       //     };
       //   }
     })
     .catch((error) => {
-      console.log("Error Response  consumer_getAllApiDetails: ", error);
+      console.log("Error Response  consumer_getAllConsumers: ", error);
       return {
         returnCode: -1,
-        returnMessage: "consumer_getAllApiDetails request failed, please try again",
+        returnMessage: "consumer_getAllConsumers request failed, please try again",
       };
     });
 

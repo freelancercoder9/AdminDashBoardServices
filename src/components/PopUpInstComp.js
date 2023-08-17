@@ -188,13 +188,13 @@ const PopUpInstComp = (props) => {
 
         <div style={{ marginTop: 20 }}>
           <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30 }}
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
             onClick={props.onClickCancel}
           >
             Cancel
           </button>
           <button
-            style={{ padding: 7, backgroundColor: "blue", color: "white" }}
+            style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
               const objectData = {
                 appInstanceName: appInstName,

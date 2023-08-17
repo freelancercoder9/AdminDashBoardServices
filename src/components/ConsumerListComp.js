@@ -1,101 +1,64 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import PopUpInstComp from "./PopUpInstComp";
-import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
+import { createConsumerDetails, consumer_getAllConsumers } from "../services/ApiServiceDetails";
+import PopUpConsumer from "./PopUpConsumer";
 
-const AppInstComp = () => {
+const ConsumerListComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
+  const [consumerListData, setConsumerListData] = useState([]);
 
-  const [apiInstData, setApiInstData] = useState([]);
+  useEffect(() => {
+    consumer_getAllConsumers_service();
+  }, []);
+
+  const consumer_getAllConsumers_service = async () => {
+    console.log("consumer_getAllConsumers in screen");
+    const response = await consumer_getAllConsumers();
+    console.log("response getAllConsumers:", response.data);
+    setConsumerListData(response.data.consumer_getAllConsumers);
+  };
 
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
   };
   const onClickSave = async (objectData) => {
-    console.log("onClickSave:", objectData);
-    const response = await createAppInstance(objectData);
-    console.log("response in AppInstComp screen:", response.data);
+    console.log("onClickSave", objectData);
+
+    const response = await createConsumerDetails(objectData);
+    console.log("response in update service in screen:", response);
     if (response !== null && response.data !== null) {
-      getAllAppInstances_services();
+      consumer_getAllConsumers_service();
     }
     setIsPopUp(false);
   };
-  useEffect(() => {
-    getAllAppInstances_services();
-  }, []);
 
-  const getAllAppInstances_services = async () => {
-    console.log("getAllAppInstances");
-    const response = await getAllAppInstances();
-    console.log("response in inst screen:", response.data);
-    var tempData = [];
-    response.data.getAllAppInstances.forEach((item) => {
-      const formattedDateUat = new Date(item.lastUatDeployedDate)
-        .toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
-        .replace(/ /g, "-");
-      console.log("formattedDate:", formattedDateUat);
-
-      const formattedDateProd = new Date(item.lastProdDeployedDate)
-        .toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
-        .replace(/ /g, "-");
-      console.log("formattedDate:", formattedDateProd);
-      var objData = { ...item, lastUatDeployedDate: formattedDateUat, lastProdDeployedDate: formattedDateProd };
-
-      tempData.push(objData);
-    });
-    setApiInstData(tempData);
-  };
   const columns = useMemo(
     () => [
       {
-        accessorKey: "appInstanceName", //access nested data with dot notation
-        header: "App Instance Name",
-        // size: 150,
+        accessorKey: "appCode", //access nested data with dot notation
+        header: "App Code",
       },
       {
-        accessorKey: "appInstanceType",
-        header: "App Instance Type",
-        // size: 150,
+        accessorKey: "primaryOwner",
+        header: "Primary Owner",
       },
       {
-        accessorKey: "lastUatDeployedDate",
-        header: "Last Uat Deployed Date",
-        // size: 50,
+        accessorKey: "primaryOwnerEmail",
+        header: "Pri Owner Email",
       },
       {
-        accessorKey: "lastProdDeployedDate",
-        header: "Last Prod Deployed Date",
-        // size: 30,
-      },
-
-      {
-        accessorKey: "uatDeployedEnv",
-        header: "Uat Deployed Env",
-        // size: 100,
+        accessorKey: "secondaryOwner",
+        header: "Secondary Owner",
       },
       {
-        accessorKey: "prodDeployedEnv", //normal accessorKey
-        header: "Prod Deployed Env",
-        // size: 50,
+        accessorKey: "secondaryOwnerEmail", //normal accessorKey
+        header: "Sec Owner Email",
       },
-      // {
-      //   accessorKey: "devCompletedDate",
-      //   header: "Dev Completed Date",
-      //   size: 100,
-      // },
     ],
     []
   );
@@ -115,12 +78,12 @@ const AppInstComp = () => {
             backgroundColor: "rgba(52, 52, 52, 0.8)",
           }}
         >
-          <PopUpInstComp
+          <PopUpConsumer
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
-          ></PopUpInstComp>
+          ></PopUpConsumer>
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -139,7 +102,7 @@ const AppInstComp = () => {
             setIsPopUp(true);
           }}
         >
-          Add New Inst
+          Add New Consumer
         </button>
       </div>
       <MaterialReactTable
@@ -152,10 +115,11 @@ const AppInstComp = () => {
           },
         }}
         columns={columns}
-        data={apiInstData}
+        data={consumerListData}
         enableRowActions
         enableColumnResizing
         enableStickyHeader
+        enableColumnResizing
         positionActionsColumn="last"
         options={{ actionsColumnIndex: -1 }}
         renderRowActions={({ row, table }) => (
@@ -187,4 +151,4 @@ const AppInstComp = () => {
   );
 };
 
-export default AppInstComp;
+export default ConsumerListComp;

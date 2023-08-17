@@ -2,27 +2,23 @@ import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import { createConsumerDetails } from "../services/ApiServiceDetails";
-import PopUpConsumer from "./PopUpConsumer";
-import { consumer_getAllApiDetails } from "../services/ApiServiceDetails";
+import PopUpClient from "./PopUpClient";
 
-const CreateConsumer = () => {
+const ClientIdListComp = () => {
+  const [clientListData, setClientListData] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
-  const [consumerListData, setConsumerListData] = useState([]);
 
   useEffect(() => {
-    consumer_getAllApiDetails_service();
+    // consumer_getAllConsumers_service();
   }, []);
 
-  const consumer_getAllApiDetails_service = async () => {
-    console.log("consumer_getAllApiDetails in screen");
-    const response = await consumer_getAllApiDetails();
-    console.log("response consumer_getAllApiDetails:", response.data);
-    setConsumerListData(response.data.consumer_getAllApiDetails);
-  };
-
+  //   const getAllApiDetails_service = async () => {
+  //     const response = await getAllApiDetails();
+  //     console.log("response in ApiListComp screen:", response.data);
+  //     setApiListData(response.data.getAllApiDetails);
+  //   };
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
@@ -30,14 +26,13 @@ const CreateConsumer = () => {
   const onClickSave = async (objectData) => {
     console.log("onClickSave", objectData);
 
-    const response = await createConsumerDetails(objectData);
-    console.log("response in update service in screen:", response);
-    if (response !== null && response.data !== null) {
-      // getAllApiDetails_service();
-    }
+    //  const response = await createConsumerDetails(objectData);
+    //  console.log("response in update service in screen:", response);
+    //  if (response !== null && response.data !== null) {
+    //    consumer_getAllConsumers_service();
+    //  }
     setIsPopUp(false);
   };
-
   const columns = useMemo(
     () => [
       {
@@ -46,23 +41,38 @@ const CreateConsumer = () => {
         // size: 150,
       },
       {
-        accessorKey: "primaryOwner",
-        header: "Primary Owner",
+        accessorKey: "clientId",
+        header: "Client ID",
         // size: 150,
       },
       {
-        accessorKey: "primaryOwnerEmail",
-        header: "Primary Owner Email",
+        accessorKey: "apiName",
+        header: "API Name",
         // size: 30,
       },
       {
-        accessorKey: "secondaryOwner",
-        header: "Secondary Owner",
+        accessorKey: "contactName",
+        header: "Contact Name",
         // size: 50,
       },
       {
-        accessorKey: "secondaryOwnerEmail", //normal accessorKey
-        header: "Secondary Owner Email",
+        accessorKey: "uatStatus", //normal accessorKey
+        header: "UAT Status",
+        // size: 50,
+      },
+      {
+        accessorKey: "uatStatusDate", //normal accessorKey
+        header: "UAT Status Date",
+        // size: 50,
+      },
+      {
+        accessorKey: "prodStatus", //normal accessorKey
+        header: "Prod Status",
+        // size: 50,
+      },
+      {
+        accessorKey: "tpsValue", //normal accessorKey
+        header: "TPS Value",
         // size: 50,
       },
     ],
@@ -84,12 +94,12 @@ const CreateConsumer = () => {
             backgroundColor: "rgba(52, 52, 52, 0.8)",
           }}
         >
-          <PopUpConsumer
+          <PopUpClient
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
-          ></PopUpConsumer>
+          ></PopUpClient>
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -108,13 +118,22 @@ const CreateConsumer = () => {
             setIsPopUp(true);
           }}
         >
-          Add New Consumer
+          Add New Client
         </button>
       </div>
       <MaterialReactTable
+        muiTableHeadCellProps={{
+          //simple styling with the `sx` prop, works just like a style prop in this example
+          sx: {
+            //fontWeight: "normal",
+            fontSize: "14px",
+            color: "red",
+          },
+        }}
         columns={columns}
-        data={consumerListData}
+        data={clientListData}
         enableRowActions
+        enableColumnResizing
         enableStickyHeader
         positionActionsColumn="last"
         options={{ actionsColumnIndex: -1 }}
@@ -147,4 +166,4 @@ const CreateConsumer = () => {
   );
 };
 
-export default CreateConsumer;
+export default ClientIdListComp;

@@ -50,7 +50,7 @@ const ApiListComp = () => {
       },
       {
         accessorKey: "apiRequestType",
-        header: "API Request Type",
+        header: "API Type",
         // size: 30,
       },
       {
@@ -136,9 +136,18 @@ const ApiListComp = () => {
         </button>
       </div>
       <MaterialReactTable
+        muiTableHeadCellProps={{
+          //simple styling with the `sx` prop, works just like a style prop in this example
+          sx: {
+            //fontWeight: "normal",
+            fontSize: "14px",
+            color: "red",
+          },
+        }}
         columns={columns}
         data={apiListData}
         enableRowActions
+        enableColumnResizing
         enableStickyHeader
         positionActionsColumn="last"
         options={{ actionsColumnIndex: -1 }}
