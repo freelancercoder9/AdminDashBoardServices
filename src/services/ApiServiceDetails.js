@@ -1,7 +1,7 @@
 import axios from "axios";
 // const api_endpoint = "http://localhost:8080/";
-//const api_endpoint = "http://192.168.18.3:8080/";
-const api_endpoint = "https://servicesdashboardapi.onrender.com/";
+const api_endpoint = "http://192.168.18.3:8080/";
+// const api_endpoint = "https://servicesdashboardapi.onrender.com/";
 
 export const getAllApiDetails = async () => {
   console.log("getAllApiDetails");
@@ -203,5 +203,71 @@ export const consumer_getAllConsumers = async () => {
       };
     });
 
+  return res;
+};
+
+export const getAllClientAPiDetails = async () => {
+  console.log("getAllApiDetails");
+  const res = axios
+    .get(api_endpoint + "ConsumerClient/getAllClientAPiDetails")
+    .then((response) => {
+      console.log("Response From  getAllClientAPiDetails Server : ", response);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            getAllClientAPiDetails: response.data,
+          },
+        };
+      }
+      //   else if (response.data === "201") {
+      //     return {
+      //       returnCode: -1,
+      //       returnMessage: " getAllClientAPiDetails request failed, please try again",
+      //     };
+      //   }
+    })
+    .catch((error) => {
+      console.log("Error Response  getAllClientAPiDetails: ", error);
+      return {
+        returnCode: -1,
+        returnMessage: "getAllClientAPiDetails request failed, please try again",
+      };
+    });
+
+  return res;
+};
+
+export const createConsumerClientAPi = async (objectData) => {
+  console.log("createConsumerDetails in service", objectData);
+
+  const res = axios
+    .post(api_endpoint + "1/1/createConsumerClientAPi", objectData)
+    .then((response) => {
+      console.log("Response From  createConsumerClientAPi Server : ", response.data);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            createConsumerClientAPi: response.data,
+          },
+        };
+      }
+      //   else if (response.data === "201") {
+      //     return {
+      //       returnCode: -1,
+      //       returnMessage: " createConsumerClientAPi request failed, please try again",
+      //     };
+      //   }
+    })
+    .catch((error) => {
+      console.log("Error Response  createConsumerClientAPi: ", error);
+      return {
+        returnCode: -1,
+        returnMessage: "createConsumerClientAPi request failed, please try again",
+      };
+    });
   return res;
 };

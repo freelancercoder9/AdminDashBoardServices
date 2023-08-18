@@ -3,6 +3,7 @@ import Dropdown from "react-dropdown";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles.css";
+import { getAllApiDetails, consumer_getAllConsumers } from "../services/ApiServiceDetails";
 
 const PopUpClient = (props) => {
   const uatStatusType = ["NOT_STARTED", "PENDING", "IN_PROGRESS", "COMPLETED"];
@@ -14,19 +15,28 @@ const PopUpClient = (props) => {
   const [uatStatus, setUatStatus] = useState();
   const [uatStatusDate, setUatStatusDate] = useState();
   const [prodStatus, setProdStatus] = useState();
+  const [prodStatusDate, setProdStatusDate] = useState();
   const [tpsValue, setTpsValue] = useState();
   const [consumetClientId, setConsumetClientId] = useState();
+  const [apiListData, setapiListData] = useState();
+  const [apiNameList, setApiNameList] = useState();
+  const [consumerList, setConsumerList] = useState();
+  const [consumerAppCodeList, setConsumerAppCodeList] = useState();
 
   useEffect(() => {
-    // getAllAppInstances_service();
+    getAllApiDetails_services();
+    consumer_getAllConsumers_service();
+
     if (props.editFlowFlag === true) {
-      setAppCode(props.selectedRowData.appCode);
+      setAppCode(props.selectedRowData.consumerDetails.appCode);
       setClientId(props.selectedRowData.clientId);
-      setApiName(props.selectedRowData.apiName);
+      setApiName(props.selectedRowData.apiDetails.apiName);
       setContactName(props.selectedRowData.contactName);
       setUatStatus(props.selectedRowData.uatStatus);
-      setUatStatusDate(props.selectedRowData.uatStatusDate);
+      setUatStatusDate(new Date(props.selectedRowData.uatStatusDate));
       setProdStatus(props.selectedRowData.prodStatus);
+      setProdStatusDate(new Date(props.selectedRowData.prodStatusDate));
+
       setTpsValue(props.selectedRowData.tpsValue);
       setConsumetClientId(props.selectedRowData.id);
     } else {
@@ -37,24 +47,39 @@ const PopUpClient = (props) => {
       setUatStatus();
       setUatStatusDate();
       setProdStatus();
+      setProdStatusDate();
       setTpsValue();
     }
   }, []);
 
-  //   const getAllAppInstances_service = async () => {
-  //     console.log("getAllAppInstances in screen");
-  //     const response = await getAllAppInstances();
-  //     console.log("response for getAllAppInstances:", response);
-  //     if (response !== null && response.data !== null) {
-  //       console.log("response:", response.data.getAllAppInstances);
-  //       setAppInstDetailsList(response.data.getAllAppInstances);
-  //       var dataTemp = [];
-  //       response.data.getAllAppInstances.forEach((item, index) => {
-  //         dataTemp.push(item.appInstanceName);
-  //       });
-  //       setAppInstList(dataTemp);
-  //     }
-  //   };
+  const getAllApiDetails_services = async () => {
+    console.log("getAllApiDetails in popup in client");
+    const response = await getAllApiDetails();
+    if (response !== null && response.data !== null) {
+      console.log("response getAllApiDetails:", response.data);
+      setapiListData(response.data.getAllApiDetails);
+      var tempData = [];
+      response.data.getAllApiDetails.forEach((item, index) => {
+        tempData.push(item.apiName);
+      });
+      console.log("tempData : ", tempData);
+      setApiNameList(tempData);
+    }
+  };
+  const consumer_getAllConsumers_service = async () => {
+    console.log("consumer_getAllConsumers in popup client");
+    const response = await consumer_getAllConsumers();
+    console.log("response for consumer_getAllConsumers:", response);
+    if (response !== null && response.data !== null) {
+      console.log("response in consumer_getAllConsumers:", response.data);
+      setConsumerList(response.data.consumer_getAllConsumers);
+      var tempData = [];
+      response.data.consumer_getAllConsumers.forEach((item, index) => {
+        tempData.push(item.appCode);
+      });
+      setConsumerAppCodeList(tempData);
+    }
+  };
 
   return (
     <div
@@ -108,14 +133,28 @@ const PopUpClient = (props) => {
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>APP Code</h4>
-            <input
+            {/* <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
               value={appCode}
               onChange={(e) => {
                 setAppCode(e.target.value);
               }}
-            />
+            /> */}
+            <div style={{ width: "47%" }}>
+              {consumerAppCodeList && (
+                <Dropdown
+                  className="myClassName"
+                  options={consumerAppCodeList}
+                  onChange={(e) => {
+                    console.log("va : ", e.value);
+                    setAppCode(e.value);
+                  }}
+                  value={appCode}
+                  placeholder="Select an option"
+                />
+              )}
+            </div>
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>Client ID</h4>
@@ -140,14 +179,28 @@ const PopUpClient = (props) => {
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>API Name</h4>
-            <input
+            {/* <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
               value={apiName}
               onChange={(e) => {
                 setApiName(e.target.value);
               }}
-            />
+            /> */}
+            <div style={{ width: "47%" }}>
+              {apiNameList && (
+                <Dropdown
+                  className="myClassName"
+                  options={apiNameList}
+                  onChange={(e) => {
+                    console.log("va : ", e.value);
+                    setApiName(e.value);
+                  }}
+                  value={apiName}
+                  placeholder="Select an option"
+                />
+              )}
+            </div>
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>Contact Name</h4>
@@ -253,6 +306,7 @@ const PopUpClient = (props) => {
                 uatStatus: uatStatus,
                 uatStatusDate: uatStatusDate,
                 prodStatus: prodStatus,
+                prodStatusDate: prodStatusDate,
                 tpsValue: tpsValue,
                 id: consumetClientId,
               };

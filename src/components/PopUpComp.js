@@ -32,11 +32,11 @@ const PopUpComp = (props) => {
       setApiRequestType(props.selectedRowData.apiRequestType);
       setDeveloperName(props.selectedRowData.developerName);
       setDevStatus(props.selectedRowData.devStatus);
-      setDevStatusDate(new Date(props.selectedRowData.devCompletedDate));
+      setDevStatusDate(new Date(props.selectedRowData.devStatusDate));
       setUatStatus(props.selectedRowData.uatStatus);
-      setUatStatusDate(new Date(props.selectedRowData.uatCompletedDate));
+      setUatStatusDate(new Date(props.selectedRowData.uatStatusDate));
       setProdStatus(props.selectedRowData.prodStatus);
-      setProdStatusDate(new Date(props.selectedRowData.prodCompletedDate));
+      setProdStatusDate(new Date(props.selectedRowData.prodStatusDate));
       setAppInstanceID(props.selectedRowData.appInstanceDetails.id);
     } else {
       setapiName();
@@ -120,14 +120,26 @@ const PopUpComp = (props) => {
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>API Name</h4>
-            <input
+            {/* <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
               value={apiName}
               onChange={(e) => {
                 setapiName(e.target.value);
               }}
-            />
+            /> */}
+            <div style={{ width: "47%" }}>
+              <Dropdown
+                className="myClassName"
+                options={apiName}
+                onChange={(e) => {
+                  console.log("va : ", e.value);
+                  setapiName(e.value);
+                }}
+                value={apiName}
+                placeholder="Select an option"
+              />
+            </div>
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>API Request Type</h4>
@@ -319,11 +331,11 @@ const PopUpComp = (props) => {
                 apiRequestType: apiRequestType,
                 developerName: developerName,
                 devStatus: devStatus,
-                devCompletedDate: devStatusDate,
+                devStatusDate: devStatusDate,
                 uatStatus: uatStatus,
-                uatCompletedDate: uatStatusDate,
+                uatStatusDate: uatStatusDate,
                 prodStatus: prodStatus,
-                prodCompletedDate: prodStatusDate,
+                prodStatusDate: prodStatusDate,
                 id: apiID,
               };
               props.onClickSave(objectData, appInstanceID);

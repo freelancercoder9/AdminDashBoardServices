@@ -3,22 +3,44 @@ import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import PopUpClient from "./PopUpClient";
+import { getAllClientAPiDetails, createConsumerClientAPi } from "../services/ApiServiceDetails";
 
 const ClientIdListComp = () => {
-  const [clientListData, setClientListData] = useState([]);
+  const [clientApiList, setClientApiList] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
 
   useEffect(() => {
-    // consumer_getAllConsumers_service();
+    getAllClientAPiDetails_service();
   }, []);
 
-  //   const getAllApiDetails_service = async () => {
-  //     const response = await getAllApiDetails();
-  //     console.log("response in ApiListComp screen:", response.data);
-  //     setApiListData(response.data.getAllApiDetails);
-  //   };
+  const getAllClientAPiDetails_service = async () => {
+    const response = await getAllClientAPiDetails();
+    console.log("response in ApiListComp screen:", response.data);
+    var tempData = [];
+    response.data.getAllClientAPiDetails.forEach((item, index) => {
+      const formattedDateUat = new Date(item.uatStatusDate)
+        .toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+        .replace(/ /g, "-");
+      console.log("formattedDate:", formattedDateUat);
+      const formattedDateProd = new Date(item.prodStatusDate)
+        .toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+        .replace(/ /g, "-");
+      console.log("formattedDate:", formattedDateProd);
+      var obj = { ...item, uatStatusDate: formattedDateUat, prodStatusDate: formattedDateProd };
+      tempData.push(obj);
+    });
+    setClientApiList(tempData);
+  };
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
@@ -26,17 +48,17 @@ const ClientIdListComp = () => {
   const onClickSave = async (objectData) => {
     console.log("onClickSave", objectData);
 
-    //  const response = await createConsumerDetails(objectData);
-    //  console.log("response in update service in screen:", response);
-    //  if (response !== null && response.data !== null) {
-    //    consumer_getAllConsumers_service();
-    //  }
+    const response = await createConsumerClientAPi(objectData);
+    console.log("response in update service in screen:", response);
+    if (response !== null && response.data !== null) {
+      getAllClientAPiDetails_service();
+    }
     setIsPopUp(false);
   };
   const columns = useMemo(
     () => [
       {
-        accessorKey: "appCode", //access nested data with dot notation
+        accessorKey: "consumerDetails.appCode", //access nested data with dot notation
         header: "App Code",
         // size: 150,
       },
@@ -46,7 +68,7 @@ const ClientIdListComp = () => {
         // size: 150,
       },
       {
-        accessorKey: "apiName",
+        accessorKey: "apiDetails.apiName",
         header: "API Name",
         // size: 30,
       },
@@ -68,6 +90,11 @@ const ClientIdListComp = () => {
       {
         accessorKey: "prodStatus", //normal accessorKey
         header: "Prod Status",
+        // size: 50,
+      },
+      {
+        accessorKey: "prodStatusDate", //normal accessorKey
+        header: "Prod Status Date",
         // size: 50,
       },
       {
@@ -131,7 +158,7 @@ const ClientIdListComp = () => {
           },
         }}
         columns={columns}
-        data={clientListData}
+        data={clientApiList}
         enableRowActions
         enableColumnResizing
         enableStickyHeader

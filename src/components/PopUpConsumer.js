@@ -79,14 +79,26 @@ const PopUpConsumer = (props) => {
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>App Code</h4>
-            <input
+            {/* <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
               value={appCode}
               onChange={(e) => {
                 setAppCode(e.target.value);
               }}
-            />
+            /> */}
+            <div style={{ width: "47%" }}>
+              <Dropdown
+                className="myClassName"
+                options={appCode}
+                onChange={(e) => {
+                  console.log("va : ", e.value);
+                  setAppCode(e.value);
+                }}
+                value={appCode}
+                placeholder="Select an option"
+              />
+            </div>
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>Primary Owner</h4>
