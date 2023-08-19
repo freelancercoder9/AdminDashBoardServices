@@ -4,22 +4,26 @@ import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui
 import { Box, IconButton } from "@mui/material";
 import { createConsumerDetails, consumer_getAllConsumers } from "../services/ApiServiceDetails";
 import PopUpConsumer from "./PopUpConsumer";
+import LoadingIndicator from "./LoadingIndicator";
 
 const ConsumerListComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [consumerListData, setConsumerListData] = useState([]);
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
 
   useEffect(() => {
     consumer_getAllConsumers_service();
   }, []);
 
   const consumer_getAllConsumers_service = async () => {
+    setLoadingIndicator(true);
     console.log("consumer_getAllConsumers in screen");
     const response = await consumer_getAllConsumers();
     console.log("response getAllConsumers:", response.data);
     setConsumerListData(response.data.consumer_getAllConsumers);
+    setLoadingIndicator(false);
   };
 
   const onClickCancel = () => {
@@ -28,12 +32,13 @@ const ConsumerListComp = () => {
   };
   const onClickSave = async (objectData) => {
     console.log("onClickSave", objectData);
-
+    setLoadingIndicator(true);
     const response = await createConsumerDetails(objectData);
     console.log("response in update service in screen:", response);
     if (response !== null && response.data !== null) {
       consumer_getAllConsumers_service();
     }
+    setLoadingIndicator(false);
     setIsPopUp(false);
   };
 
@@ -147,6 +152,7 @@ const ConsumerListComp = () => {
           </Box>
         )}
       />
+      {loadingIndicator && <loadingIndicator></loadingIndicator>}
     </div>
   );
 };

@@ -298,19 +298,42 @@ const PopUpClient = (props) => {
           <button
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
-              const objectData = {
-                appCode: appCode,
-                clientId: clientId,
-                apiName: apiName,
-                contactName: contactName,
-                uatStatus: uatStatus,
-                uatStatusDate: uatStatusDate,
-                prodStatus: prodStatus,
-                prodStatusDate: prodStatusDate,
-                tpsValue: tpsValue,
-                id: consumetClientId,
-              };
-              props.onClickSave(objectData);
+              var apiId = 0;
+              apiListData.forEach((item, index) => {
+                if (item.apiName === apiName) {
+                  apiId = item.id;
+                }
+              });
+              var consumerId = 0;
+              consumerList.forEach((item, index) => {
+                if (item.appCode === appCode) {
+                  consumerId = item.id;
+                }
+              });
+              if (props.editFlowFlag === true) {
+                const objectData = {
+                  clientId: clientId,
+                  contactName: contactName,
+                  uatStatus: uatStatus,
+                  uatStatusDate: uatStatusDate,
+                  prodStatus: prodStatus,
+                  prodStatusDate: prodStatusDate,
+                  tpsValue: tpsValue,
+                  id: consumetClientId,
+                };
+                props.onClickSave(objectData, consumerId, apiId);
+              } else {
+                const objectData = {
+                  clientId: clientId,
+                  contactName: contactName,
+                  uatStatus: uatStatus,
+                  uatStatusDate: uatStatusDate,
+                  prodStatus: prodStatus,
+                  prodStatusDate: prodStatusDate,
+                  tpsValue: tpsValue,
+                };
+                props.onClickSave(objectData, consumerId, apiId);
+              }
             }}
           >
             save

@@ -6,7 +6,7 @@ const api_endpoint = "http://192.168.18.3:8080/";
 export const getAllApiDetails = async () => {
   console.log("getAllApiDetails");
   const res = axios
-    .get(api_endpoint + "apiDetails/getAllApiDetails")
+    .get(api_endpoint + "apiDetails/getAllApiDetailsList")
     .then((response) => {
       console.log("Response From  getAllApiDetails Server : ", response);
 
@@ -239,11 +239,11 @@ export const getAllClientAPiDetails = async () => {
   return res;
 };
 
-export const createConsumerClientAPi = async (objectData) => {
-  console.log("createConsumerDetails in service", objectData);
+export const createConsumerClientAPi = async (objectData, consumerId, apiId) => {
+  console.log("createConsumerDetails in service", objectData, consumerId, apiId);
 
   const res = axios
-    .post(api_endpoint + "1/1/createConsumerClientAPi", objectData)
+    .post(api_endpoint + "ConsumerClient/" + consumerId + "/" + apiId + "/createConsumerClientAPi", objectData)
     .then((response) => {
       console.log("Response From  createConsumerClientAPi Server : ", response.data);
 

@@ -41,23 +41,6 @@ const ButtonComp = (props) => {
       </button>
       <button
         style={{
-          backgroundColor: buttonValue === 2 ? "red" : "blue",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
-        }}
-        onClick={() => {
-          setButtonValue(2);
-          props.onClickLeftNav(2);
-        }}
-      >
-        Client ID API List
-      </button>
-      <button
-        style={{
           backgroundColor: buttonValue === 4 ? "red" : "blue",
           color: "white",
           fontWeight: "bold",
@@ -72,6 +55,23 @@ const ButtonComp = (props) => {
         }}
       >
         Consumer List
+      </button>
+      <button
+        style={{
+          backgroundColor: buttonValue === 2 ? "red" : "blue",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: 5,
+          borderWidth: 1,
+          padding: 10,
+          marginBottom: 10,
+        }}
+        onClick={() => {
+          setButtonValue(2);
+          props.onClickLeftNav(2);
+        }}
+      >
+        Client ID API List
       </button>
     </div>
   );

@@ -4,18 +4,21 @@ import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui
 import { Box, IconButton } from "@mui/material";
 import PopUpClient from "./PopUpClient";
 import { getAllClientAPiDetails, createConsumerClientAPi } from "../services/ApiServiceDetails";
+import LoadingIndicator from "./LoadingIndicator";
 
 const ClientIdListComp = () => {
   const [clientApiList, setClientApiList] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
 
   useEffect(() => {
     getAllClientAPiDetails_service();
   }, []);
 
   const getAllClientAPiDetails_service = async () => {
+    setLoadingIndicator(true);
     const response = await getAllClientAPiDetails();
     console.log("response in ApiListComp screen:", response.data);
     var tempData = [];
@@ -40,19 +43,21 @@ const ClientIdListComp = () => {
       tempData.push(obj);
     });
     setClientApiList(tempData);
+    setLoadingIndicator(false);
   };
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
   };
-  const onClickSave = async (objectData) => {
+  const onClickSave = async (objectData, consumerId, apiId) => {
     console.log("onClickSave", objectData);
-
-    const response = await createConsumerClientAPi(objectData);
+    setLoadingIndicator(true);
+    const response = await createConsumerClientAPi(objectData, consumerId, apiId);
     console.log("response in update service in screen:", response);
     if (response !== null && response.data !== null) {
       getAllClientAPiDetails_service();
     }
+    setLoadingIndicator(false);
     setIsPopUp(false);
   };
   const columns = useMemo(
@@ -189,6 +194,7 @@ const ClientIdListComp = () => {
           </Box>
         )}
       />
+      {loadingIndicator && <loadingIndicator></loadingIndicator>}
     </div>
   );
 };

@@ -120,15 +120,15 @@ const PopUpComp = (props) => {
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>API Name</h4>
-            {/* <input
+            <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
               value={apiName}
               onChange={(e) => {
                 setapiName(e.target.value);
               }}
-            /> */}
-            <div style={{ width: "47%" }}>
+            />
+            {/* <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
                 options={apiName}
@@ -139,7 +139,7 @@ const PopUpComp = (props) => {
                 value={apiName}
                 placeholder="Select an option"
               />
-            </div>
+            </div> */}
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>API Request Type</h4>

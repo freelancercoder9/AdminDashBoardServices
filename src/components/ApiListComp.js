@@ -4,21 +4,25 @@ import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui
 import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
 import { getAllApiDetails, updateApiDetails } from "../services/ApiServiceDetails";
+import LoadingIndicator from "./LoadingIndicator";
 
 const ApiListComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [apiListData, setApiListData] = useState([]);
   const [editFlowFlag, setEditFlowFlag] = useState(true);
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
 
   useEffect(() => {
     getAllApiDetails_service();
   }, []);
 
   const getAllApiDetails_service = async () => {
+    setLoadingIndicator(true);
     const response = await getAllApiDetails();
     console.log("response in ApiListComp screen:", response.data);
     setApiListData(response.data.getAllApiDetails);
+    setLoadingIndicator(false);
   };
   const onClickCancel = () => {
     console.log("onClickCancel");
@@ -26,12 +30,13 @@ const ApiListComp = () => {
   };
   const onClickSave = async (objectData, appInstanceID) => {
     console.log("onClickSave", objectData, appInstanceID);
-
+    setLoadingIndicator(true);
     const response = await updateApiDetails(objectData, appInstanceID);
     console.log("response in update service in screen:", response);
     if (response !== null && response.data !== null) {
       getAllApiDetails_service();
     }
+    setLoadingIndicator(false);
     setIsPopUp(false);
   };
 
@@ -83,11 +88,11 @@ const ApiListComp = () => {
         header: "Prod Status",
         // size: 100,
       },
-      // {
-      //   accessorKey: "prodCompletedDate",
-      //   header: "Prod Completed Date",
-      //   size: 100,
-      // },
+      {
+        accessorKey: "totalTps",
+        header: "Total TPS",
+        size: 100,
+      },
     ],
     []
   );
@@ -176,6 +181,7 @@ const ApiListComp = () => {
           </Box>
         )}
       />
+      {loadingIndicator && <loadingIndicator></loadingIndicator>}
     </div>
   );
 };
