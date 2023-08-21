@@ -3,6 +3,7 @@ import ApiListComp from "./ApiListComp";
 import AppInstComp from "./AppInstComp";
 import ConsumerListComp from "./ConsumerListComp";
 import ClientIdListComp from "./ClientIdListComp";
+import TeamMembersComp from "./TeamMembersComp";
 
 const RightNavComp = (props) => {
   const [selectedButtonValue, setselectedButtonValue] = useState(props.onClickButton);
@@ -16,6 +17,7 @@ const RightNavComp = (props) => {
       {selectedButtonValue === 2 && <ClientIdListComp></ClientIdListComp>}
       {selectedButtonValue === 3 && <ApiListComp></ApiListComp>}
       {selectedButtonValue === 4 && <ConsumerListComp></ConsumerListComp>}
+      {selectedButtonValue === 5 && <TeamMembersComp></TeamMembersComp>}
     </div>
   );
 };

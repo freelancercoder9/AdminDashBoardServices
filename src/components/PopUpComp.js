@@ -3,7 +3,7 @@ import Dropdown from "react-dropdown";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles.css";
-import { getAllAppInstances } from "../services/ApiServiceDetails";
+import { getAllAppInstances, getAllMembers } from "../services/ApiServiceDetails";
 
 const PopUpComp = (props) => {
   const devStatusType = ["NOT_STARTED", "PENDING", "IN_PROGRESS", "COMPLETED"];
@@ -19,13 +19,15 @@ const PopUpComp = (props) => {
   const [uatStatusDate, setUatStatusDate] = useState();
   const [prodStatus, setProdStatus] = useState();
   const [prodStatusDate, setProdStatusDate] = useState();
-  const [appInstanceID, setAppInstanceID] = useState();
+
   const apiID = props.selectedRowData.id;
   const [appInstList, setAppInstList] = useState([]);
-  const [appInstDetailsList, setAppInstDetailsList] = useState([]);
+
+  const [memberNameList, setMemberNameList] = useState([]);
 
   useEffect(() => {
     getAllAppInstances_service();
+    getAllMembers_service();
     if (props.editFlowFlag === true) {
       setapiName(props.selectedRowData.apiName);
       setAppInstName(props.selectedRowData.appInstanceDetails.appInstanceName);
@@ -37,7 +39,6 @@ const PopUpComp = (props) => {
       setUatStatusDate(new Date(props.selectedRowData.uatStatusDate));
       setProdStatus(props.selectedRowData.prodStatus);
       setProdStatusDate(new Date(props.selectedRowData.prodStatusDate));
-      setAppInstanceID(props.selectedRowData.appInstanceDetails.id);
     } else {
       setapiName();
       setAppInstName();
@@ -49,7 +50,6 @@ const PopUpComp = (props) => {
       setUatStatusDate();
       setProdStatus();
       setProdStatusDate();
-      setAppInstanceID();
     }
   }, []);
 
@@ -59,15 +59,30 @@ const PopUpComp = (props) => {
     console.log("response for getAllAppInstances:", response);
     if (response !== null && response.data !== null) {
       console.log("response:", response.data.getAllAppInstances);
-      setAppInstDetailsList(response.data.getAllAppInstances);
+
       var dataTemp = [];
       response.data.getAllAppInstances.forEach((item, index) => {
-        dataTemp.push(item.appInstanceName);
+        var obj = { value: item.id, label: item.appInstanceName };
+        dataTemp.push(obj);
       });
       setAppInstList(dataTemp);
     }
   };
 
+  const getAllMembers_service = async () => {
+    console.log("getAllMembers_service in popup");
+
+    const response = await getAllMembers();
+    console.log("response for getAllMembers");
+    if (response !== null && response.data !== null) {
+      var dataTemp = [];
+      response.data.getAllMembers.forEach((item, index) => {
+        var obj = { value: item.id, label: item.memberName };
+        dataTemp.push(obj);
+      });
+      setMemberNameList(dataTemp);
+    }
+  };
   return (
     <div
       style={{
@@ -168,26 +183,14 @@ const PopUpComp = (props) => {
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>APP Instance Details</h4>
-            {/* <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={appInstName}
-              onChange={(e) => {
-                setAppInstName(e.target.value);
-              }}
-            /> */}
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
                 options={appInstList}
                 onChange={(e) => {
-                  console.log("va : ", e.value);
-                  setAppInstName(e.value);
-                  appInstDetailsList.forEach((item, index) => {
-                    if (item.appInstanceName === e.value) {
-                      setAppInstanceID(item.id);
-                    }
-                  });
+                  console.log("va : ", e);
+                  setAppInstName(e);
                 }}
                 value={appInstName}
                 placeholder="Select an option"
@@ -196,14 +199,19 @@ const PopUpComp = (props) => {
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>Developer Name</h4>
-            <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={developerName}
-              onChange={(e) => {
-                setDeveloperName(e.target.value);
-              }}
-            />
+
+            <div style={{ width: "47%" }}>
+              <Dropdown
+                className="myClassName"
+                options={memberNameList}
+                onChange={(e) => {
+                  console.log("va : ", e);
+                  setDeveloperName(e);
+                }}
+                value={developerName}
+                placeholder="Select an option"
+              />
+            </div>
           </div>
         </div>
 
@@ -338,7 +346,7 @@ const PopUpComp = (props) => {
                 prodStatusDate: prodStatusDate,
                 id: apiID,
               };
-              props.onClickSave(objectData, appInstanceID);
+              props.onClickSave(objectData, appInstName.value, developerName.value);
             }}
           >
             save

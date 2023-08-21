@@ -73,6 +73,23 @@ const ButtonComp = (props) => {
       >
         Client ID API List
       </button>
+      <button
+        style={{
+          backgroundColor: buttonValue === 5 ? "red" : "blue",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: 5,
+          borderWidth: 1,
+          padding: 10,
+          marginBottom: 10,
+        }}
+        onClick={() => {
+          setButtonValue(5);
+          props.onClickLeftNav(5);
+        }}
+      >
+        Team Members
+      </button>
     </div>
   );
 };

@@ -1,97 +1,68 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
-import PopUpComp from "./PopUpComp";
-import { getAllApiDetails, updateApiDetails } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
+import PopUpTeam from "./PopUpTeam";
+import { getAllMembers, members_createUpdateMember } from "../services/ApiServiceDetails";
 
-const ApiListComp = () => {
+const TeamMembersComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
-  const [selectedRowData, setselectedRowData] = useState({});
-  const [apiListData, setApiListData] = useState([]);
+  const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
+  const [teamMemberList, setTeamMemberList] = useState([]);
 
   useEffect(() => {
-    getAllApiDetails_service();
+    getAllMembers_service();
   }, []);
 
-  const getAllApiDetails_service = async () => {
-    setLoadingIndicator(true);
-    const response = await getAllApiDetails();
-    console.log("response in ApiListComp screen:", response.data);
-    setApiListData(response.data.getAllApiDetails);
-    setLoadingIndicator(false);
-  };
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
   };
-  const onClickSave = async (objectData, appInstanceID, developerID) => {
-    console.log("onClickSave", objectData, appInstanceID, developerID);
+  const onClickSave = async (objectData) => {
+    console.log("onClickSave in TeamMembersComp:", objectData);
     setLoadingIndicator(true);
-    const response = await updateApiDetails(objectData, appInstanceID, developerID);
-    console.log("response in update service in screen:", response);
+    const response = await members_createUpdateMember(objectData);
+    console.log("response in TeamMembersComp:", response);
     if (response !== null && response.data !== null) {
-      getAllApiDetails_service();
+      getAllMembers_service();
     }
-    setLoadingIndicator(false);
     setIsPopUp(false);
+    setLoadingIndicator(false);
   };
 
-  //should be memoized or stable
+  const getAllMembers_service = async () => {
+    console.log("getAllMembers_service in TeamMembersComp");
+    setLoadingIndicator(true);
+    const response = await getAllMembers();
+    console.log("getAllMembers in screen:", response);
+    setTeamMemberList(response.data.getAllMembers);
+    setLoadingIndicator(false);
+  };
+
   const columns = useMemo(
     () => [
       {
-        accessorKey: "apiName", //access nested data with dot notation
-        header: "API Name",
+        accessorKey: "memberName", //access nested data with dot notation
+        header: "Member Name",
         // size: 150,
       },
       {
-        accessorKey: "appInstanceDetails.appInstanceName",
-        header: "App Instance Name",
+        accessorKey: "memberRole", //access nested data with dot notation
+        header: "Role",
         // size: 150,
       },
       {
-        accessorKey: "apiRequestType",
-        header: "API Type",
+        accessorKey: "locationName",
+        header: "Location Name",
+        // size: 150,
+      },
+      {
+        accessorKey: "contactNumber",
+        header: "Contact Number",
         // size: 30,
-      },
-      {
-        accessorKey: "developerName",
-        header: "Developer Name",
-        // size: 50,
-      },
-      {
-        accessorKey: "devStatus", //normal accessorKey
-        header: "Dev Status",
-        // size: 50,
-      },
-      // {
-      //   accessorKey: "devCompletedDate",
-      //   header: "Dev Completed Date",
-      //   size: 100,
-      // },
-      {
-        accessorKey: "uatStatus",
-        header: "Uat Status",
-        // size: 100,
-      },
-      // {
-      //   accessorKey: "uatCompletedDate",
-      //   header: "Uat Completed Date",
-      //   size: 100,
-      // },
-      {
-        accessorKey: "prodStatus",
-        header: "Prod Status",
-        // size: 100,
-      },
-      {
-        accessorKey: "totalTps",
-        header: "Total TPS",
-        size: 100,
       },
     ],
     []
@@ -113,12 +84,12 @@ const ApiListComp = () => {
             backgroundColor: "rgba(52, 52, 52, 0.8)",
           }}
         >
-          <PopUpComp
+          <PopUpTeam
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
-          ></PopUpComp>
+          ></PopUpTeam>
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -137,7 +108,7 @@ const ApiListComp = () => {
             setIsPopUp(true);
           }}
         >
-          Add New API
+          Add New Member
         </button>
       </div>
       <MaterialReactTable
@@ -150,7 +121,7 @@ const ApiListComp = () => {
           },
         }}
         columns={columns}
-        data={apiListData}
+        data={teamMemberList}
         enableRowActions
         enableColumnResizing
         enableStickyHeader
@@ -164,7 +135,7 @@ const ApiListComp = () => {
                 //table.setEditingRow(row);
                 console.log("console log", row.original);
                 setIsPopUp(true);
-                setselectedRowData(row.original);
+                setSelectedRowData(row.original);
               }}
             >
               <EditIcon />
@@ -186,4 +157,4 @@ const ApiListComp = () => {
   );
 };
 
-export default ApiListComp;
+export default TeamMembersComp;

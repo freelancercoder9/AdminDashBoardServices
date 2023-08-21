@@ -36,11 +36,11 @@ export const getAllApiDetails = async () => {
   return res;
 };
 
-export const updateApiDetails = async (objectData, appInstanceID) => {
-  console.log("updateApiDetails in service", objectData, appInstanceID);
+export const updateApiDetails = async (objectData, appInstanceID, developerID) => {
+  console.log("updateApiDetails in service", objectData, appInstanceID, developerID);
 
   const res = axios
-    .post(api_endpoint + "apiDetails/" + appInstanceID + "/createApi", objectData)
+    .post(api_endpoint + "apiDetails/" + appInstanceID + "/" + developerID + "/createApi", objectData)
     .then((response) => {
       console.log("Response From  updateApiDetails Server : ", response.data);
 
@@ -267,6 +267,72 @@ export const createConsumerClientAPi = async (objectData, consumerId, apiId) => 
       return {
         returnCode: -1,
         returnMessage: "createConsumerClientAPi request failed, please try again",
+      };
+    });
+  return res;
+};
+
+export const getAllMembers = async () => {
+  console.log("getAllMembers");
+  const res = axios
+    .get(api_endpoint + "members/getAllMembers")
+    .then((response) => {
+      console.log("Response From  getAllMembers Server : ", response);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            getAllMembers: response.data,
+          },
+        };
+      }
+      //   else if (response.data === "201") {
+      //     return {
+      //       returnCode: -1,
+      //       returnMessage: " getAllMembers request failed, please try again",
+      //     };
+      //   }
+    })
+    .catch((error) => {
+      console.log("Error Response  getAllMembers: ", error);
+      return {
+        returnCode: -1,
+        returnMessage: "getAllMembers request failed, please try again",
+      };
+    });
+
+  return res;
+};
+
+export const members_createUpdateMember = async (objectData, consumerId, apiId) => {
+  console.log("createConsumerDetails in service", objectData, consumerId, apiId);
+
+  const res = axios
+    .post(api_endpoint + "members/createUpdateMember", objectData)
+    .then((response) => {
+      console.log("Response From  members_createUpdateMember Server : ", response.data);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            members_createUpdateMember: response.data,
+          },
+        };
+      }
+      //   else if (response.data === "201") {
+      //     return {
+      //       returnCode: -1,
+      //       returnMessage: " members_createUpdateMember request failed, please try again",
+      //     };
+      //   }
+    })
+    .catch((error) => {
+      console.log("Error Response  members_createUpdateMember: ", error);
+      return {
+        returnCode: -1,
+        returnMessage: "members_createUpdateMember request failed, please try again",
       };
     });
   return res;
