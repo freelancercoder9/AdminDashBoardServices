@@ -59,7 +59,7 @@ const ApiListComp = () => {
         // size: 30,
       },
       {
-        accessorKey: "developerName",
+        accessorKey: "developerDetails.memberName",
         header: "Developer Name",
         // size: 50,
       },
@@ -163,6 +163,7 @@ const ApiListComp = () => {
               onClick={() => {
                 //table.setEditingRow(row);
                 console.log("console log", row.original);
+                setEditFlowFlag(true);
                 setIsPopUp(true);
                 setselectedRowData(row.original);
               }}

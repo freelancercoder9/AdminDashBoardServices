@@ -171,6 +171,7 @@ const AppInstComp = () => {
               onClick={() => {
                 //table.setEditingRow(row);
                 console.log("console log", row.original);
+                setEditFlowFlag(true);
                 setIsPopUp(true);
                 setselectedRowData(row.original);
               }}

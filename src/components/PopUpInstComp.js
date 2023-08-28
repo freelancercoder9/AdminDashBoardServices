@@ -18,6 +18,7 @@ const PopUpInstComp = (props) => {
   const [setsetselectedID, setSetsetselectedID] = useState();
 
   useEffect(() => {
+    console.log(" dada ", props.editFlowFlag, props.selectedRowData);
     if (props.editFlowFlag === true) {
       setAppInstName(props.selectedRowData.appInstanceName);
       setAppInstanceType(props.selectedRowData.appInstanceType);

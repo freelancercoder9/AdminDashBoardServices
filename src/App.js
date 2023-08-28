@@ -13,9 +13,29 @@ function App() {
     setSelectedButtonValue(selectedButtonValue);
   };
   return (
-    <div style={{ height: "100vh", width: "100%" }} className="App">
+    <div
+      style={{
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        position: "absolute",
+        // backgroundColor: "blue",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      className="App"
+    >
       <HeaderComp></HeaderComp>
-      <div style={{ display: "flex", flexDirection: "row", width: "100%", flex: 1 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          flex: 1,
+          // backgroundColor: "green",
+        }}
+      >
         <LeftNavComp onClickLeftNav={onClickLeftNav}></LeftNavComp>
         <RightNavComp onClickButton={selectedButtonValue}></RightNavComp>
       </div>

@@ -10,9 +10,9 @@ const PopUpComp = (props) => {
   const requestTypeDropDown = ["RPC", "POST", "DELETE", "GET", "PUT"];
   // const defaultOption = options[0];
   const [apiName, setapiName] = useState();
-  const [appInstName, setAppInstName] = useState();
+  const [appInstName, setAppInstName] = useState({});
   const [apiRequestType, setApiRequestType] = useState();
-  const [developerName, setDeveloperName] = useState();
+  const [developerName, setDeveloperName] = useState({});
   const [devStatus, setDevStatus] = useState();
   const [devStatusDate, setDevStatusDate] = useState();
   const [uatStatus, setUatStatus] = useState();
@@ -30,9 +30,18 @@ const PopUpComp = (props) => {
     getAllMembers_service();
     if (props.editFlowFlag === true) {
       setapiName(props.selectedRowData.apiName);
-      setAppInstName(props.selectedRowData.appInstanceDetails.appInstanceName);
+      // setAppInstName(props.selectedRowData.appInstanceDetails.appInstanceName);
+      setAppInstName;
+      ({
+        value: props.selectedRowData.appInstanceDetails.id,
+        label: props.selectedRowData.appInstanceDetails.appInstanceName,
+      });
       setApiRequestType(props.selectedRowData.apiRequestType);
-      setDeveloperName(props.selectedRowData.developerName);
+      setDeveloperName(props.selectedRowData.developerDetails.memberName);
+      setDeveloperName({
+        value: props.selectedRowData.developerDetails.id,
+        label: props.selectedRowData.developerDetails.memberName,
+      });
       setDevStatus(props.selectedRowData.devStatus);
       setDevStatusDate(new Date(props.selectedRowData.devStatusDate));
       setUatStatus(props.selectedRowData.uatStatus);
@@ -41,9 +50,9 @@ const PopUpComp = (props) => {
       setProdStatusDate(new Date(props.selectedRowData.prodStatusDate));
     } else {
       setapiName();
-      setAppInstName();
+      setAppInstName({});
       setApiRequestType();
-      setDeveloperName();
+      setDeveloperName({});
       setDevStatus();
       setDevStatusDate();
       setUatStatus();
@@ -143,18 +152,6 @@ const PopUpComp = (props) => {
                 setapiName(e.target.value);
               }}
             />
-            {/* <div style={{ width: "47%" }}>
-              <Dropdown
-                className="myClassName"
-                options={apiName}
-                onChange={(e) => {
-                  console.log("va : ", e.value);
-                  setapiName(e.value);
-                }}
-                value={apiName}
-                placeholder="Select an option"
-              />
-            </div> */}
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>API Request Type</h4>
