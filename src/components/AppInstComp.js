@@ -66,13 +66,13 @@ const AppInstComp = () => {
     () => [
       {
         accessorKey: "appInstanceName", //access nested data with dot notation
-        header: "App Instance Name",
+        header: "App Name",
         // size: 150,
       },
       {
         accessorKey: "appInstanceType",
-        header: "App Instance Type",
-        // size: 150,
+        header: "App Type",
+        // size: 100,
       },
       {
         accessorKey: "lastUatDeployedDate",

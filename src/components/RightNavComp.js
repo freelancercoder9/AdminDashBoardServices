@@ -12,7 +12,7 @@ const RightNavComp = (props) => {
   }, [props.onClickButton]);
 
   return (
-    <div style={{ width: "85%", padding: 20 }}>
+    <div style={{ width: "80%", padding: 20 }}>
       {selectedButtonValue === 1 && <AppInstComp>API List</AppInstComp>}
       {selectedButtonValue === 2 && <ClientIdListComp></ClientIdListComp>}
       {selectedButtonValue === 3 && <ApiListComp></ApiListComp>}
