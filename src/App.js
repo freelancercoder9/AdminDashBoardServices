@@ -15,7 +15,7 @@ function App() {
   return (
     <div style={{ height: "100vh", width: "100%" }} className="App">
       <HeaderComp></HeaderComp>
-      <div style={{ display: "flex", flexDirection: "row", width: "100%", flex: 1 }}>
+      <div style={{ display: "flex", flexDirection: "row", width: "100%", top: 0, left: 0, right: 0, bottom: 0, position: "absolute" }}>
         <LeftNavComp onClickLeftNav={onClickLeftNav}></LeftNavComp>
         <RightNavComp onClickButton={selectedButtonValue}></RightNavComp>
       </div>

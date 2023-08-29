@@ -5,6 +5,7 @@ import { Box, IconButton } from "@mui/material";
 import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
+import Table from "./TableComp";
 
 const AppInstComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
@@ -62,47 +63,53 @@ const AppInstComp = () => {
     setApiInstData(tempData);
     setLoadingIndicator(false);
   };
+
+  const columnNew = [
+    { field: "appInstanceName", header: "App Instance Name" },
+    { field: "appInstanceType", header: "App Instance Type" },
+    { field: "lastUatDeployedDate", header: "Last Uat Dep Date" },
+    { field: "lastProdDeployedDate", header: "Last Prod Dep Date" },
+    { field: "uatDeployedEnv", header: "Uat Dep Env" },
+    { field: "prodDeployedEnv", header: "Prod Dep Env" },
+  ];
   const columns = useMemo(
     () => [
       {
         accessorKey: "appInstanceName", //access nested data with dot notation
         header: "App Instance Name",
-        // size: 150,
       },
       {
         accessorKey: "appInstanceType",
         header: "App Instance Type",
-        // size: 150,
       },
       {
         accessorKey: "lastUatDeployedDate",
         header: "Last Uat Deployed Date",
-        // size: 50,
       },
       {
         accessorKey: "lastProdDeployedDate",
         header: "Last Prod Deployed Date",
-        // size: 30,
       },
 
       {
         accessorKey: "uatDeployedEnv",
         header: "Uat Deployed Env",
-        // size: 100,
       },
       {
         accessorKey: "prodDeployedEnv", //normal accessorKey
         header: "Prod Deployed Env",
-        // size: 50,
       },
-      // {
-      //   accessorKey: "devCompletedDate",
-      //   header: "Dev Completed Date",
-      //   size: 100,
-      // },
     ],
     []
   );
+  const rowEditAction = (rowData) => {
+    console.log("rowEditAction 123 ", rowData);
+  };
+
+  const rowDeleteAction = (rowData) => {
+    console.log("rowDeleteAction  ", rowData);
+  };
+
   return (
     <div style={{ flex: 1 }}>
       {loadingIndicator && <LoadingIndicator></LoadingIndicator>}
@@ -148,7 +155,7 @@ const AppInstComp = () => {
           Add New Inst
         </button>
       </div>
-      <MaterialReactTable
+      {/* <MaterialReactTable
         muiTableHeadCellProps={{
           //simple styling with the `sx` prop, works just like a style prop in this example
           sx: {
@@ -188,7 +195,9 @@ const AppInstComp = () => {
             </IconButton>
           </Box>
         )}
-      />
+      /> */}
+
+      <Table data={apiInstData} columns={columnNew} hover={true} striped={true} editFunction={rowEditAction} deleteFunction={rowDeleteAction} />
     </div>
   );
 };

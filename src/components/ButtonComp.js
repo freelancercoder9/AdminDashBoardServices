@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles.css";
 
 const ButtonComp = (props) => {
   const [buttonValue, setButtonValue] = useState(1);
@@ -6,31 +7,21 @@ const ButtonComp = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", padding: 20 }}>
       <button
+        className="left-button-option"
         style={{
           backgroundColor: buttonValue === 1 ? "red" : "blue",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
         }}
         onClick={() => {
           setButtonValue(1);
           props.onClickLeftNav(1);
         }}
       >
-        App Inst List
+        APP INSTANCE
       </button>
       <button
+        className="left-button-option"
         style={{
           backgroundColor: buttonValue === 3 ? "red" : "blue",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
         }}
         onClick={() => {
           setButtonValue(3);
@@ -40,14 +31,9 @@ const ButtonComp = (props) => {
         API List
       </button>
       <button
+        className="left-button-option"
         style={{
           backgroundColor: buttonValue === 4 ? "red" : "blue",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
         }}
         onClick={() => {
           setButtonValue(4);
@@ -57,14 +43,9 @@ const ButtonComp = (props) => {
         Consumer List
       </button>
       <button
+        className="left-button-option"
         style={{
           backgroundColor: buttonValue === 2 ? "red" : "blue",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
         }}
         onClick={() => {
           setButtonValue(2);
@@ -74,14 +55,9 @@ const ButtonComp = (props) => {
         Client ID API List
       </button>
       <button
+        className="left-button-option"
         style={{
           backgroundColor: buttonValue === 5 ? "red" : "blue",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: 5,
-          borderWidth: 1,
-          padding: 10,
-          marginBottom: 10,
         }}
         onClick={() => {
           setButtonValue(5);

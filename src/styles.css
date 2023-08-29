@@ -22,6 +22,17 @@
   border-right-width: 0.5px;
 }
 
+.left-button-option {
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  height: 50px;
+}
+
 .dropdown {
   position: relative;
 }
