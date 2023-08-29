@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
+import "../styles.css";
 
 const AppInstComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
+  const [selectedRow, setSelectedRow] = useState();
 
   const [apiInstData, setApiInstData] = useState([]);
 
@@ -67,39 +70,34 @@ const AppInstComp = () => {
       {
         accessorKey: "appInstanceName", //access nested data with dot notation
         header: "App Name",
-        // size: 150,
+        size: 120,
       },
       {
         accessorKey: "appInstanceType",
         header: "App Type",
-        // size: 100,
+        size: 50,
       },
       {
         accessorKey: "lastUatDeployedDate",
         header: "Last Uat Deployed Date",
-        // size: 50,
+        size: 80,
       },
       {
         accessorKey: "lastProdDeployedDate",
         header: "Last Prod Deployed Date",
-        // size: 30,
+        size: 80,
       },
 
       {
         accessorKey: "uatDeployedEnv",
         header: "Uat Deployed Env",
-        // size: 100,
+        size: 80,
       },
       {
         accessorKey: "prodDeployedEnv", //normal accessorKey
         header: "Prod Deployed Env",
-        // size: 50,
+        size: 80,
       },
-      // {
-      //   accessorKey: "devCompletedDate",
-      //   header: "Dev Completed Date",
-      //   size: 100,
-      // },
     ],
     []
   );
@@ -149,21 +147,38 @@ const AppInstComp = () => {
         </button>
       </div>
       <MaterialReactTable
-        muiTableHeadCellProps={{
-          //simple styling with the `sx` prop, works just like a style prop in this example
+        muiTableProps={{
           sx: {
-            //fontWeight: "normal",
-            fontSize: "14px",
-            color: "red",
+            border: "1px solid rgba(81, 81, 81, .4)",
           },
         }}
+        muiTableHeadCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .3)",
+            color: "red",
+            textAlign: "center",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .2)",
+            textAlign: "center",
+          },
+        }}
+        enableColumnResizing
         columns={columns}
         data={apiInstData}
+        initialState={{ density: "compact" }}
         enableRowActions
-        enableColumnResizing
         enableStickyHeader
         positionActionsColumn="last"
-        options={{ actionsColumnIndex: -1 }}
+        options={{
+          actionsColumnIndex: -1,
+          rowStyle: (rowData) => ({
+            // backgroundColor: selectedRow === rowData.tableData.id ? "#r81345" : "#FFF",
+          }),
+          tableLayout: "auto",
+        }}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px", height: "100%" }}>
             <IconButton
@@ -176,7 +191,7 @@ const AppInstComp = () => {
                 setselectedRowData(row.original);
               }}
             >
-              <EditIcon />
+              <EditIcon style={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
               color="error"
@@ -185,7 +200,16 @@ const AppInstComp = () => {
                 // setData([...data]);
               }}
             >
-              <DeleteIcon />
+              <DeleteIcon style={{ fontSize: 30 }}/>
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+              }}
+            >
+              <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

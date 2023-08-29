@@ -31,8 +31,7 @@ const PopUpComp = (props) => {
     if (props.editFlowFlag === true) {
       setapiName(props.selectedRowData.apiName);
       // setAppInstName(props.selectedRowData.appInstanceDetails.appInstanceName);
-      setAppInstName;
-      ({
+      setAppInstName({
         value: props.selectedRowData.appInstanceDetails.id,
         label: props.selectedRowData.appInstanceDetails.appInstanceName,
       });
@@ -239,11 +238,7 @@ const PopUpComp = (props) => {
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>DEV Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker
-                dateFormat="dd-MM-yyyy"
-                selected={devStatusDate}
-                onChange={(date) => setDevStatusDate(date)}
-              />
+              <DatePicker dateFormat="dd-MM-yyyy" selected={devStatusDate} onChange={(date) => setDevStatusDate(date)} />
             </div>
           </div>
         </div>
@@ -275,11 +270,7 @@ const PopUpComp = (props) => {
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker
-                dateFormat="dd-MM-yyyy"
-                selected={uatStatusDate}
-                onChange={(date) => setUatStatusDate(date)}
-              />
+              <DatePicker dateFormat="dd-MM-yyyy" selected={uatStatusDate} onChange={(date) => setUatStatusDate(date)} />
             </div>
           </div>
         </div>
@@ -311,20 +302,13 @@ const PopUpComp = (props) => {
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>PROD Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker
-                dateFormat="dd-MM-yyyy"
-                selected={prodStatusDate}
-                onChange={(date) => setProdStatusDate(date)}
-              />
+              <DatePicker dateFormat="dd-MM-yyyy" selected={prodStatusDate} onChange={(date) => setProdStatusDate(date)} />
             </div>
           </div>
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
-            onClick={props.onClickCancel}
-          >
+          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
             Cancel
           </button>
           <button

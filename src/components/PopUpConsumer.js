@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Dropdown from "react-dropdown";
+
 import "../styles.css";
 
 const PopUpConsumer = (props) => {
@@ -168,10 +168,7 @@ const PopUpConsumer = (props) => {
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
-            onClick={props.onClickCancel}
-          >
+          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
             Cancel
           </button>
           <button

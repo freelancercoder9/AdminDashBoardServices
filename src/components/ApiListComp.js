@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
 import { getAllApiDetails, updateApiDetails } from "../services/ApiServiceDetails";
@@ -46,52 +47,48 @@ const ApiListComp = () => {
       {
         accessorKey: "apiName", //access nested data with dot notation
         header: "API Name",
-        // size: 150,
+        headerClassName: "rt-tr-align-left",
+        style: {
+          textAlign: "right",
+        },
+        size: 200,
       },
       {
         accessorKey: "appInstanceDetails.appInstanceName",
         header: "App Instance Name",
-        // size: 150,
+        size: 120,
       },
       {
         accessorKey: "apiRequestType",
         header: "API Type",
-        // size: 30,
+        size: 30,
       },
       {
         accessorKey: "developerDetails.memberName",
         header: "Developer Name",
-        // size: 50,
+        size: 70,
       },
       {
         accessorKey: "devStatus", //normal accessorKey
         header: "Dev Status",
-        // size: 50,
+        size: 50,
       },
-      // {
-      //   accessorKey: "devCompletedDate",
-      //   header: "Dev Completed Date",
-      //   size: 100,
-      // },
+
       {
         accessorKey: "uatStatus",
         header: "Uat Status",
-        // size: 100,
+        size: 50,
       },
-      // {
-      //   accessorKey: "uatCompletedDate",
-      //   header: "Uat Completed Date",
-      //   size: 100,
-      // },
+
       {
         accessorKey: "prodStatus",
         header: "Prod Status",
-        // size: 100,
+        size: 40,
       },
       {
         accessorKey: "totalTps",
         header: "Total TPS",
-        size: 100,
+        size: 50,
       },
     ],
     []
@@ -141,21 +138,37 @@ const ApiListComp = () => {
         </button>
       </div>
       <MaterialReactTable
-        muiTableHeadCellProps={{
-          //simple styling with the `sx` prop, works just like a style prop in this example
+        muiTableProps={{
           sx: {
-            //fontWeight: "normal",
-            fontSize: "14px",
-            color: "red",
+            border: "1px solid rgba(81, 81, 81, .4)",
           },
         }}
+        muiTableHeadCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .3)",
+            color: "red",
+            textAlign: "center",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .2)",
+            textAlign: "center",
+          },
+        }}
+        enableColumnResizing
         columns={columns}
         data={apiListData}
+        initialState={{ density: "compact" }}
         enableRowActions
-        enableColumnResizing
         enableStickyHeader
         positionActionsColumn="last"
-        options={{ actionsColumnIndex: -1 }}
+        options={{
+          actionsColumnIndex: -1,
+          rowStyle: (rowData) => ({
+            // backgroundColor: selectedRow === rowData.tableData.id ? "#r81345" : "#FFF",
+          }),
+        }}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px", height: "100%" }}>
             <IconButton
@@ -168,7 +181,7 @@ const ApiListComp = () => {
                 setselectedRowData(row.original);
               }}
             >
-              <EditIcon />
+              <EditIcon style={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
               color="error"
@@ -177,11 +190,21 @@ const ApiListComp = () => {
                 // setData([...data]);
               }}
             >
-              <DeleteIcon />
+              <DeleteIcon style={{ fontSize: 30 }} />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+              }}
+            >
+              <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}
       />
+
       {loadingIndicator && <LoadingIndicator></LoadingIndicator>}
     </div>
   );

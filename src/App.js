@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
-import ApiListComp from "./components/ApiListComp";
+
 import HeaderComp from "./components/HeaderComp";
 import "./styles.css";
 import LeftNavComp from "./components/LeftNavComp";

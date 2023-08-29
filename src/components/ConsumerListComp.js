@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import { createConsumerDetails, consumer_getAllConsumers } from "../services/ApiServiceDetails";
 import PopUpConsumer from "./PopUpConsumer";
@@ -8,7 +9,7 @@ import LoadingIndicator from "./LoadingIndicator";
 
 const ConsumerListComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
-  const [selectedRowData, setselectedRowData] = useState({});
+  const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [consumerListData, setConsumerListData] = useState([]);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
@@ -47,22 +48,27 @@ const ConsumerListComp = () => {
       {
         accessorKey: "appCode", //access nested data with dot notation
         header: "App Code",
+        size: 120,
       },
       {
         accessorKey: "primaryOwner",
         header: "Primary Owner",
+        size: 120,
       },
       {
         accessorKey: "primaryOwnerEmail",
         header: "Pri Owner Email",
+        size: 120,
       },
       {
         accessorKey: "secondaryOwner",
         header: "Secondary Owner",
+        size: 120,
       },
       {
         accessorKey: "secondaryOwnerEmail", //normal accessorKey
         header: "Sec Owner Email",
+        size: 120,
       },
     ],
     []
@@ -111,22 +117,32 @@ const ConsumerListComp = () => {
         </button>
       </div>
       <MaterialReactTable
-        muiTableHeadCellProps={{
-          //simple styling with the `sx` prop, works just like a style prop in this example
-          sx: {
-            //fontWeight: "normal",
-            fontSize: "14px",
-            color: "red",
-          },
-        }}
         columns={columns}
         data={consumerListData}
         enableRowActions
-        enableColumnResizing
         enableStickyHeader
-        enableColumnResizing
+        initialState={{ density: "compact" }}
         positionActionsColumn="last"
         options={{ actionsColumnIndex: -1 }}
+        muiTableProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .4)",
+          },
+        }}
+        muiTableHeadCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .3)",
+            color: "red",
+            textAlign: "center",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .2)",
+            textAlign: "center",
+          },
+        }}
+        enableColumnResizing
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px", height: "100%" }}>
             <IconButton
@@ -134,11 +150,12 @@ const ConsumerListComp = () => {
               onClick={() => {
                 //table.setEditingRow(row);
                 console.log("console log", row.original);
+                setEditFlowFlag(true);
                 setIsPopUp(true);
-                setselectedRowData(row.original);
+                setSelectedRowData(row.original);
               }}
             >
-              <EditIcon />
+              <EditIcon style={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
               color="error"
@@ -147,7 +164,16 @@ const ConsumerListComp = () => {
                 // setData([...data]);
               }}
             >
-              <DeleteIcon />
+              <DeleteIcon style={{ fontSize: 30 }} />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+              }}
+            >
+              <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

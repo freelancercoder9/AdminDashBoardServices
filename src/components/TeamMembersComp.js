@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import LoadingIndicator from "./LoadingIndicator";
 import PopUpTeam from "./PopUpTeam";
@@ -112,18 +113,29 @@ const TeamMembersComp = () => {
         </button>
       </div>
       <MaterialReactTable
-        muiTableHeadCellProps={{
-          //simple styling with the `sx` prop, works just like a style prop in this example
+        muiTableProps={{
           sx: {
-            //fontWeight: "normal",
-            fontSize: "14px",
-            color: "red",
+            border: "1px solid rgba(81, 81, 81, .4)",
           },
         }}
+        muiTableHeadCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .3)",
+            color: "red",
+            textAlign: "center",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .2)",
+            textAlign: "center",
+          },
+        }}
+        enableColumnResizing
         columns={columns}
         data={teamMemberList}
         enableRowActions
-        enableColumnResizing
+        initialState={{ density: "compact" }}
         enableStickyHeader
         positionActionsColumn="last"
         options={{ actionsColumnIndex: -1 }}
@@ -134,11 +146,12 @@ const TeamMembersComp = () => {
               onClick={() => {
                 //table.setEditingRow(row);
                 console.log("console log", row.original);
+                setEditFlowFlag(true);
                 setIsPopUp(true);
                 setSelectedRowData(row.original);
               }}
             >
-              <EditIcon />
+              <EditIcon style={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
               color="error"
@@ -147,7 +160,16 @@ const TeamMembersComp = () => {
                 // setData([...data]);
               }}
             >
-              <DeleteIcon />
+              <DeleteIcon style={{ fontSize: 30 }} />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+              }}
+            >
+              <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

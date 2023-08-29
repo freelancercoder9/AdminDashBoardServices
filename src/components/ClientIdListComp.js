@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpClient from "./PopUpClient";
 import { getAllClientAPiDetails, createConsumerClientAPi } from "../services/ApiServiceDetails";
@@ -9,9 +10,10 @@ import LoadingIndicator from "./LoadingIndicator";
 const ClientIdListComp = () => {
   const [clientApiList, setClientApiList] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
-  const [selectedRowData, setselectedRowData] = useState({});
+
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState({});
 
   useEffect(() => {
     getAllClientAPiDetails_service();
@@ -65,47 +67,47 @@ const ClientIdListComp = () => {
       {
         accessorKey: "consumerDetails.appCode", //access nested data with dot notation
         header: "App Code",
-        // size: 150,
+        size: 40,
       },
       {
         accessorKey: "clientId",
         header: "Client ID",
-        // size: 150,
+        size: 50,
       },
       {
         accessorKey: "apiDetails.apiName",
         header: "API Name",
-        // size: 30,
+        size: 100,
       },
       {
         accessorKey: "contactName",
         header: "Contact Name",
-        // size: 50,
+        size: 50,
       },
       {
         accessorKey: "uatStatus", //normal accessorKey
         header: "UAT Status",
-        // size: 50,
+        size: 40,
       },
       {
         accessorKey: "uatStatusDate", //normal accessorKey
         header: "UAT Status Date",
-        // size: 50,
+        size: 50,
       },
       {
         accessorKey: "prodStatus", //normal accessorKey
         header: "Prod Status",
-        // size: 50,
+        size: 30,
       },
       {
         accessorKey: "prodStatusDate", //normal accessorKey
         header: "Prod Status Date",
-        // size: 50,
+        size: 50,
       },
       {
         accessorKey: "tpsValue", //normal accessorKey
         header: "TPS Value",
-        // size: 50,
+        size: 20,
       },
     ],
     []
@@ -154,18 +156,29 @@ const ClientIdListComp = () => {
         </button>
       </div>
       <MaterialReactTable
-        muiTableHeadCellProps={{
-          //simple styling with the `sx` prop, works just like a style prop in this example
-          sx: {
-            //fontWeight: "normal",
-            fontSize: "14px",
-            color: "red",
-          },
-        }}
         columns={columns}
         data={clientApiList}
-        enableRowActions
+        muiTableProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .4)",
+          },
+        }}
+        muiTableHeadCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .3)",
+            color: "red",
+            textAlign: "center",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            border: "1px solid rgba(81, 81, 81, .2)",
+            textAlign: "center",
+          },
+        }}
         enableColumnResizing
+        initialState={{ density: "compact" }}
+        enableRowActions
         enableStickyHeader
         positionActionsColumn="last"
         options={{ actionsColumnIndex: -1 }}
@@ -176,11 +189,12 @@ const ClientIdListComp = () => {
               onClick={() => {
                 //table.setEditingRow(row);
                 console.log("console log", row.original);
+                setEditFlowFlag(true);
                 setIsPopUp(true);
-                setselectedRowData(row.original);
+                setSelectedRowData(row.original);
               }}
             >
-              <EditIcon />
+              <EditIcon style={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
               color="error"
@@ -189,7 +203,16 @@ const ClientIdListComp = () => {
                 // setData([...data]);
               }}
             >
-              <DeleteIcon />
+              <DeleteIcon style={{ fontSize: 30 }} />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+              }}
+            >
+              <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}
