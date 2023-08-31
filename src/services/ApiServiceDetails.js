@@ -74,9 +74,9 @@ export const deleteApiDetails = async (apiId) => {
   console.log("updateApiDetails in service", apiId);
 
   const res = axios
-    .delete(api_endpoint + "apiDetails/deleteApiDetails" + apiId)
+    .delete(api_endpoint + "apiDetails/deleteApiDetails/" + apiId)
     .then((response) => {
-      console.log("Response From  deleteApiDetails Server : ", response.data);
+      console.log("Response From  deleteApiDetails Server : ", response);
 
       if (response.status === 200) {
         return {
@@ -86,7 +86,7 @@ export const deleteApiDetails = async (apiId) => {
             returnMessage: "Successfully deleted",
           },
         };
-      } else if (response.status === "500") {
+      } else if (response.status === 500) {
         return {
           returnCode: -1,
           returnMessage: response.data.message,
@@ -100,9 +100,14 @@ export const deleteApiDetails = async (apiId) => {
     })
     .catch((error) => {
       console.log("Error Response  deleteApiDetails: ", error);
+      let errorMessage = "delete ApiDetails request failed, please try again";
+
+      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
+        errorMessage = error.response.data.message;
+      }
       return {
         returnCode: -1,
-        returnMessage: "deleteApiDetails request failed, please try again",
+        returnMessage: errorMessage,
       };
     });
 
