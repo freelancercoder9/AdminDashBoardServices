@@ -156,13 +156,14 @@ const AppInstComp = () => {
           sx: {
             border: "1px solid rgba(81, 81, 81, .3)",
             color: "red",
-            textAlign: "center",
+            // textAlign: "center",
+            // paddingLeft: 10,
           },
         }}
         muiTableBodyCellProps={{
           sx: {
             border: "1px solid rgba(81, 81, 81, .2)",
-            textAlign: "center",
+            // textAlign: "center",
           },
         }}
         enableColumnResizing
@@ -200,7 +201,7 @@ const AppInstComp = () => {
                 // setData([...data]);
               }}
             >
-              <DeleteIcon style={{ fontSize: 30 }}/>
+              <DeleteIcon style={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
               color="error"

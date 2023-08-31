@@ -133,13 +133,13 @@ const ConsumerListComp = () => {
           sx: {
             border: "1px solid rgba(81, 81, 81, .3)",
             color: "red",
-            textAlign: "center",
+            // textAlign: "center",
           },
         }}
         muiTableBodyCellProps={{
           sx: {
             border: "1px solid rgba(81, 81, 81, .2)",
-            textAlign: "center",
+            // textAlign: "center",
           },
         }}
         enableColumnResizing
