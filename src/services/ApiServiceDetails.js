@@ -1,7 +1,7 @@
 import axios from "axios";
-const api_endpoint = "http://localhost:8080/";
+// const api_endpoint = "http://localhost:8080/";
 //const api_endpoint = "http://192.168.18.3:8080/";
-// const api_endpoint = "https://api-utility-back-end.onrender.com/";
+const api_endpoint = "https://api-utility-back-end.onrender.com/";
 // const api_endpoint = "https://servicesdashboardapi.onrender.com/";
 
 export const getAllApiDetails = async () => {
@@ -65,6 +65,44 @@ export const updateApiDetails = async (objectData, appInstanceID, developerID) =
       return {
         returnCode: -1,
         returnMessage: "updateApiDetails request failed, please try again",
+      };
+    });
+
+  return res;
+};
+export const deleteApiDetails = async (apiId) => {
+  console.log("updateApiDetails in service", apiId);
+
+  const res = axios
+    .delete(api_endpoint + "apiDetails/deleteApiDetails" + apiId)
+    .then((response) => {
+      console.log("Response From  deleteApiDetails Server : ", response.data);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            // deleteApiDetails: response.data,
+            returnMessage: "Successfully deleted",
+          },
+        };
+      } else if (response.status === "500") {
+        return {
+          returnCode: -1,
+          returnMessage: response.data.message,
+        };
+      } else {
+        return {
+          returnCode: -1,
+          returnMessage: "service failed, please try again later",
+        };
+      }
+    })
+    .catch((error) => {
+      console.log("Error Response  deleteApiDetails: ", error);
+      return {
+        returnCode: -1,
+        returnMessage: "deleteApiDetails request failed, please try again",
       };
     });
 

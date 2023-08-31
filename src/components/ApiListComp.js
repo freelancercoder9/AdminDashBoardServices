@@ -4,8 +4,9 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
-import { getAllApiDetails, updateApiDetails } from "../services/ApiServiceDetails";
+import { getAllApiDetails, updateApiDetails, deleteApiDetails } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
+import { confirmAlert } from "react-confirm-alert"; // Import
 
 const ApiListComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
@@ -39,6 +40,40 @@ const ApiListComp = () => {
     }
     setLoadingIndicator(false);
     setIsPopUp(false);
+  };
+  const deleteApiDetails_service = async (rowData) => {
+    setLoadingIndicator(true);
+    if (window.confirm("Delete the item?")) {
+      console.log("Thing was deleted");
+      const response = await deleteApiDetails(rowData.id);
+      console.log("response in screen:", response);
+      if (response !== null && response.data !== null) {
+        console.log("response message:", response.data.returnMessage);
+      } else if (response.returnCode === -1) {
+        console.log("failure:", response.returnMessage);
+        alert(response.returnMessage);
+      }
+    } else {
+      // Do nothing!
+      console.log("Thing was not deleted.");
+    }
+
+    // if (confirm("Are you sure you want to delete the record")) {
+    //   // Save it!
+    //   console.log("Thing was deleted");
+    //   const response = await deleteApiDetails(rowData.id);
+    //   console.log("response in screen:", response);
+    //   if (response !== null && response.data !== null) {
+    //     console.log("response message:", response.data.returnMessage);
+    //   } else if (response.returnCode === -1) {
+    //     console.log("failure:", response.returnMessage);
+    //     alert(response.returnMessage);
+    //   }
+    // } else {
+    //   // Do nothing!
+    //   console.log("Thing was not deleted.");
+    // }
+    setLoadingIndicator(false);
   };
 
   //should be memoized or stable
@@ -188,6 +223,7 @@ const ApiListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                deleteApiDetails_service(row.original);
               }}
             >
               <DeleteIcon style={{ fontSize: 30 }} />
