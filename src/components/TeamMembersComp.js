@@ -5,7 +5,7 @@ import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import LoadingIndicator from "./LoadingIndicator";
 import PopUpTeam from "./PopUpTeam";
-import { getAllMembers, members_createUpdateMember } from "../services/ApiServiceDetails";
+import { getAllMembers, members_createUpdateMember, deleteMemBerDetails } from "../services/ApiServiceDetails";
 
 const TeamMembersComp = () => {
   const [isPopUp, setIsPopUp] = useState(false);
@@ -40,6 +40,25 @@ const TeamMembersComp = () => {
     const response = await getAllMembers();
     console.log("getAllMembers in screen:", response);
     setTeamMemberList(response.data.getAllMembers);
+    setLoadingIndicator(false);
+  };
+
+  const deleteMemBerDetails_services = async (rowData) => {
+    console.log("deleteMemBerDetails in screen:", rowData);
+    setLoadingIndicator(true);
+    if (window.confirm("Delete the item?")) {
+      const response = await deleteMemBerDetails(rowData.id);
+      console.log("response in screen:", response);
+      if (response !== null && response.data !== undefined) {
+        console.log("success message:", response.returnMessage);
+        getAllMembers_service();
+      } else if (response.returnCode === -1) {
+        console.log("failure message:", response.returnMessage);
+        alert(response.returnMessage);
+      }
+    } else {
+      console.log("Thing was not deleted.");
+    }
     setLoadingIndicator(false);
   };
 
@@ -158,6 +177,7 @@ const TeamMembersComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                deleteMemBerDetails_services(row.original);
               }}
             >
               <DeleteIcon style={{ fontSize: 30 }} />

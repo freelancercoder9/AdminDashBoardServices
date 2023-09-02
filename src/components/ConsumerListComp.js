@@ -3,7 +3,7 @@ import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
-import { createConsumerDetails, consumer_getAllConsumers } from "../services/ApiServiceDetails";
+import { createConsumerDetails, consumer_getAllConsumers, deleteConsumerDetails } from "../services/ApiServiceDetails";
 import PopUpConsumer from "./PopUpConsumer";
 import LoadingIndicator from "./LoadingIndicator";
 
@@ -41,6 +41,26 @@ const ConsumerListComp = () => {
     }
     setLoadingIndicator(false);
     setIsPopUp(false);
+  };
+
+  const deleteConsumerDetails_service = async (rowData) => {
+    console.log("deleteConsumerDetails in screen:", rowData);
+    setLoadingIndicator(true);
+    if (window.confirm("Delete the item?")) {
+      console.log("Thing was deleted");
+      const response = await deleteConsumerDetails(rowData.id);
+      console.log("response in screen:", response);
+      if (response !== null && response.data !== undefined) {
+        console.log("sucess message:", response.returnMessage);
+        consumer_getAllConsumers_service();
+      } else if (response.returnCode === -1) {
+        console.log("failure message:", response.returnMessage);
+        alert(response.returnMessage);
+      }
+    } else {
+      console.log("Thing was not deleted.");
+    }
+    setLoadingIndicator(false);
   };
 
   const columns = useMemo(
@@ -162,6 +182,7 @@ const ConsumerListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                deleteConsumerDetails_service(row.original);
               }}
             >
               <DeleteIcon style={{ fontSize: 30 }} />
