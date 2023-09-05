@@ -49,6 +49,7 @@ const ApiListComp = () => {
       console.log("response in screen:", response);
       if (response !== null && response.data !== undefined) {
         console.log("response message:", response.returnMessage);
+        getAllApiDetails_service();
       } else if (response.returnCode === -1) {
         console.log("failure:", response.returnMessage);
         alert(response.returnMessage);
