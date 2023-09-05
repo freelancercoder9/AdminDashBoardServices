@@ -1,6 +1,6 @@
 import axios from "axios";
 // const api_endpoint = "http://localhost:8080/";
-//const api_endpoint = "http://192.168.18.3:8080/";
+// const api_endpoint = "http://192.168.18.3:8080/";
 const api_endpoint = "https://api-utility-back-end.onrender.com/";
 // const api_endpoint = "https://servicesdashboardapi.onrender.com/";
 
@@ -102,7 +102,10 @@ export const deleteApiDetails = async (apiId) => {
       console.log("Error Response  deleteApiDetails: ", error);
       let errorMessage = "delete ApiDetails request failed, please try again";
 
-      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
+      if (
+        (error.response !== undefined && error.response.data !== undefined) ||
+        error.response.data.message !== undefined
+      ) {
         errorMessage = error.response.data.message;
       }
       return {
@@ -250,6 +253,54 @@ export const consumer_getAllConsumers = async () => {
   return res;
 };
 
+export const deleteConsumerDetails = async (consumerId) => {
+  // /consumerDetails/deleteConsumerDetails/{consumerId}
+  console.log("deleteConsumerDetails in service", consumerId);
+
+  const res = axios
+    .delete(api_endpoint + "consumerDetails/deleteConsumerDetails/" + consumerId)
+    .then((response) => {
+      console.log("Response From  deleteConsumerDetails Server : ", response);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            // deleteApiDetails: response.data,
+            returnMessage: "Successfully deleted",
+          },
+        };
+      } else if (response.status === 500) {
+        return {
+          returnCode: -1,
+          returnMessage: response.data.message,
+        };
+      } else {
+        return {
+          returnCode: -1,
+          returnMessage: "service failed, please try again later",
+        };
+      }
+    })
+    .catch((error) => {
+      console.log("Error Response  deleteConsumerDetails: ", error);
+      let errorMessage = "deleteConsumerDetails request failed, please try again";
+
+      if (
+        (error.response !== undefined && error.response.data !== undefined) ||
+        error.response.data.message !== undefined
+      ) {
+        errorMessage = error.response.data.message;
+      }
+      return {
+        returnCode: -1,
+        returnMessage: errorMessage,
+      };
+    });
+
+  return res;
+};
+
 export const getAllClientAPiDetails = async () => {
   console.log("getAllApiDetails");
   const res = axios
@@ -316,6 +367,53 @@ export const createConsumerClientAPi = async (objectData, consumerId, apiId) => 
   return res;
 };
 
+export const deleteConsumerClientDetails = async (consumerClientId) => {
+  console.log("deleteConsumerClientDetails in service", consumerClientId);
+
+  const res = axios
+    .delete(api_endpoint + "ConsumerClient/deleteConsumerClientDetails/" + consumerClientId)
+    .then((response) => {
+      console.log("Response From  deleteConsumerClientDetails Server : ", response);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            // deleteApiDetails: response.data,
+            returnMessage: "Successfully deleted",
+          },
+        };
+      } else if (response.status === 500) {
+        return {
+          returnCode: -1,
+          returnMessage: response.data.message,
+        };
+      } else {
+        return {
+          returnCode: -1,
+          returnMessage: "service failed, please try again later",
+        };
+      }
+    })
+    .catch((error) => {
+      console.log("Error Response  deleteConsumerClientDetails: ", error);
+      let errorMessage = "deleteConsumerClientDetails request failed, please try again";
+
+      if (
+        (error.response !== undefined && error.response.data !== undefined) ||
+        error.response.data.message !== undefined
+      ) {
+        errorMessage = error.response.data.message;
+      }
+      return {
+        returnCode: -1,
+        returnMessage: errorMessage,
+      };
+    });
+
+  return res;
+};
+
 export const getAllMembers = async () => {
   console.log("getAllMembers");
   const res = axios
@@ -379,5 +477,52 @@ export const members_createUpdateMember = async (objectData, consumerId, apiId) 
         returnMessage: "members_createUpdateMember request failed, please try again",
       };
     });
+  return res;
+};
+
+export const deleteMemBerDetails = async (memberId) => {
+  console.log("deleteMemBerDetails in service", memberId);
+
+  const res = axios
+    .delete(api_endpoint + "members/deleteMemBerDetails/" + memberId)
+    .then((response) => {
+      console.log("Response From  deleteMemBerDetails Server : ", response);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            // deleteApiDetails: response.data,
+            returnMessage: "Successfully deleted",
+          },
+        };
+      } else if (response.status === 500) {
+        return {
+          returnCode: -1,
+          returnMessage: response.data.message,
+        };
+      } else {
+        return {
+          returnCode: -1,
+          returnMessage: "service failed, please try again later",
+        };
+      }
+    })
+    .catch((error) => {
+      console.log("Error Response  deleteMemBerDetails: ", error);
+      let errorMessage = "deleteMemBerDetails request failed, please try again";
+
+      if (
+        (error.response !== undefined && error.response.data !== undefined) ||
+        error.response.data.message !== undefined
+      ) {
+        errorMessage = error.response.data.message;
+      }
+      return {
+        returnCode: -1,
+        returnMessage: errorMessage,
+      };
+    });
+
   return res;
 };

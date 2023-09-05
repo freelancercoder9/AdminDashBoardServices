@@ -49,6 +49,7 @@ const ApiListComp = () => {
       console.log("response in screen:", response);
       if (response !== null && response.data !== undefined) {
         console.log("response message:", response.returnMessage);
+        getAllApiDetails_service();
       } else if (response.returnCode === -1) {
         console.log("failure:", response.returnMessage);
         alert(response.returnMessage);
@@ -58,21 +59,6 @@ const ApiListComp = () => {
       console.log("Thing was not deleted.");
     }
 
-    // if (confirm("Are you sure you want to delete the record")) {
-    //   // Save it!
-    //   console.log("Thing was deleted");
-    //   const response = await deleteApiDetails(rowData.id);
-    //   console.log("response in screen:", response);
-    //   if (response !== null && response.data !== null) {
-    //     console.log("response message:", response.data.returnMessage);
-    //   } else if (response.returnCode === -1) {
-    //     console.log("failure:", response.returnMessage);
-    //     alert(response.returnMessage);
-    //   }
-    // } else {
-    //   // Do nothing!
-    //   console.log("Thing was not deleted.");
-    // }
     setLoadingIndicator(false);
   };
 
