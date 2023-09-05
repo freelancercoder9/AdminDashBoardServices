@@ -132,15 +132,10 @@ const PopUpClient = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>APP Code</h4>
-            {/* <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={appCode}
-              onChange={(e) => {
-                setAppCode(e.target.value);
-              }}
-            /> */}
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>APP CODE</h4>
+              <label style={{ color: "red", paddingLeft: 2, fontSize: 15, textAlign: "end" }}>*</label>
+            </div>
             <div style={{ width: "47%" }}>
               {consumerAppCodeList && (
                 <Dropdown
@@ -242,11 +237,7 @@ const PopUpClient = (props) => {
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker
-                dateFormat="dd-MM-yyyy"
-                selected={uatStatusDate}
-                onChange={(date) => setUatStatusDate(date)}
-              />
+              <DatePicker dateFormat="dd-MM-yyyy" selected={uatStatusDate} onChange={(date) => setUatStatusDate(date)} />
             </div>
           </div>
         </div>
@@ -289,10 +280,7 @@ const PopUpClient = (props) => {
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
-            onClick={props.onClickCancel}
-          >
+          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
             Cancel
           </button>
           <button
@@ -310,8 +298,9 @@ const PopUpClient = (props) => {
                   consumerId = item.id;
                 }
               });
+              var objectData;
               if (props.editFlowFlag === true) {
-                const objectData = {
+                objectData = {
                   clientId: clientId,
                   contactName: contactName,
                   uatStatus: uatStatus,
@@ -321,9 +310,8 @@ const PopUpClient = (props) => {
                   tpsValue: tpsValue,
                   id: consumetClientId,
                 };
-                props.onClickSave(objectData, consumerId, apiId);
               } else {
-                const objectData = {
+                objectData = {
                   clientId: clientId,
                   contactName: contactName,
                   uatStatus: uatStatus,
@@ -332,8 +320,8 @@ const PopUpClient = (props) => {
                   prodStatusDate: prodStatusDate,
                   tpsValue: tpsValue,
                 };
-                props.onClickSave(objectData, consumerId, apiId);
               }
+              props.onClickSave(objectData, consumerId, apiId);
             }}
           >
             save
