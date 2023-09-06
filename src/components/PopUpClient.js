@@ -81,6 +81,46 @@ const PopUpClient = (props) => {
     }
   };
 
+  const validateAndSave = (apiId, consumerId) => {
+    console.log("validateAndSave");
+    if (
+      clientId !== null &&
+      clientId !== undefined &&
+      contactName !== null &&
+      contactName !== undefined &&
+      uatStatus !== null &&
+      uatStatus !== undefined &&
+      prodStatus !== null &&
+      prodStatus !== undefined
+    ) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          clientId: clientId,
+          contactName: contactName,
+          uatStatus: uatStatus,
+          uatStatusDate: uatStatusDate,
+          prodStatus: prodStatus,
+          prodStatusDate: prodStatusDate,
+          tpsValue: tpsValue,
+          id: consumetClientId,
+        };
+      } else {
+        objectData = {
+          clientId: clientId,
+          contactName: contactName,
+          uatStatus: uatStatus,
+          uatStatusDate: uatStatusDate,
+          prodStatus: prodStatus,
+          prodStatusDate: prodStatusDate,
+          tpsValue: tpsValue,
+        };
+      }
+      props.onClickSave(objectData, consumerId, apiId);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
   return (
     <div
       style={{
@@ -132,15 +172,13 @@ const PopUpClient = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>APP Code</h4>
-            {/* <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={appCode}
-              onChange={(e) => {
-                setAppCode(e.target.value);
-              }}
-            /> */}
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>App Code</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               {consumerAppCodeList && (
                 <Dropdown
@@ -178,15 +216,13 @@ const PopUpClient = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>API Name</h4>
-            {/* <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={apiName}
-              onChange={(e) => {
-                setApiName(e.target.value);
-              }}
-            /> */}
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>API Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               {apiNameList && (
                 <Dropdown
@@ -225,7 +261,13 @@ const PopUpClient = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status</h4>
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>UAT Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -261,7 +303,13 @@ const PopUpClient = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Prod Status</h4>
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Prod Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -310,30 +358,7 @@ const PopUpClient = (props) => {
                   consumerId = item.id;
                 }
               });
-              if (props.editFlowFlag === true) {
-                const objectData = {
-                  clientId: clientId,
-                  contactName: contactName,
-                  uatStatus: uatStatus,
-                  uatStatusDate: uatStatusDate,
-                  prodStatus: prodStatus,
-                  prodStatusDate: prodStatusDate,
-                  tpsValue: tpsValue,
-                  id: consumetClientId,
-                };
-                props.onClickSave(objectData, consumerId, apiId);
-              } else {
-                const objectData = {
-                  clientId: clientId,
-                  contactName: contactName,
-                  uatStatus: uatStatus,
-                  uatStatusDate: uatStatusDate,
-                  prodStatus: prodStatus,
-                  prodStatusDate: prodStatusDate,
-                  tpsValue: tpsValue,
-                };
-                props.onClickSave(objectData, consumerId, apiId);
-              }
+              validateAndSave(apiId, consumerId);
             }}
           >
             save

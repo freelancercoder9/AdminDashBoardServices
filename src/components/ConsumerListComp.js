@@ -32,7 +32,7 @@ const ConsumerListComp = () => {
     setIsPopUp(false);
   };
   const onClickSave = async (objectData) => {
-    console.log("onClickSave", objectData);
+    console.log("onClickSave:", objectData);
     setLoadingIndicator(true);
     const response = await createConsumerDetails(objectData);
     console.log("response in update service in screen:", response);

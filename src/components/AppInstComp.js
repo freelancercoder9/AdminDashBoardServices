@@ -23,11 +23,13 @@ const AppInstComp = () => {
   };
   const onClickSave = async (objectData) => {
     console.log("onClickSave:", objectData);
+    setLoadingIndicator(true);
     const response = await createAppInstance(objectData);
     console.log("response in AppInstComp screen:", response.data);
     if (response !== null && response.data !== null) {
       getAllAppInstances_services();
     }
+    setLoadingIndicator(false);
     setIsPopUp(false);
   };
   useEffect(() => {

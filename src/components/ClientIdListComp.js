@@ -56,7 +56,7 @@ const ClientIdListComp = () => {
     setIsPopUp(false);
   };
   const onClickSave = async (objectData, consumerId, apiId) => {
-    console.log("onClickSave", objectData);
+    console.log("onClickSave:", objectData, consumerId, apiId);
     setLoadingIndicator(true);
     const response = await createConsumerClientAPi(objectData, consumerId, apiId);
     console.log("response in update service in screen:", response);

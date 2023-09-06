@@ -27,6 +27,42 @@ const PopUpTeam = (props) => {
     }
   }, []);
 
+  const validateAndSave = () => {
+    console.log("validateAndSave");
+    if (
+      memberName !== null &&
+      memberName !== undefined &&
+      memberName.length > 0 &&
+      role !== null &&
+      role !== undefined &&
+      locationName !== null &&
+      locationName !== undefined &&
+      memberID !== null &&
+      memberID !== undefined
+    ) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          memberName: memberName,
+          memberRole: role,
+          locationName: locationName,
+          contactNumber: contactNumber,
+          id: memberID,
+        };
+      } else {
+        objectData = {
+          memberName: memberName,
+          memberRole: role,
+          locationName: locationName,
+          contactNumber: contactNumber,
+        };
+      }
+      props.onClickSave(objectData);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
+
   return (
     <div
       style={{
@@ -78,7 +114,13 @@ const PopUpTeam = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Member Name</h4>
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Member Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
@@ -89,7 +131,13 @@ const PopUpTeam = (props) => {
             />
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Location Name</h4>
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Location Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -114,7 +162,13 @@ const PopUpTeam = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Role</h4>
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Role</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -142,20 +196,16 @@ const PopUpTeam = (props) => {
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
+          <button
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            onClick={props.onClickCancel}
+          >
             Cancel
           </button>
           <button
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
-              const objectData = {
-                memberName: memberName,
-                memberRole: role,
-                locationName: locationName,
-                contactNumber: contactNumber,
-                id: memberID,
-              };
-              props.onClickSave(objectData);
+              validateAndSave();
             }}
           >
             save

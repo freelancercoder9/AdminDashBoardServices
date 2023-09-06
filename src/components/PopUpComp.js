@@ -91,58 +91,76 @@ const PopUpComp = (props) => {
       setMemberNameList(dataTemp);
     }
   };
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          width: "60%",
-          // height: "30%",
 
-          paddingTop: 0,
-          paddingBottom: 20,
-          borderRadius: 10,
-          borderWidth: 10,
-          borderColor: "red",
-          backgroundColor: "white",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: 60,
-            backgroundColor: "red",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+  const validateAndSave = () => {
+    console.log("validateAndSave");
+    if (
+      apiName !== null &&
+      apiName !== undefined &&
+      appInstName !== null &&
+      appInstName !== undefined &&
+      apiRequestType !== null &&
+      apiRequestType !== undefined &&
+      developerName !== null &&
+      developerName !== undefined &&
+      devStatus !== null &&
+      devStatus !== undefined &&
+      uatStatus !== null &&
+      uatStatus !== undefined &&
+      prodStatus !== null &&
+      prodStatus !== undefined &&
+      apiID !== null &&
+      apiID !== undefined
+    ) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          apiName: apiName,
+          appInstName: appInstName,
+          apiRequestType: apiRequestType,
+          developerName: developerName,
+          devStatus: devStatus,
+          devStatusDate: devStatusDate,
+          uatStatus: uatStatus,
+          uatStatusDate: uatStatusDate,
+          prodStatus: prodStatus,
+          prodStatusDate: prodStatusDate,
+          id: apiID,
+        };
+      } else {
+        objectData = {
+          apiName: apiName,
+          appInstName: appInstName,
+          apiRequestType: apiRequestType,
+          developerName: developerName,
+          devStatus: devStatus,
+          devStatusDate: devStatusDate,
+          uatStatus: uatStatus,
+          uatStatusDate: uatStatusDate,
+          prodStatus: prodStatus,
+          prodStatusDate: prodStatusDate,
+        };
+      }
+      props.onClickSave(objectData, appInstName.value, developerName.value);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
+  return (
+    <div className="main-container">
+      <div className="sub-container">
+        <div className="heading">
           <h3 style={{ color: "white" }}>UPDATE API</h3>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>API Name</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>API Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
@@ -152,8 +170,14 @@ const PopUpComp = (props) => {
               }}
             />
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>API Request Type</h4>
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>API Request Type</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+            {/* <h4 style={{ width: "45%", textAlign: "start" }}>API Request Type</h4> */}
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -168,17 +192,14 @@ const PopUpComp = (props) => {
             </div>
           </div>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>APP Instance Details</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>APP Inst Detail</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
 
             <div style={{ width: "47%" }}>
               <Dropdown
@@ -193,8 +214,13 @@ const PopUpComp = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Developer Name</h4>
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Developer Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
 
             <div style={{ width: "47%" }}>
               <Dropdown
@@ -211,17 +237,15 @@ const PopUpComp = (props) => {
           </div>
         </div>
 
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>DEV Status</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>DEV Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -235,25 +259,27 @@ const PopUpComp = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>DEV Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker dateFormat="dd-MM-yyyy" selected={devStatusDate} onChange={(date) => setDevStatusDate(date)} />
+              <DatePicker
+                dateFormat="dd-MM-yyyy"
+                selected={devStatusDate}
+                onChange={(date) => setDevStatusDate(date)}
+              />
             </div>
           </div>
         </div>
 
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>UAT Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -267,25 +293,27 @@ const PopUpComp = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker dateFormat="dd-MM-yyyy" selected={uatStatusDate} onChange={(date) => setUatStatusDate(date)} />
+              <DatePicker
+                dateFormat="dd-MM-yyyy"
+                selected={uatStatusDate}
+                onChange={(date) => setUatStatusDate(date)}
+              />
             </div>
           </div>
         </div>
 
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>PROD Status</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>PROD Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -299,35 +327,29 @@ const PopUpComp = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>PROD Status Date</h4>
             <div style={{ width: "47%" }}>
-              <DatePicker dateFormat="dd-MM-yyyy" selected={prodStatusDate} onChange={(date) => setProdStatusDate(date)} />
+              <DatePicker
+                dateFormat="dd-MM-yyyy"
+                selected={prodStatusDate}
+                onChange={(date) => setProdStatusDate(date)}
+              />
             </div>
           </div>
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
+          <button
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            onClick={props.onClickCancel}
+          >
             Cancel
           </button>
           <button
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
-              const objectData = {
-                apiName: apiName,
-                appInstName: appInstName,
-                apiRequestType: apiRequestType,
-                developerName: developerName,
-                devStatus: devStatus,
-                devStatusDate: devStatusDate,
-                uatStatus: uatStatus,
-                uatStatusDate: uatStatusDate,
-                prodStatus: prodStatus,
-                prodStatusDate: prodStatusDate,
-                id: apiID,
-              };
-              props.onClickSave(objectData, appInstName.value, developerName.value);
+              validateAndSave();
             }}
           >
             save

@@ -27,6 +27,34 @@ const PopUpConsumer = (props) => {
     }
   }, []);
 
+  const validateAndSave = () => {
+    console.log("validateAndSave");
+    if (appCode !== null && appCode !== undefined && appCode.length > 0) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          appCode: appCode,
+          primaryOwner: primaryOwner,
+          primaryOwnerEmail: primaryOwnerEmail,
+          secondaryOwner: secondaryOwner,
+          secondaryOwnerEmail: secondaryOwnerEmail,
+          id: setsetselectedID,
+        };
+      } else {
+        objectData = {
+          appCode: appCode,
+          primaryOwner: primaryOwner,
+          primaryOwnerEmail: primaryOwnerEmail,
+          secondaryOwner: secondaryOwner,
+          secondaryOwnerEmail: secondaryOwnerEmail,
+        };
+      }
+      props.onClickSave(objectData);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
+
   return (
     <div
       style={{
@@ -78,7 +106,13 @@ const PopUpConsumer = (props) => {
           }}
         >
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>App Code</h4>
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>App Code</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
@@ -87,18 +121,6 @@ const PopUpConsumer = (props) => {
                 setAppCode(e.target.value);
               }}
             />
-            {/* <div style={{ width: "47%" }}>
-              <Dropdown
-                className="myClassName"
-                options={appCode}
-                onChange={(e) => {
-                  console.log("va : ", e.value);
-                  setAppCode(e.value);
-                }}
-                value={appCode}
-                placeholder="Select an option"
-              />
-            </div> */}
           </div>
           <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
             <h4 style={{ width: "45%", textAlign: "start" }}>Primary Owner</h4>
@@ -168,21 +190,16 @@ const PopUpConsumer = (props) => {
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
+          <button
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            onClick={props.onClickCancel}
+          >
             Cancel
           </button>
           <button
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
-              const objectData = {
-                appCode: appCode,
-                primaryOwner: primaryOwner,
-                primaryOwnerEmail: primaryOwnerEmail,
-                secondaryOwner: secondaryOwner,
-                secondaryOwnerEmail: secondaryOwnerEmail,
-                id: setsetselectedID,
-              };
-              props.onClickSave(objectData);
+              validateAndSave();
             }}
           >
             save
