@@ -118,19 +118,7 @@ const ApiListComp = () => {
   return (
     <div style={{ flex: 1 }}>
       {isPopUp === true && (
-        <div
-          style={{
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            position: "absolute",
-            zIndex: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(52, 52, 52, 0.8)",
-          }}
-        >
+        <div className="popup-comp">
           <PopUpComp
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
@@ -141,15 +129,7 @@ const ApiListComp = () => {
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
-          style={{
-            backgroundColor: "red",
-            color: "white",
-            fontWeight: "bold",
-            borderRadius: 5,
-            borderWidth: 1,
-            padding: 10,
-            marginBottom: 10,
-          }}
+          className="button-add-new"
           onClick={() => {
             setEditFlowFlag(false);
             setIsPopUp(true);

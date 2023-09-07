@@ -64,56 +64,13 @@ const PopUpTeam = (props) => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          width: "60%",
-          // height: "30%",
-
-          paddingTop: 0,
-          paddingBottom: 20,
-          borderRadius: 10,
-          borderWidth: 10,
-          borderColor: "red",
-          backgroundColor: "white",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: 60,
-            backgroundColor: "red",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+    <div className="main-container">
+      <div className="sub-container">
+        <div className="heading">
           <h3 style={{ color: "white" }}>UPDATE MEMBER</h3>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+        <div className="fields-container">
+          <div className="sub-fields">
             <div style={{ width: "45%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>Member Name</h4>
               <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
@@ -130,7 +87,7 @@ const PopUpTeam = (props) => {
               }}
             />
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <div style={{ width: "45%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>Location Name</h4>
               <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
@@ -152,16 +109,8 @@ const PopUpTeam = (props) => {
             </div>
           </div>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+        <div className="fields-container">
+          <div className="sub-fields">
             <div style={{ width: "45%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>Role</h4>
               <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
@@ -182,7 +131,7 @@ const PopUpTeam = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Contact Number</h4>
             <input
               type="text"

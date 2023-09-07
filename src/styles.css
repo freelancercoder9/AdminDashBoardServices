@@ -235,3 +235,29 @@
   justify-content: space-between;
   align-items: center;
 }
+
+/* popup in Screen*/
+
+.popup-comp {
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  position: absolute;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(52, 52, 52, 0.8);
+}
+
+/* button Screen*/
+
+.button-add-new {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
