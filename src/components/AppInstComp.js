@@ -104,7 +104,7 @@ const AppInstComp = () => {
     []
   );
   return (
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, padding: 15 }}>
       {loadingIndicator && <LoadingIndicator></LoadingIndicator>}
 
       {isPopUp === true && (

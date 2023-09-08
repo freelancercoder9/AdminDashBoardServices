@@ -116,7 +116,7 @@ const ApiListComp = () => {
   );
 
   return (
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, padding: 15 }}>
       {isPopUp === true && (
         <div className="popup-comp">
           <PopUpComp

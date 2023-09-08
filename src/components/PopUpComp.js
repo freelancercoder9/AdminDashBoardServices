@@ -177,7 +177,7 @@ const PopUpComp = (props) => {
                 *
               </label>
             </div>
-            {/* <h4 style={{ width: "45%", textAlign: "start" }}>API Request Type</h4> */}
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -192,6 +192,7 @@ const PopUpComp = (props) => {
             </div>
           </div>
         </div>
+
         <div className="fields-container">
           <div className="sub-fields">
             <div style={{ width: "45%", display: "flex" }}>
