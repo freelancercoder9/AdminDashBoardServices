@@ -1,7 +1,7 @@
 import axios from "axios";
 // const api_endpoint = "http://localhost:8080/";
-// const api_endpoint = "http://192.168.18.3:8080/";
-const api_endpoint = "https://api-utility-back-end.onrender.com/";
+const api_endpoint = "http://192.168.18.3:8080/";
+// const api_endpoint = "https://api-utility-back-end.onrender.com/";
 // const api_endpoint = "https://servicesdashboardapi.onrender.com/";
 
 export const getAllApiDetails = async () => {

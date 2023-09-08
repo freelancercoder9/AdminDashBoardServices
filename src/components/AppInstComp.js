@@ -7,8 +7,10 @@ import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import "../styles.css";
+import { useNavigate } from "react-router-dom";
 
 const AppInstComp = () => {
+  const navigate = useNavigate();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -190,6 +192,7 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/apiListComp");
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

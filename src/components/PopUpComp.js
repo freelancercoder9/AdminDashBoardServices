@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles.css";
 import { getAllAppInstances, getAllMembers } from "../services/ApiServiceDetails";
+import { validAttribute } from "../util/validationUtil";
 
 const PopUpComp = (props) => {
   const devStatusType = ["NOT_STARTED", "PENDING", "IN_PROGRESS", "COMPLETED"];
@@ -94,23 +95,16 @@ const PopUpComp = (props) => {
 
   const validateAndSave = () => {
     console.log("validateAndSave");
+
     if (
-      apiName !== null &&
-      apiName !== undefined &&
-      appInstName !== null &&
-      appInstName !== undefined &&
-      apiRequestType !== null &&
-      apiRequestType !== undefined &&
-      developerName !== null &&
-      developerName !== undefined &&
-      devStatus !== null &&
-      devStatus !== undefined &&
-      uatStatus !== null &&
-      uatStatus !== undefined &&
-      prodStatus !== null &&
-      prodStatus !== undefined &&
-      apiID !== null &&
-      apiID !== undefined
+      validAttribute(apiName) &&
+      validAttribute(appInstName) &&
+      validAttribute(apiRequestType) &&
+      validAttribute(developerName) &&
+      validAttribute(devStatus) &&
+      validAttribute(uatStatus) &&
+      validAttribute(uatStatus) &&
+      validAttribute(prodStatus)
     ) {
       let objectData;
       if (props.editFlowFlag === true) {
@@ -144,6 +138,7 @@ const PopUpComp = (props) => {
       props.onClickSave(objectData, appInstName.value, developerName.value);
     } else {
       alert("Please fill all mandatory fields");
+      console.log("attributes:", apiName, appInstName, apiRequestType, developerName, uatStatus, prodStatus, devStatus);
     }
   };
   return (
