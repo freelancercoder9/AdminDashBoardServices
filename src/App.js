@@ -13,6 +13,7 @@ import ClientIdListComp from "./components/ClientIdListComp";
 import ApiListComp from "./components/ApiListComp";
 import ConsumerListComp from "./components/ConsumerListComp";
 import TeamMembersComp from "./components/TeamMembersComp";
+import configureStore from "./reducers/configureStore";
 
 function App() {
   const [selectedButtonValue, setSelectedButtonValue] = useState(1);
@@ -59,33 +60,6 @@ function App() {
         </BrowserRouter>
       </div>
     </div>
-    // <div
-    // style={{
-    //   left: 0,
-    //   right: 0,
-    //   top: 0,
-    //   bottom: 0,
-    //   position: "absolute",
-    //   // backgroundColor: "blue",
-    //   display: "flex",
-    //   flexDirection: "column",
-    // }}
-    // className="App"
-    // >
-    //   <HeaderComp></HeaderComp>
-    //   <div
-    // style={{
-    //   display: "flex",
-    //   flexDirection: "row",
-    //   width: "100%",
-    //   flex: 1,
-    //   // backgroundColor: "green",
-    // }}
-    //   >
-    //     <LeftNavComp onClickLeftNav={onClickLeftNav}></LeftNavComp>
-    //     <RightNavComp onClickButton={selectedButtonValue}></RightNavComp>
-    //   </div>
-    // </div>
   );
 }
 

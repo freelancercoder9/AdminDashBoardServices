@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonAction } from "../actions/UpdateButtonState";
 
 const ButtonComp = (props) => {
+  const dispatch = useDispatch();
   const [buttonValue, setButtonValue] = useState(1);
   const navigate = useNavigate();
 
@@ -19,6 +22,7 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(1);
+          dispatch(buttonAction(1));
           navigate("/");
         }}
       >
@@ -36,6 +40,7 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(3);
+          dispatch(buttonAction(3));
           navigate("/ApiListComp");
         }}
       >
@@ -53,6 +58,7 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(4);
+          dispatch(buttonAction(4));
           navigate("/ConsumerListComp");
         }}
       >
@@ -70,6 +76,7 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(2);
+          dispatch(buttonAction(2));
           navigate("/ClientIdListComp");
         }}
       >
@@ -87,6 +94,7 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(5);
+          dispatch(buttonAction(5));
           navigate("/TeamMembersComp");
         }}
       >
