@@ -27,58 +27,57 @@ const PopUpTeam = (props) => {
     }
   }, []);
 
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          width: "60%",
-          // height: "30%",
+  const validateAndSave = () => {
+    console.log("validateAndSave");
+    if (
+      memberName !== null &&
+      memberName !== undefined &&
+      memberName.length > 0 &&
+      role !== null &&
+      role !== undefined &&
+      locationName !== null &&
+      locationName !== undefined &&
+      memberID !== null &&
+      memberID !== undefined
+    ) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          memberName: memberName,
+          memberRole: role,
+          locationName: locationName,
+          contactNumber: contactNumber,
+          id: memberID,
+        };
+      } else {
+        objectData = {
+          memberName: memberName,
+          memberRole: role,
+          locationName: locationName,
+          contactNumber: contactNumber,
+        };
+      }
+      props.onClickSave(objectData);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
 
-          paddingTop: 0,
-          paddingBottom: 20,
-          borderRadius: 10,
-          borderWidth: 10,
-          borderColor: "red",
-          backgroundColor: "white",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: 60,
-            backgroundColor: "red",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+  return (
+    <div className="main-container">
+      <div className="sub-container">
+        <div className="heading">
           <h3 style={{ color: "white" }}>UPDATE MEMBER</h3>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Member Name</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Member Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
@@ -88,8 +87,14 @@ const PopUpTeam = (props) => {
               }}
             />
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Location Name</h4>
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Location Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -104,17 +109,15 @@ const PopUpTeam = (props) => {
             </div>
           </div>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Role</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Role</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -128,7 +131,7 @@ const PopUpTeam = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Contact Number</h4>
             <input
               type="text"
@@ -142,20 +145,16 @@ const PopUpTeam = (props) => {
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
+          <button
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            onClick={props.onClickCancel}
+          >
             Cancel
           </button>
           <button
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
-              const objectData = {
-                memberName: memberName,
-                memberRole: role,
-                locationName: locationName,
-                contactNumber: contactNumber,
-                id: memberID,
-              };
-              props.onClickSave(objectData);
+              validateAndSave();
             }}
           >
             save

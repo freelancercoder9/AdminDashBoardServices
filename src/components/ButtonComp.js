@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonAction } from "../actions/UpdateButtonState";
 
 const ButtonComp = (props) => {
+  const dispatch = useDispatch();
   const [buttonValue, setButtonValue] = useState(1);
+  const navigate = useNavigate();
 
   return (
     <div style={{ display: "flex", flexDirection: "column", padding: 20 }}>
@@ -17,7 +22,8 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(1);
-          props.onClickLeftNav(1);
+          dispatch(buttonAction(1));
+          navigate("/");
         }}
       >
         App Inst List
@@ -34,7 +40,8 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(3);
-          props.onClickLeftNav(3);
+          dispatch(buttonAction(3));
+          navigate("/ApiListComp");
         }}
       >
         API List
@@ -51,7 +58,8 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(4);
-          props.onClickLeftNav(4);
+          dispatch(buttonAction(4));
+          navigate("/ConsumerListComp");
         }}
       >
         Consumer List
@@ -68,7 +76,8 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(2);
-          props.onClickLeftNav(2);
+          dispatch(buttonAction(2));
+          navigate("/ClientIdListComp");
         }}
       >
         Client ID API List
@@ -85,7 +94,8 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           setButtonValue(5);
-          props.onClickLeftNav(5);
+          dispatch(buttonAction(5));
+          navigate("/TeamMembersComp");
         }}
       >
         Team Members

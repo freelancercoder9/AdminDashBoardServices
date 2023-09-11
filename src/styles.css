@@ -188,3 +188,77 @@
   padding-left: 5px;
   font-size: 15px;
 }
+
+/*popup*/
+
+.main-container {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.sub-container {
+  width: 60%;
+  padding-top: 0px;
+  padding-bottom: 20px;
+  border-radius: 10;
+  border-width: 10;
+  border-color: red;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.heading {
+  width: 100%;
+  height: 60px;
+  background-color: red;
+  border-radius: 50;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.fields-container {
+  width: 95%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  /* background-color: yellow; */
+}
+.sub-fields {
+  width: 42%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* popup in Screen*/
+
+.popup-comp {
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  position: absolute;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(52, 52, 52, 0.8);
+}
+
+/* button Screen*/
+
+.button-add-new {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

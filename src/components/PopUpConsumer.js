@@ -27,58 +27,49 @@ const PopUpConsumer = (props) => {
     }
   }, []);
 
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          width: "60%",
-          // height: "30%",
+  const validateAndSave = () => {
+    console.log("validateAndSave");
+    if (appCode !== null && appCode !== undefined && appCode.length > 0) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          appCode: appCode,
+          primaryOwner: primaryOwner,
+          primaryOwnerEmail: primaryOwnerEmail,
+          secondaryOwner: secondaryOwner,
+          secondaryOwnerEmail: secondaryOwnerEmail,
+          id: setsetselectedID,
+        };
+      } else {
+        objectData = {
+          appCode: appCode,
+          primaryOwner: primaryOwner,
+          primaryOwnerEmail: primaryOwnerEmail,
+          secondaryOwner: secondaryOwner,
+          secondaryOwnerEmail: secondaryOwnerEmail,
+        };
+      }
+      props.onClickSave(objectData);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
 
-          paddingTop: 0,
-          paddingBottom: 20,
-          borderRadius: 10,
-          borderWidth: 10,
-          borderColor: "red",
-          backgroundColor: "white",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: 60,
-            backgroundColor: "red",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+  return (
+    <div className="main-container">
+      <div className="sub-container">
+        <div className="heading">
           <h3 style={{ color: "white" }}>UPDATE CONSUMER</h3>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>App Code</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>App Code</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <input
               type="text"
               style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
@@ -87,20 +78,8 @@ const PopUpConsumer = (props) => {
                 setAppCode(e.target.value);
               }}
             />
-            {/* <div style={{ width: "47%" }}>
-              <Dropdown
-                className="myClassName"
-                options={appCode}
-                onChange={(e) => {
-                  console.log("va : ", e.value);
-                  setAppCode(e.value);
-                }}
-                value={appCode}
-                placeholder="Select an option"
-              />
-            </div> */}
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Primary Owner</h4>
             <input
               type="text"
@@ -113,16 +92,8 @@ const PopUpConsumer = (props) => {
           </div>
         </div>
 
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+        <div className="fields-container">
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Primary Owner Email</h4>
             <input
               type="text"
@@ -133,7 +104,7 @@ const PopUpConsumer = (props) => {
               }}
             />
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Secondary Owner</h4>
             <input
               type="text"
@@ -145,16 +116,8 @@ const PopUpConsumer = (props) => {
             />
           </div>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+        <div className="fields-container">
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Secondary Owner Email</h4>
             <input
               type="text"
@@ -168,21 +131,16 @@ const PopUpConsumer = (props) => {
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }} onClick={props.onClickCancel}>
+          <button
+            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            onClick={props.onClickCancel}
+          >
             Cancel
           </button>
           <button
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
             onClick={() => {
-              const objectData = {
-                appCode: appCode,
-                primaryOwner: primaryOwner,
-                primaryOwnerEmail: primaryOwnerEmail,
-                secondaryOwner: secondaryOwner,
-                secondaryOwnerEmail: secondaryOwnerEmail,
-                id: setsetselectedID,
-              };
-              props.onClickSave(objectData);
+              validateAndSave();
             }}
           >
             save
