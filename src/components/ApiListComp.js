@@ -157,6 +157,11 @@ const ApiListComp = () => {
             // textAlign: "center",
           },
         }}
+        defaultColumn={{
+          maxSize: 400,
+          minSize: 100,
+          size: 100, //default size is usually 180
+        }}
         enableColumnResizing
         columns={columns}
         data={apiListData}
