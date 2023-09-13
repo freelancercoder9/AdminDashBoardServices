@@ -81,66 +81,61 @@ const PopUpClient = (props) => {
     }
   };
 
+  const validateAndSave = (apiId, consumerId) => {
+    console.log("validateAndSave");
+    if (
+      clientId !== null &&
+      clientId !== undefined &&
+      contactName !== null &&
+      contactName !== undefined &&
+      uatStatus !== null &&
+      uatStatus !== undefined &&
+      prodStatus !== null &&
+      prodStatus !== undefined
+    ) {
+      let objectData;
+      if (props.editFlowFlag === true) {
+        objectData = {
+          clientId: clientId,
+          contactName: contactName,
+          uatStatus: uatStatus,
+          uatStatusDate: uatStatusDate,
+          prodStatus: prodStatus,
+          prodStatusDate: prodStatusDate,
+          tpsValue: tpsValue,
+          id: consumetClientId,
+        };
+      } else {
+        objectData = {
+          clientId: clientId,
+          contactName: contactName,
+          uatStatus: uatStatus,
+          uatStatusDate: uatStatusDate,
+          prodStatus: prodStatus,
+          prodStatusDate: prodStatusDate,
+          tpsValue: tpsValue,
+        };
+      }
+      props.onClickSave(objectData, consumerId, apiId);
+    } else {
+      alert("Please fill all mandatory fields");
+    }
+  };
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          width: "60%",
-          // height: "30%",
-
-          paddingTop: 0,
-          paddingBottom: 20,
-          borderRadius: 10,
-          borderWidth: 10,
-          borderColor: "red",
-          backgroundColor: "white",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: 60,
-            backgroundColor: "red",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+    <div className="main-container">
+      <div className="sub-container">
+        <div className="heading">
           <h3 style={{ color: "white" }}>UPDATE CLIENT</h3>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 20,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>APP Code</h4>
-            {/* <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={appCode}
-              onChange={(e) => {
-                setAppCode(e.target.value);
-              }}
-            /> */}
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>App Code</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               {consumerAppCodeList && (
                 <Dropdown
@@ -156,7 +151,7 @@ const PopUpClient = (props) => {
               )}
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Client ID</h4>
             <input
               type="text"
@@ -168,25 +163,15 @@ const PopUpClient = (props) => {
             />
           </div>
         </div>
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>API Name</h4>
-            {/* <input
-              type="text"
-              style={{ width: "45%", height: 35, paddingLeft: 5, fontSize: 15 }}
-              value={apiName}
-              onChange={(e) => {
-                setApiName(e.target.value);
-              }}
-            /> */}
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>API Name</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               {apiNameList && (
                 <Dropdown
@@ -202,7 +187,7 @@ const PopUpClient = (props) => {
               )}
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Contact Name</h4>
             <input
               type="text"
@@ -215,17 +200,15 @@ const PopUpClient = (props) => {
           </div>
         </div>
 
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>UAT Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -239,7 +222,7 @@ const PopUpClient = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>UAT Status Date</h4>
             <div style={{ width: "47%" }}>
               <DatePicker
@@ -251,17 +234,15 @@ const PopUpClient = (props) => {
           </div>
         </div>
 
-        <div
-          style={{
-            width: "95%",
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 15,
-          }}
-        >
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
-            <h4 style={{ width: "45%", textAlign: "start" }}>Prod Status</h4>
+        <div className="fields-container">
+          <div className="sub-fields">
+            <div style={{ width: "45%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Prod Status</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+
             <div style={{ width: "47%" }}>
               <Dropdown
                 className="myClassName"
@@ -275,7 +256,7 @@ const PopUpClient = (props) => {
               />
             </div>
           </div>
-          <div style={{ width: "42%", justifyContent: "space-between", alignItems: "center", display: "flex" }}>
+          <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>TPS Value</h4>
             <input
               type="text"
@@ -310,30 +291,7 @@ const PopUpClient = (props) => {
                   consumerId = item.id;
                 }
               });
-              if (props.editFlowFlag === true) {
-                const objectData = {
-                  clientId: clientId,
-                  contactName: contactName,
-                  uatStatus: uatStatus,
-                  uatStatusDate: uatStatusDate,
-                  prodStatus: prodStatus,
-                  prodStatusDate: prodStatusDate,
-                  tpsValue: tpsValue,
-                  id: consumetClientId,
-                };
-                props.onClickSave(objectData, consumerId, apiId);
-              } else {
-                const objectData = {
-                  clientId: clientId,
-                  contactName: contactName,
-                  uatStatus: uatStatus,
-                  uatStatusDate: uatStatusDate,
-                  prodStatus: prodStatus,
-                  prodStatusDate: prodStatusDate,
-                  tpsValue: tpsValue,
-                };
-                props.onClickSave(objectData, consumerId, apiId);
-              }
+              validateAndSave(apiId, consumerId);
             }}
           >
             save

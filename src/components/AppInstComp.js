@@ -7,8 +7,10 @@ import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import "../styles.css";
+import { useNavigate } from "react-router-dom";
 
 const AppInstComp = () => {
+  const navigate = useNavigate();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -23,11 +25,13 @@ const AppInstComp = () => {
   };
   const onClickSave = async (objectData) => {
     console.log("onClickSave:", objectData);
+    setLoadingIndicator(true);
     const response = await createAppInstance(objectData);
     console.log("response in AppInstComp screen:", response.data);
     if (response !== null && response.data !== null) {
       getAllAppInstances_services();
     }
+    setLoadingIndicator(false);
     setIsPopUp(false);
   };
   useEffect(() => {
@@ -102,23 +106,11 @@ const AppInstComp = () => {
     []
   );
   return (
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, padding: 15 }}>
       {loadingIndicator && <LoadingIndicator></LoadingIndicator>}
 
       {isPopUp === true && (
-        <div
-          style={{
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            position: "absolute",
-            zIndex: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(52, 52, 52, 0.8)",
-          }}
-        >
+        <div className="popup-comp">
           <PopUpInstComp
             onClickCancel={onClickCancel}
             selectedRowData={selectedRowData}
@@ -129,15 +121,7 @@ const AppInstComp = () => {
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
-          style={{
-            backgroundColor: "red",
-            color: "white",
-            fontWeight: "bold",
-            borderRadius: 5,
-            borderWidth: 1,
-            padding: 10,
-            marginBottom: 10,
-          }}
+          className="button-add-new"
           onClick={() => {
             setEditFlowFlag(false);
             setIsPopUp(true);
@@ -208,6 +192,7 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/apiListComp");
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
