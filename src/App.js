@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 
 import HeaderComp from "./components/HeaderComp";
 import "./styles.css";
 import LeftNavComp from "./components/LeftNavComp";
-import RightNavComp from "./components/RightNavComp";
-import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppInstComp from "./components/AppInstComp";
 import ClientIdListComp from "./components/ClientIdListComp";
@@ -15,12 +13,6 @@ import ConsumerListComp from "./components/ConsumerListComp";
 import TeamMembersComp from "./components/TeamMembersComp";
 
 function App() {
-  const [selectedButtonValue, setSelectedButtonValue] = useState(1);
-  const onClickLeftNav = (selectedButtonValue) => {
-    console.log("onClickLeftNav ", selectedButtonValue);
-    setSelectedButtonValue(selectedButtonValue);
-  };
-
   return (
     <div
       style={{
@@ -47,7 +39,7 @@ function App() {
       >
         <BrowserRouter>
           {/* <TestSideBar /> */}
-          <LeftNavComp onClickLeftNav={onClickLeftNav}></LeftNavComp>
+          <LeftNavComp></LeftNavComp>
 
           <Routes>
             <Route path="/" element={<AppInstComp />} />

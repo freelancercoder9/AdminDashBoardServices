@@ -1,14 +1,10 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+
 import { Box, IconButton } from "@mui/material";
 import PopUpClient from "./PopUpClient";
-import {
-  getAllClientAPiDetails,
-  createConsumerClientAPi,
-  deleteConsumerClientDetails,
-} from "../services/ApiServiceDetails";
+import { getAllClientAPiDetails, createConsumerClientAPi, deleteConsumerClientDetails } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 
 const ClientIdListComp = () => {
@@ -192,7 +188,6 @@ const ClientIdListComp = () => {
             <IconButton
               color="secondary"
               onClick={() => {
-                //table.setEditingRow(row);
                 console.log("console log", row.original);
                 setEditFlowFlag(true);
                 setIsPopUp(true);
@@ -204,21 +199,10 @@ const ClientIdListComp = () => {
             <IconButton
               color="error"
               onClick={() => {
-                // data.splice(row.index, 1); //assuming simple data table
-                // setData([...data]);
                 deleteConsumerClientDetails_service(row.original);
               }}
             >
               <DeleteIcon style={{ fontSize: 30 }} />
-            </IconButton>
-            <IconButton
-              color="error"
-              onClick={() => {
-                // data.splice(row.index, 1); //assuming simple data table
-                // setData([...data]);
-              }}
-            >
-              <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

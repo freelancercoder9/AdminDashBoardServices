@@ -6,8 +6,13 @@ import { Box, IconButton } from "@mui/material";
 import LoadingIndicator from "./LoadingIndicator";
 import PopUpTeam from "./PopUpTeam";
 import { getAllMembers, members_createUpdateMember, deleteMemBerDetails } from "../services/ApiServiceDetails";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const TeamMembersComp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -144,7 +149,6 @@ const TeamMembersComp = () => {
             <IconButton
               color="secondary"
               onClick={() => {
-                //table.setEditingRow(row);
                 console.log("console log", row.original);
                 setEditFlowFlag(true);
                 setIsPopUp(true);
@@ -156,8 +160,6 @@ const TeamMembersComp = () => {
             <IconButton
               color="error"
               onClick={() => {
-                // data.splice(row.index, 1); //assuming simple data table
-                // setData([...data]);
                 deleteMemBerDetails_services(row.original);
               }}
             >
@@ -166,8 +168,8 @@ const TeamMembersComp = () => {
             <IconButton
               color="error"
               onClick={() => {
-                // data.splice(row.index, 1); //assuming simple data table
-                // setData([...data]);
+                dispatch(buttonSelectVal(3));
+                navigate("/apiListComp");
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

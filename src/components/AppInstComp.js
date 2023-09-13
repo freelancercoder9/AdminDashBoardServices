@@ -7,16 +7,17 @@ import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import "../styles.css";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const AppInstComp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
-  const [selectedRowData, setselectedRowData] = useState({});
+  const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
-  const [selectedRow, setSelectedRow] = useState();
-
   const [apiInstData, setApiInstData] = useState([]);
 
   const onClickCancel = () => {
@@ -173,7 +174,7 @@ const AppInstComp = () => {
                 console.log("console log", row.original);
                 setEditFlowFlag(true);
                 setIsPopUp(true);
-                setselectedRowData(row.original);
+                setSelectedRowData(row.original);
               }}
             >
               <EditIcon style={{ fontSize: 30 }} />
@@ -192,6 +193,7 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                dispatch(buttonSelectVal(3));
                 navigate("/apiListComp");
               }}
             >

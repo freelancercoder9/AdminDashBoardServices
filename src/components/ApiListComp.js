@@ -6,9 +6,13 @@ import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
 import { getAllApiDetails, updateApiDetails, deleteApiDetails } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
-import { confirmAlert } from "react-confirm-alert"; // Import
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const ApiListComp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [apiListData, setApiListData] = useState([]);
@@ -202,8 +206,8 @@ const ApiListComp = () => {
             <IconButton
               color="error"
               onClick={() => {
-                // data.splice(row.index, 1); //assuming simple data table
-                // setData([...data]);
+                dispatch(buttonSelectVal(2));
+                navigate("/ClientIdListComp");
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
