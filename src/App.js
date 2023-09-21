@@ -13,7 +13,6 @@ import ClientIdListComp from "./components/ClientIdListComp";
 import ApiListComp from "./components/ApiListComp";
 import ConsumerListComp from "./components/ConsumerListComp";
 import TeamMembersComp from "./components/TeamMembersComp";
-import configureStore from "./reducers/configureStore";
 
 function App() {
   const [selectedButtonValue, setSelectedButtonValue] = useState(1);

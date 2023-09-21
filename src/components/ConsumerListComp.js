@@ -6,8 +6,13 @@ import { Box, IconButton } from "@mui/material";
 import { createConsumerDetails, consumer_getAllConsumers, deleteConsumerDetails } from "../services/ApiServiceDetails";
 import PopUpConsumer from "./PopUpConsumer";
 import LoadingIndicator from "./LoadingIndicator";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { buttonAction } from "../actions/UpdateButtonState";
 
 const ConsumerListComp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -172,6 +177,8 @@ const ConsumerListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/apiListComp");
+                dispatch(buttonAction(2));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

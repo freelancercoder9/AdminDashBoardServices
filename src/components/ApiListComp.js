@@ -7,8 +7,11 @@ import PopUpComp from "./PopUpComp";
 import { getAllApiDetails, updateApiDetails, deleteApiDetails } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import { confirmAlert } from "react-confirm-alert"; // Import
+import { useLocation } from "react-router-dom";
 
 const ApiListComp = () => {
+  const location = useLocation();
+  const dataFromAppInst = location.state;
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [apiListData, setApiListData] = useState([]);
@@ -17,6 +20,13 @@ const ApiListComp = () => {
 
   useEffect(() => {
     getAllApiDetails_service();
+    console.log("AppInstComp row data:", dataFromAppInst);
+    let dataTemp;
+    apiListData.forEach((item, index) => {
+      if (item.appInstanceDetails.appInstanceName === dataFromAppInst.apiRequestType) {
+        dataTemp.push();
+      }
+    });
   }, []);
 
   const getAllApiDetails_service = async () => {

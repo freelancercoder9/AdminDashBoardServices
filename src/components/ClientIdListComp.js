@@ -10,8 +10,13 @@ import {
   deleteConsumerClientDetails,
 } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { buttonAction } from "../actions/UpdateButtonState";
 
 const ClientIdListComp = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [clientApiList, setClientApiList] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
 
@@ -216,6 +221,8 @@ const ClientIdListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/apiListComp");
+                dispatch(buttonAction(3));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

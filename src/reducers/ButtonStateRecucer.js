@@ -1,4 +1,4 @@
-export function updateButtonReducer(state, action) {
+export function updateButtonReducer(state = 1, action) {
   console.log("updateButtonReducer in reducer");
   switch (action.type) {
     case "BUTTON_VALUE":

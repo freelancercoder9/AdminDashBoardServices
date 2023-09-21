@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { buttonAction } from "../actions/UpdateButtonState";
 
 const ButtonComp = (props) => {
   const dispatch = useDispatch();
-  const [buttonValue, setButtonValue] = useState(1);
+  const selectedButton = useSelector((state) => state.selectedButton);
   const navigate = useNavigate();
 
   return (
     <div style={{ display: "flex", flexDirection: "column", padding: 20 }}>
       <button
         style={{
-          backgroundColor: buttonValue === 1 ? "red" : "blue",
+          backgroundColor: selectedButton === 1 ? "red" : "blue",
           color: "white",
           fontWeight: "bold",
           borderRadius: 5,
@@ -21,7 +21,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(1);
           dispatch(buttonAction(1));
           navigate("/");
         }}
@@ -30,7 +29,7 @@ const ButtonComp = (props) => {
       </button>
       <button
         style={{
-          backgroundColor: buttonValue === 3 ? "red" : "blue",
+          backgroundColor: selectedButton === 3 ? "red" : "blue",
           color: "white",
           fontWeight: "bold",
           borderRadius: 5,
@@ -39,7 +38,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(3);
           dispatch(buttonAction(3));
           navigate("/ApiListComp");
         }}
@@ -48,7 +46,7 @@ const ButtonComp = (props) => {
       </button>
       <button
         style={{
-          backgroundColor: buttonValue === 4 ? "red" : "blue",
+          backgroundColor: selectedButton === 4 ? "red" : "blue",
           color: "white",
           fontWeight: "bold",
           borderRadius: 5,
@@ -57,7 +55,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(4);
           dispatch(buttonAction(4));
           navigate("/ConsumerListComp");
         }}
@@ -66,7 +63,7 @@ const ButtonComp = (props) => {
       </button>
       <button
         style={{
-          backgroundColor: buttonValue === 2 ? "red" : "blue",
+          backgroundColor: selectedButton === 2 ? "red" : "blue",
           color: "white",
           fontWeight: "bold",
           borderRadius: 5,
@@ -75,7 +72,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(2);
           dispatch(buttonAction(2));
           navigate("/ClientIdListComp");
         }}
@@ -84,7 +80,7 @@ const ButtonComp = (props) => {
       </button>
       <button
         style={{
-          backgroundColor: buttonValue === 5 ? "red" : "blue",
+          backgroundColor: selectedButton === 5 ? "red" : "blue",
           color: "white",
           fontWeight: "bold",
           borderRadius: 5,
@@ -93,7 +89,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(5);
           dispatch(buttonAction(5));
           navigate("/TeamMembersComp");
         }}
