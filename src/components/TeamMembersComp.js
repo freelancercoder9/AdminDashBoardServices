@@ -173,7 +173,7 @@ const TeamMembersComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
-                navigate("/apiListComp", { state: { fromScreen: "APP_LISt", data: "row.original" } });
+                navigate("/apiListComp", { state: { fromScreen: "APP_LISt", data: row.original } });
                 dispatch(buttonSelectVal(3));
               }}
             >

@@ -213,7 +213,7 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
-                navigate("/apiListComp", { state: { fromScreen: "APP_Inst", data: "row.original" } });
+                navigate("/apiListComp", { state: { fromScreen: "APP_Inst", data: row.original } });
                 dispatch(buttonSelectVal(3));
               }}
             >
