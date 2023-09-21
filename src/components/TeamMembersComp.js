@@ -6,8 +6,13 @@ import { Box, IconButton } from "@mui/material";
 import LoadingIndicator from "./LoadingIndicator";
 import PopUpTeam from "./PopUpTeam";
 import { getAllMembers, members_createUpdateMember, deleteMemBerDetails } from "../services/ApiServiceDetails";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const TeamMembersComp = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -47,7 +52,7 @@ const TeamMembersComp = () => {
   const deleteMemBerDetails_services = async (rowData) => {
     console.log("deleteMemBerDetails in screen:", rowData);
     setLoadingIndicator(true);
-    if (window.confirm("Delete the item?")) {
+    if (window.confirm("Do you want to delete the item?")) {
       const response = await deleteMemBerDetails(rowData.id);
       console.log("response in screen:", response);
       if (response !== null && response.data !== undefined) {
@@ -168,6 +173,8 @@ const TeamMembersComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/apiListComp", { state: { fromScreen: "APP_LISt", data: "row.original" } });
+                dispatch(buttonSelectVal(3));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

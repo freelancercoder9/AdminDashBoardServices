@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const ButtonComp = (props) => {
   const dispatch = useDispatch();
-  const [buttonValue, setButtonValue] = useState(1);
+
   const navigate = useNavigate();
   const selectedButton = useSelector((state) => state.selectedButton);
 
@@ -23,7 +23,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(1);
           dispatch(buttonSelectVal(1));
           navigate("/");
         }}
@@ -41,7 +40,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(3);
           dispatch(buttonSelectVal(3));
           navigate("/ApiListComp");
         }}
@@ -59,7 +57,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(4);
           dispatch(buttonSelectVal(4));
           navigate("/ConsumerListComp");
         }}
@@ -77,7 +74,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(2);
           dispatch(buttonSelectVal(2));
           navigate("/ClientIdListComp");
         }}
@@ -95,7 +91,6 @@ const ButtonComp = (props) => {
           marginBottom: 10,
         }}
         onClick={() => {
-          setButtonValue(5);
           dispatch(buttonSelectVal(5));
           navigate("/TeamMembersComp");
         }}

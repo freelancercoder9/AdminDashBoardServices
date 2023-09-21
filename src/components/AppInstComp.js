@@ -4,13 +4,16 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpInstComp from "./PopUpInstComp";
-import { getAllAppInstances, createAppInstance } from "../services/ApiServiceDetails";
+import { getAllAppInstances, createAppInstance, deleteAppInstanceDetails } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import "../styles.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const AppInstComp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -68,6 +71,23 @@ const AppInstComp = () => {
     });
     setApiInstData(tempData);
     setLoadingIndicator(false);
+  };
+
+  const deleteAppInstanceDetails_service = async (rowData) => {
+    setLoadingIndicator(true);
+    if (window.confirm("Do you want to delete the item?")) {
+      console.log("Thing was deleted");
+      const response = await deleteAppInstanceDetails(rowData.id);
+      console.log("response in screen :", response);
+      if (response !== null && response.data !== undefined) {
+        getAllAppInstances_services();
+      } else if (response.returnCode !== -1) {
+        console.log("failure:", response.returnCode);
+        alert(response.returnCode);
+      }
+    } else {
+      console.log("Thing was not deleted.");
+    }
   };
   const columns = useMemo(
     () => [
@@ -183,6 +203,7 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                deleteAppInstanceDetails_service(row.original);
               }}
             >
               <DeleteIcon style={{ fontSize: 30 }} />
@@ -192,7 +213,8 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
-                navigate("/apiListComp");
+                navigate("/apiListComp", { state: { fromScreen: "APP_Inst", data: "row.original" } });
+                dispatch(buttonSelectVal(3));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

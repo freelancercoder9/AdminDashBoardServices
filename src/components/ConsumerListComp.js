@@ -6,8 +6,13 @@ import { Box, IconButton } from "@mui/material";
 import { createConsumerDetails, consumer_getAllConsumers, deleteConsumerDetails } from "../services/ApiServiceDetails";
 import PopUpConsumer from "./PopUpConsumer";
 import LoadingIndicator from "./LoadingIndicator";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const ConsumerListComp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -46,7 +51,7 @@ const ConsumerListComp = () => {
   const deleteConsumerDetails_service = async (rowData) => {
     console.log("deleteConsumerDetails in screen:", rowData);
     setLoadingIndicator(true);
-    if (window.confirm("Delete the item?")) {
+    if (window.confirm("Do you want to delete the item?")) {
       console.log("Thing was deleted");
       const response = await deleteConsumerDetails(rowData.id);
       console.log("response in screen:", response);
@@ -172,6 +177,8 @@ const ConsumerListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/apiListComp", { state: { fromScreen: "CONSUMER", data: "row.original" } });
+                dispatch(buttonSelectVal(3));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
@@ -179,7 +186,7 @@ const ConsumerListComp = () => {
           </Box>
         )}
       />
-      {loadingIndicator && <loadingIndicator></loadingIndicator>}
+      {loadingIndicator && <LoadingIndicator></LoadingIndicator>}
     </div>
   );
 };
