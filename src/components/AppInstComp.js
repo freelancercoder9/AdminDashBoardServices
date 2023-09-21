@@ -8,9 +8,12 @@ import { getAllAppInstances, createAppInstance, deleteAppInstanceDetails } from 
 import LoadingIndicator from "./LoadingIndicator";
 import "../styles.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const AppInstComp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [editFlowFlag, setEditFlowFlag] = useState(true);
@@ -210,7 +213,8 @@ const AppInstComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
-                navigate("/apiListComp");
+                navigate("/apiListComp", { state: { fromScreen: "APP_Inst", data: "row.original" } });
+                dispatch(buttonSelectVal(3));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
