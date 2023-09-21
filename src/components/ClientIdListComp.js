@@ -70,7 +70,7 @@ const ClientIdListComp = () => {
   const deleteConsumerClientDetails_service = async (rowData) => {
     console.log("deleteConsumerClientDetails in screen:", rowData);
     setLoadingIndicator(true);
-    if (window.confirm("Delete the item?")) {
+    if (window.confirm("Do you want to delete the item?")) {
       console.log("Thing was deleted");
 
       const response = await deleteConsumerClientDetails(rowData.id);

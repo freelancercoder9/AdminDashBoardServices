@@ -43,7 +43,7 @@ const ApiListComp = () => {
   };
   const deleteApiDetails_service = async (rowData) => {
     setLoadingIndicator(true);
-    if (window.confirm("Delete the item?")) {
+    if (window.confirm("Do you want to delete the item?")) {
       console.log("Thing was deleted");
       const response = await deleteApiDetails(rowData.id);
       console.log("response in screen:", response);

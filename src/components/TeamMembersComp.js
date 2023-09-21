@@ -47,7 +47,7 @@ const TeamMembersComp = () => {
   const deleteMemBerDetails_services = async (rowData) => {
     console.log("deleteMemBerDetails in screen:", rowData);
     setLoadingIndicator(true);
-    if (window.confirm("Delete the item?")) {
+    if (window.confirm("Do you want to delete the item?")) {
       const response = await deleteMemBerDetails(rowData.id);
       console.log("response in screen:", response);
       if (response !== null && response.data !== undefined) {

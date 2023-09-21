@@ -183,6 +183,54 @@ export const createAppInstance = async (objectData) => {
   return res;
 };
 
+export const deleteAppInstanceDetails = async (appInstanceId) => {
+  console.log("deleteAppInstanceDetails in service", appInstanceId);
+  // /appInstanceDetails/deleteAppInstanceDetails/{appInstanceId}
+
+  const res = axios
+    .delete(api_endpoint + "appInstanceDetails/deleteAppInstanceDetails/" + appInstanceId)
+    .then((response) => {
+      console.log("Response From  deleteAppInstanceDetails Server : ", response);
+
+      if (response.status === 200) {
+        return {
+          returnCode: 0,
+          data: {
+            // deleteAppInstanceDetails: response.data,
+            returnMessage: "Successfully deleted",
+          },
+        };
+      } else if (response.status === 500) {
+        return {
+          returnCode: -1,
+          returnMessage: response.data.message,
+        };
+      } else {
+        return {
+          returnCode: -1,
+          returnMessage: "service failed, please try again later",
+        };
+      }
+    })
+    .catch((error) => {
+      console.log("Error Response  deleteAppInstanceDetails: ", error);
+      let errorMessage = " deleteAppInstanceDetails request failed, please try again";
+
+      if (
+        (error.response !== undefined && error.response.data !== undefined) ||
+        error.response.data.message !== undefined
+      ) {
+        errorMessage = error.response.data.message;
+      }
+      return {
+        returnCode: -1,
+        returnMessage: errorMessage,
+      };
+    });
+
+  return res;
+};
+
 export const createConsumerDetails = async (objectData) => {
   console.log("createConsumerDetails in service", objectData);
 
