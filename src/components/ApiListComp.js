@@ -4,13 +4,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
-import {
-  getAllApiDetails,
-  updateApiDetails,
-  deleteApiDetails,
-  getAllMembers,
-  getAllAppInstances,
-} from "../services/ApiServiceDetails";
+import { getAllApiDetails, updateApiDetails, deleteApiDetails, getAllMembers, getAllAppInstances } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "../styles.css";
@@ -78,8 +72,8 @@ const ApiListComp = () => {
       } else {
         response.data.getAllApiDetails.forEach((item, index) => {
           if (
-            item.appInstanceDetails.appInstanceName === appName ||
-            item.developerDetails.memberName === developerName
+            (item.appInstanceDetails.appInstanceName === appName || appName === "ALL") &&
+            (item.developerDetails.memberName === developerName || developerName === "ALL")
           ) {
             tempData.push(item);
           }
