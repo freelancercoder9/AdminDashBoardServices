@@ -4,26 +4,135 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
 import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
-import { getAllApiDetails, updateApiDetails, deleteApiDetails } from "../services/ApiServiceDetails";
+import { getAllApiDetails, updateApiDetails, deleteApiDetails, getAllMembers, getAllAppInstances } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import { confirmAlert } from "react-confirm-alert"; // Import
+import "../styles.css";
+import Dropdown from "react-dropdown";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const ApiListComp = () => {
+  const location = useLocation();
+  const previousScreenData = location.state;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [apiListData, setApiListData] = useState([]);
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
 
+  const [appName, setAppName] = useState("ALL");
+  const [appNameList, setAppNameList] = useState([]);
+  const [developerNameList, setDeveloperNameList] = useState([]);
+  const [developerName, setDeveloperName] = useState("ALL");
+
   useEffect(() => {
     getAllApiDetails_service();
+    getAllAppInstances_services();
+    getAllMembers_service();
+    console.log("dataFromAppInst or dataFromTeamMember:", previousScreenData);
+
+    if (
+      previousScreenData !== undefined &&
+      previousScreenData !== null &&
+      previousScreenData.data !== undefined &&
+      previousScreenData.data.appInstanceName !== undefined
+    ) {
+      console.log("from App screen to Api List", previousScreenData.data.appInstanceName);
+      setAppName(previousScreenData.data.appInstanceName);
+    }
+    if (
+      previousScreenData !== undefined &&
+      previousScreenData !== null &&
+      previousScreenData.data !== null &&
+      previousScreenData.data.memberName !== undefined
+    ) {
+      console.log("from teamMember screen to api List:", previousScreenData.data.memberName);
+      setDeveloperName(previousScreenData.data.memberName);
+    }
   }, []);
+
+  useEffect(() => {
+    getAllApiDetails_service();
+  }, [appName, developerName]);
 
   const getAllApiDetails_service = async () => {
     setLoadingIndicator(true);
     const response = await getAllApiDetails();
     console.log("response in ApiListComp screen:", response.data);
     setApiListData(response.data.getAllApiDetails);
+    let tempData = [];
+    if (response.data.getAllApiDetails.length > 0) {
+      if (appName === "ALL" && developerName === "ALL") {
+        setApiListData(response.data.getAllApiDetails);
+      } else {
+        response.data.getAllApiDetails.forEach((item, index) => {
+          if (
+            (item.appInstanceDetails.appInstanceName === appName || appName === "ALL") &&
+            (item.developerDetails.memberName === developerName || developerName === "ALL")
+          ) {
+            tempData.push(item);
+          }
+        });
+        setApiListData(tempData);
+      }
+      // if (appName === "ALL" && developerName === "ALL") {
+      //   setApiListData(response.data.getAllApiDetails);
+      // } else {
+      //   var tempArray = response.data.getAllApiDetails;
+      //   const filteredData = tempArray.filter((tempData) => {
+      //     let returnValue = false;
+      //     if (developerName !== "ALL") {
+      //       console.log("developer name not all");
+      //       if (tempData.developerDetails.memberName !== developerName) {
+      //         return false;
+      //       } else {
+      //         returnValue = true;
+      //       }
+      //     }
+      //     if (appName !== "ALL") {
+      //       if (tempData.appInstanceDetails.appInstanceName !== appName) {
+      //         return false;
+      //       } else {
+      //         returnValue = true;
+      //       }
+      //     }
+      //     return returnValue;
+      //   });
+      //   console.log("Now filtered Data is ", filteredData);
+      //   setApiListData(filteredData);
+      // }
+    }
+    setLoadingIndicator(false);
+  };
+  const getAllAppInstances_services = async () => {
+    setLoadingIndicator(true);
+    console.log("getAllAppInstances");
+    const response = await getAllAppInstances();
+    console.log("response in inst screen:", response.data);
+    var tempData = ["ALL"];
+    response.data.getAllAppInstances.forEach((item, index) => {
+      tempData.push(item.appInstanceName);
+    });
+    setAppNameList(tempData);
+    setLoadingIndicator(false);
+  };
+  const getAllMembers_service = async () => {
+    console.log("getAllMembers_service in TeamMembersComp");
+    setLoadingIndicator(true);
+    const response = await getAllMembers();
+    console.log("getAllMembers in screen:", response);
+
+    let dataTemp = ["ALL"];
+    response.data.getAllMembers.forEach((item, index) => {
+      dataTemp.push(item.memberName);
+    });
+
+    setDeveloperNameList(dataTemp);
     setLoadingIndicator(false);
   };
   const onClickCancel = () => {
@@ -127,16 +236,63 @@ const ApiListComp = () => {
           ></PopUpComp>
         </div>
       )}
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className="button-add-new"
-          onClick={() => {
-            setEditFlowFlag(false);
-            setIsPopUp(true);
-          }}
-        >
-          Add New API
-        </button>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          // backgroundColor: "yellow",
+          marginBottom: 20,
+        }}
+      >
+        <div style={{ display: "flex", width: "35%", alignItems: "center" }}>
+          <div style={{ width: "35%" }}>
+            <h4 style={{ textAlign: "start" }}>APP Name</h4>
+          </div>
+
+          <div style={{ width: "60%" }}>
+            <Dropdown
+              className="myClassName"
+              options={appNameList}
+              onChange={(e) => {
+                console.log("va : ", e);
+                setAppName(e.value);
+              }}
+              value={appName}
+              placeholder="Select an option"
+            />
+          </div>
+        </div>
+        <div style={{ display: "flex", width: "35%", alignItems: "center" }}>
+          <div style={{ width: "35%" }}>
+            <h4 style={{ textAlign: "start" }}>Developer Name</h4>
+          </div>
+
+          <div style={{ width: "60%" }}>
+            <Dropdown
+              className="myClassName"
+              options={developerNameList}
+              onChange={(e) => {
+                console.log("va : ", e);
+                setDeveloperName(e.value);
+              }}
+              value={developerName}
+              placeholder="Select an option"
+            />
+          </div>
+        </div>
+        <div style={{}}>
+          <button
+            className="button-add-new"
+            onClick={() => {
+              setEditFlowFlag(false);
+              setIsPopUp(true);
+            }}
+          >
+            Add New API
+          </button>
+        </div>
       </div>
       <MaterialReactTable
         muiTableProps={{
@@ -204,6 +360,8 @@ const ApiListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/ClientIdListComp", { state: { fromScreen: "API_List", data: row.original } });
+                dispatch(buttonSelectVal(2));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

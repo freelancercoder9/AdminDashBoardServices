@@ -1,7 +1,7 @@
 import axios from "axios";
 // const api_endpoint = "http://localhost:8080/";
-const api_endpoint = "http://192.168.18.3:8080/";
-// const api_endpoint = "https://api-utility-back-end.onrender.com/";
+//const api_endpoint = "http://192.168.18.3:8080/";
+const api_endpoint = "https://api-utility-back-end.onrender.com/";
 
 export const getAllApiDetails = async () => {
   console.log("getAllApiDetails");
@@ -101,10 +101,7 @@ export const deleteApiDetails = async (apiId) => {
       console.log("Error Response  deleteApiDetails: ", error);
       let errorMessage = "delete ApiDetails request failed, please try again";
 
-      if (
-        (error.response !== undefined && error.response.data !== undefined) ||
-        error.response.data.message !== undefined
-      ) {
+      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
         errorMessage = error.response.data.message;
       }
       return {
@@ -216,10 +213,7 @@ export const deleteAppInstanceDetails = async (appInstanceId) => {
       console.log("Error Response  deleteAppInstanceDetails: ", error);
       let errorMessage = " deleteAppInstanceDetails request failed, please try again";
 
-      if (
-        (error.response !== undefined && error.response.data !== undefined) ||
-        error.response.data.message !== undefined
-      ) {
+      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
         errorMessage = error.response.data.message;
       }
       return {
@@ -333,10 +327,7 @@ export const deleteConsumerDetails = async (consumerId) => {
       console.log("Error Response  deleteConsumerDetails: ", error);
       let errorMessage = "deleteConsumerDetails request failed, please try again";
 
-      if (
-        (error.response !== undefined && error.response.data !== undefined) ||
-        error.response.data.message !== undefined
-      ) {
+      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
         errorMessage = error.response.data.message;
       }
       return {
@@ -446,10 +437,7 @@ export const deleteConsumerClientDetails = async (consumerClientId) => {
       console.log("Error Response  deleteConsumerClientDetails: ", error);
       let errorMessage = "deleteConsumerClientDetails request failed, please try again";
 
-      if (
-        (error.response !== undefined && error.response.data !== undefined) ||
-        error.response.data.message !== undefined
-      ) {
+      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
         errorMessage = error.response.data.message;
       }
       return {
@@ -559,10 +547,7 @@ export const deleteMemBerDetails = async (memberId) => {
       console.log("Error Response  deleteMemBerDetails: ", error);
       let errorMessage = "deleteMemBerDetails request failed, please try again";
 
-      if (
-        (error.response !== undefined && error.response.data !== undefined) ||
-        error.response.data.message !== undefined
-      ) {
+      if ((error.response !== undefined && error.response.data !== undefined) || error.response.data.message !== undefined) {
         errorMessage = error.response.data.message;
       }
       return {

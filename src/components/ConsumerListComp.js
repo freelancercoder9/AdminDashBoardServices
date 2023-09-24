@@ -177,8 +177,8 @@ const ConsumerListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
-                navigate("/apiListComp", { state: { fromScreen: "CONSUMER", data: "row.original" } });
-                dispatch(buttonSelectVal(3));
+                navigate("/ClientIdListComp", { state: { fromScreen: "ClientIdListComp", data: row.original } });
+                dispatch(buttonSelectVal(2));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
