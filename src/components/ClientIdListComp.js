@@ -38,19 +38,11 @@ const ClientIdListComp = () => {
     consumer_getAllConsumers_service();
     getAllApiDetails_service();
     console.log("dataFromPreviousScreen:", dataFromPreviousScreen);
-    if (
-      dataFromPreviousScreen !== null &&
-      dataFromPreviousScreen.data !== undefined &&
-      dataFromPreviousScreen.data.appCode !== undefined
-    ) {
+    if (dataFromPreviousScreen !== null && dataFromPreviousScreen.data !== undefined && dataFromPreviousScreen.data.appCode !== undefined) {
       console.log("dataFromPreviousScreen:", dataFromPreviousScreen.data.appCode);
       setAppCode(dataFromPreviousScreen.data.appCode);
     }
-    if (
-      dataFromPreviousScreen !== null &&
-      dataFromPreviousScreen.data !== undefined &&
-      dataFromPreviousScreen.data.apiName !== undefined
-    ) {
+    if (dataFromPreviousScreen !== null && dataFromPreviousScreen.data !== undefined && dataFromPreviousScreen.data.apiName !== undefined) {
       console.log("dataFromPreviousScreen:", dataFromPreviousScreen.data.apiName);
       setApiName(dataFromPreviousScreen.data.apiName);
     }
@@ -118,14 +110,7 @@ const ClientIdListComp = () => {
       if (apiName === "ALL" && appCode === "ALL") {
         tempData.push(obj);
       } else {
-        let apiFlag = obj.apiDetails.apiName === apiName || obj.apiDetails.apiName === "ALL";
-        let apiCodeFlag = obj.consumerDetails.appCode === appCode || obj.consumerDetails.appCode === "ALL";
-        console.log(" Api Name  1: ", obj.apiDetails.apiName, apiName, apiFlag);
-        console.log("APP code  1:", obj.consumerDetails.appCode, appCode, apiCodeFlag);
-        if (
-          (obj.apiDetails.apiName === apiName || obj.apiDetails.apiName === "ALL") &&
-          (obj.consumerDetails.appCode === appCode || obj.consumerDetails.appCode === "ALL")
-        ) {
+        if ((obj.apiDetails.apiName === apiName || apiName === "ALL") && (obj.consumerDetails.appCode === appCode || appCode === "ALL")) {
           tempData.push(obj);
         }
       }
