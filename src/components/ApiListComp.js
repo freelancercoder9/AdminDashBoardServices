@@ -16,17 +16,20 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "../styles.css";
 import Dropdown from "react-dropdown";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buttonSelectVal } from "../actions/UpdateButtonState";
 
 const ApiListComp = () => {
   const location = useLocation();
-  const dataFromAppInst = location.state;
-  const dataFromTeamMember = location.state;
+  const previousScreenData = location.state;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPopUp, setIsPopUp] = useState(false);
   const [selectedRowData, setselectedRowData] = useState({});
   const [apiListData, setApiListData] = useState([]);
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
-  const [filterData, setFilterData] = useState([]);
 
   const [appName, setAppName] = useState("ALL");
   const [appNameList, setAppNameList] = useState([]);
@@ -37,25 +40,25 @@ const ApiListComp = () => {
     getAllApiDetails_service();
     getAllAppInstances_services();
     getAllMembers_service();
-    console.log("dataFromAppInst:", dataFromAppInst);
-    console.log("dataFromTeamMember:", dataFromTeamMember);
+    console.log("dataFromAppInst or dataFromTeamMember:", previousScreenData);
+
     if (
-      dataFromAppInst !== undefined &&
-      dataFromAppInst !== null &&
-      dataFromAppInst.data !== undefined &&
-      dataFromAppInst.data.appInstanceName !== undefined
+      previousScreenData !== undefined &&
+      previousScreenData !== null &&
+      previousScreenData.data !== undefined &&
+      previousScreenData.data.appInstanceName !== undefined
     ) {
-      console.log("from App screen to Api List", dataFromAppInst.data.appInstanceName);
-      setAppName(dataFromAppInst.data.appInstanceName);
+      console.log("from App screen to Api List", previousScreenData.data.appInstanceName);
+      setAppName(previousScreenData.data.appInstanceName);
     }
     if (
-      dataFromTeamMember !== undefined &&
-      dataFromTeamMember !== null &&
-      dataFromTeamMember.data !== null &&
-      dataFromTeamMember.data.memberName !== undefined
+      previousScreenData !== undefined &&
+      previousScreenData !== null &&
+      previousScreenData.data !== null &&
+      previousScreenData.data.memberName !== undefined
     ) {
-      console.log("from teamMember screen to api List:", dataFromTeamMember.data.memberName);
-      setDeveloperName(dataFromTeamMember.data.memberName);
+      console.log("from teamMember screen to api List:", previousScreenData.data.memberName);
+      setDeveloperName(previousScreenData.data.memberName);
     }
   }, []);
 
@@ -63,44 +66,52 @@ const ApiListComp = () => {
     getAllApiDetails_service();
   }, [appName, developerName]);
 
-  const onChangeDropDownValues = (appInstName, developerName) => {
-    console.log("onChangeDropDownValues:", appInstName, developerName);
-    setFilterData(apiListData);
-  };
-
   const getAllApiDetails_service = async () => {
     setLoadingIndicator(true);
     const response = await getAllApiDetails();
     console.log("response in ApiListComp screen:", response.data);
-
+    setApiListData(response.data.getAllApiDetails);
+    let tempData = [];
     if (response.data.getAllApiDetails.length > 0) {
       if (appName === "ALL" && developerName === "ALL") {
         setApiListData(response.data.getAllApiDetails);
       } else {
-        var tempArray = response.data.getAllApiDetails;
-        const filteredData = tempArray.filter((tempData) => {
-          let returnValue = false;
-
-          if (developerName !== "ALL") {
-            console.log("developer name not all");
-            if (tempData.developerDetails.memberName !== developerName) {
-              return false;
-            } else {
-              returnValue = true;
-            }
+        response.data.getAllApiDetails.forEach((item, index) => {
+          if (
+            item.appInstanceDetails.appInstanceName === appName ||
+            item.developerDetails.memberName === developerName
+          ) {
+            tempData.push(item);
           }
-          if (appName !== "ALL") {
-            if (tempData.appInstanceDetails.appInstanceName !== appName) {
-              return false;
-            } else {
-              returnValue = true;
-            }
-          }
-          return returnValue;
         });
-        console.log("Now filtered Data is ", filteredData);
-        setApiListData(filteredData);
+        setApiListData(tempData);
       }
+      // if (appName === "ALL" && developerName === "ALL") {
+      //   setApiListData(response.data.getAllApiDetails);
+      // } else {
+      //   var tempArray = response.data.getAllApiDetails;
+      //   const filteredData = tempArray.filter((tempData) => {
+      //     let returnValue = false;
+      //     if (developerName !== "ALL") {
+      //       console.log("developer name not all");
+      //       if (tempData.developerDetails.memberName !== developerName) {
+      //         return false;
+      //       } else {
+      //         returnValue = true;
+      //       }
+      //     }
+      //     if (appName !== "ALL") {
+      //       if (tempData.appInstanceDetails.appInstanceName !== appName) {
+      //         return false;
+      //       } else {
+      //         returnValue = true;
+      //       }
+      //     }
+      //     return returnValue;
+      //   });
+      //   console.log("Now filtered Data is ", filteredData);
+      //   setApiListData(filteredData);
+      // }
     }
     setLoadingIndicator(false);
   };
@@ -253,7 +264,6 @@ const ApiListComp = () => {
               onChange={(e) => {
                 console.log("va : ", e);
                 setAppName(e.value);
-                onChangeDropDownValues(e.value, developerName);
               }}
               value={appName}
               placeholder="Select an option"
@@ -272,7 +282,6 @@ const ApiListComp = () => {
               onChange={(e) => {
                 console.log("va : ", e);
                 setDeveloperName(e.value);
-                onChangeDropDownValues(appName, e.value);
               }}
               value={developerName}
               placeholder="Select an option"
@@ -357,6 +366,8 @@ const ApiListComp = () => {
               onClick={() => {
                 // data.splice(row.index, 1); //assuming simple data table
                 // setData([...data]);
+                navigate("/ClientIdListComp", { state: { fromScreen: "API_List", data: row.original } });
+                dispatch(buttonSelectVal(2));
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />

@@ -8,25 +8,87 @@ import {
   getAllClientAPiDetails,
   createConsumerClientAPi,
   deleteConsumerClientDetails,
+  consumer_getAllConsumers,
+  getAllApiDetails,
 } from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { buttonSelectVal } from "../actions/UpdateButtonState";
+import Dropdown from "react-dropdown";
+import { useLocation } from "react-router-dom";
 
 const ClientIdListComp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const dataFromPreviousScreen = location.state;
   const [clientApiList, setClientApiList] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
-
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState({});
+  const [appCode, setAppCode] = useState("ALL");
+  const [appCodeList, setAppCodeList] = useState([]);
+  const [apiName, setApiName] = useState("ALL");
+  const [apiNameList, setApiNameList] = useState([]);
 
   useEffect(() => {
     getAllClientAPiDetails_service();
+    consumer_getAllConsumers_service();
+    getAllApiDetails_service();
+    console.log("dataFromPreviousScreen:", dataFromPreviousScreen);
+    if (
+      dataFromPreviousScreen !== null &&
+      dataFromPreviousScreen.data !== undefined &&
+      dataFromPreviousScreen.data.appCode !== undefined
+    ) {
+      console.log("dataFromPreviousScreen:", dataFromPreviousScreen.data.appCode);
+      setAppCode(dataFromPreviousScreen.data.appCode);
+    }
+    if (
+      dataFromPreviousScreen !== null &&
+      dataFromPreviousScreen.data !== undefined &&
+      dataFromPreviousScreen.data.apiName !== undefined
+    ) {
+      console.log("dataFromPreviousScreen:", dataFromPreviousScreen.data.apiName);
+      setApiName(dataFromPreviousScreen.data.apiName);
+    }
   }, []);
+  useEffect(() => {
+    getAllClientAPiDetails_service();
+  }, [appCode, apiName]);
+
+  const consumer_getAllConsumers_service = async () => {
+    setLoadingIndicator(true);
+    console.log("consumer_getAllConsumers in screen");
+    const response = await consumer_getAllConsumers();
+    console.log("response getAllConsumers:", response.data);
+
+    let tempData = ["ALL"];
+    response.data.consumer_getAllConsumers.forEach((item, index) => {
+      console.log("consumerListData");
+      tempData.push(item.appCode);
+    });
+    console.log("tempData:", tempData);
+    setAppCodeList(tempData);
+    setLoadingIndicator(false);
+  };
+
+  const getAllApiDetails_service = async () => {
+    console.log("getAllApiDetails_service");
+    setLoadingIndicator(true);
+    const response = await getAllApiDetails();
+    console.log("response in ApiListComp screen:", response.data);
+
+    let tempData = ["ALL"];
+    response.data.getAllApiDetails.forEach((item, index) => {
+      console.log("getAllApiDetails");
+      tempData.push(item.apiName);
+    });
+    setApiNameList(tempData);
+    console.log("tempData:", tempData);
+  };
 
   const getAllClientAPiDetails_service = async () => {
     setLoadingIndicator(true);
@@ -51,7 +113,23 @@ const ClientIdListComp = () => {
         .replace(/ /g, "-");
       console.log("formattedDate:", formattedDateProd);
       var obj = { ...item, uatStatusDate: formattedDateUat, prodStatusDate: formattedDateProd };
-      tempData.push(obj);
+
+      console.log("api name:", apiName, appCode);
+      if (apiName === "ALL" && appCode === "ALL") {
+        tempData.push(obj);
+      } else {
+        let apiFlag = obj.apiDetails.apiName === apiName || obj.apiDetails.apiName === "ALL";
+        let apiCodeFlag = obj.consumerDetails.appCode === appCode || obj.consumerDetails.appCode === "ALL";
+        console.log(" Api Name  1: ", obj.apiDetails.apiName, apiName, apiFlag);
+        console.log("APP code  1:", obj.consumerDetails.appCode, appCode, apiCodeFlag);
+        if (
+          (obj.apiDetails.apiName === apiName || obj.apiDetails.apiName === "ALL") &&
+          (obj.consumerDetails.appCode === appCode || obj.consumerDetails.appCode === "ALL")
+        ) {
+          tempData.push(obj);
+        }
+      }
+      console.log("tempData before loop:", tempData);
     });
     setClientApiList(tempData);
     setLoadingIndicator(false);
@@ -154,7 +232,7 @@ const ClientIdListComp = () => {
           ></PopUpClient>
         </div>
       )}
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
           className="button-add-new"
           onClick={() => {
@@ -164,6 +242,65 @@ const ClientIdListComp = () => {
         >
           Add New Client
         </button>
+      </div> */}
+
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          // backgroundColor: "yellow",
+          marginBottom: 20,
+        }}
+      >
+        <div style={{ display: "flex", width: "35%", alignItems: "center" }}>
+          <div style={{ width: "35%" }}>
+            <h4 style={{ textAlign: "start" }}>APP Code</h4>
+          </div>
+
+          <div style={{ width: "60%" }}>
+            <Dropdown
+              className="myClassName"
+              options={appCodeList}
+              onChange={(e) => {
+                console.log("va : ", e);
+                setAppCode(e.value);
+              }}
+              value={appCode}
+              placeholder="Select an option"
+            />
+          </div>
+        </div>
+        <div style={{ display: "flex", width: "35%", alignItems: "center" }}>
+          <div style={{ width: "35%" }}>
+            <h4 style={{ textAlign: "start" }}>API Name</h4>
+          </div>
+
+          <div style={{ width: "60%" }}>
+            <Dropdown
+              className="myClassName"
+              options={apiNameList}
+              onChange={(e) => {
+                console.log("va : ", e);
+                setApiName(e.value);
+              }}
+              value={apiName}
+              placeholder="Select an option"
+            />
+          </div>
+        </div>
+        <div style={{}}>
+          <button
+            className="button-add-new"
+            onClick={() => {
+              setEditFlowFlag(false);
+              setIsPopUp(true);
+            }}
+          >
+            Add New API
+          </button>
+        </div>
       </div>
       <MaterialReactTable
         columns={columns}
