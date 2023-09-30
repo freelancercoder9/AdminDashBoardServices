@@ -13,13 +13,10 @@ import ClientIdListComp from "./components/ClientIdListComp";
 import ApiListComp from "./components/ApiListComp";
 import ConsumerListComp from "./components/ConsumerListComp";
 import TeamMembersComp from "./components/TeamMembersComp";
+import LoginComp from "./components/LoginComp";
 
 function App() {
-  const [selectedButtonValue, setSelectedButtonValue] = useState(1);
-  const onClickLeftNav = (selectedButtonValue) => {
-    console.log("onClickLeftNav ", selectedButtonValue);
-    setSelectedButtonValue(selectedButtonValue);
-  };
+  const [displayLeftNav, setDisplayLeftNav] = useState(false);
 
   return (
     <div
@@ -47,10 +44,13 @@ function App() {
       >
         <BrowserRouter>
           {/* <TestSideBar /> */}
-          <LeftNavComp onClickLeftNav={onClickLeftNav}></LeftNavComp>
+          <Routes>
+            <Route path="/" element={<LoginComp />} />
+          </Routes>
+          {displayLeftNav && <LeftNavComp></LeftNavComp>}
 
           <Routes>
-            <Route path="/" element={<AppInstComp />} />
+            {/* <Route path="/" element={<AppInstComp />} /> */}
             <Route path="/clientIdListComp" element={<ClientIdListComp />} />
             <Route path="/apiListComp" element={<ApiListComp />} />
             <Route path="/consumerListComp" element={<ConsumerListComp />} />

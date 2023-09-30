@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Box, IconButton } from "@mui/material";
 import LoadingIndicator from "./LoadingIndicator";
 import PopUpTeam from "./PopUpTeam";
@@ -9,6 +10,7 @@ import { getAllMembers, members_createUpdateMember, deleteMemBerDetails } from "
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { buttonSelectVal } from "../actions/UpdateButtonState";
+import PopUpTeamViewComp from "./PopUpTeamViewComp";
 
 const TeamMembersComp = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const TeamMembersComp = () => {
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [teamMemberList, setTeamMemberList] = useState([]);
+  const [viewFlowFlag, setViewFlowFlag] = useState(false);
 
   useEffect(() => {
     getAllMembers_service();
@@ -26,6 +29,10 @@ const TeamMembersComp = () => {
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
+  };
+  const onClickOk = () => {
+    console.log("onClickOk");
+    setViewFlowFlag(false);
   };
 
   const onClickSave = async (objectData) => {
@@ -106,6 +113,15 @@ const TeamMembersComp = () => {
           ></PopUpTeam>
         </div>
       )}
+      {viewFlowFlag === true && (
+        <div className="popup-comp">
+          <PopUpTeamViewComp
+            onClickOk={onClickOk}
+            selectedRowData={selectedRowData}
+            viewFlowFlag={viewFlowFlag}
+          ></PopUpTeamViewComp>
+        </div>
+      )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
           className="button-add-new"
@@ -178,6 +194,20 @@ const TeamMembersComp = () => {
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+                // navigate("/apiListComp", { state: { fromScreen: "APP_LISt", data: row.original } });
+                // sdispatch(buttonSelectVal(3));
+                console.log("row data:", row.original);
+                setSelectedRowData(row.original);
+                setViewFlowFlag(true);
+              }}
+            >
+              <RemoveRedEyeIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

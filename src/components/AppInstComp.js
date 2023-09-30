@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
-import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon, PanoramaFishEyeTwoTone } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 import { Box, IconButton } from "@mui/material";
 import PopUpInstComp from "./PopUpInstComp";
 import { getAllAppInstances, createAppInstance, deleteAppInstanceDetails } from "../services/ApiServiceDetails";
@@ -10,6 +12,7 @@ import "../styles.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { buttonSelectVal } from "../actions/UpdateButtonState";
+import PopUpInstViewComp from "./PopUpInstViewComp";
 
 const AppInstComp = () => {
   const navigate = useNavigate();
@@ -19,12 +22,17 @@ const AppInstComp = () => {
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [selectedRow, setSelectedRow] = useState();
+  const [viewFlowFlag, setViewFlowFlag] = useState(false);
 
   const [apiInstData, setApiInstData] = useState([]);
 
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
+  };
+  const onClickOk = () => {
+    console.log("onClickOk");
+    setViewFlowFlag(false);
   };
   const onClickSave = async (objectData) => {
     console.log("onClickSave:", objectData);
@@ -101,16 +109,16 @@ const AppInstComp = () => {
         header: "App Type",
         size: 50,
       },
-      {
-        accessorKey: "lastUatDeployedDate",
-        header: "Last Uat Deployed Date",
-        size: 80,
-      },
-      {
-        accessorKey: "lastProdDeployedDate",
-        header: "Last Prod Deployed Date",
-        size: 80,
-      },
+      // {
+      //   accessorKey: "lastUatDeployedDate",
+      //   header: "Last Uat Deployed Date",
+      //   size: 80,
+      // },
+      // {
+      //   accessorKey: "lastProdDeployedDate",
+      //   header: "Last Prod Deployed Date",
+      //   size: 80,
+      // },
 
       {
         accessorKey: "uatDeployedEnv",
@@ -137,6 +145,11 @@ const AppInstComp = () => {
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
           ></PopUpInstComp>
+        </div>
+      )}
+      {viewFlowFlag === true && (
+        <div className="popup-comp">
+          <PopUpInstViewComp selectedRowData={selectedRowData} onClickOk={onClickOk}></PopUpInstViewComp>
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -218,6 +231,21 @@ const AppInstComp = () => {
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+                // navigate("/PopUpInstViewComp", { state: { fromScreen: "APP_Inst", data: row.original } });
+                // dispatch(buttonSelectVal(3));
+                console.log("console log", row.original);
+                setViewFlowFlag(true);
+
+                setselectedRowData(row.original);
+              }}
+            >
+              <RemoveRedEyeIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

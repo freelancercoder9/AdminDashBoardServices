@@ -9,6 +9,8 @@ import LoadingIndicator from "./LoadingIndicator";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { buttonSelectVal } from "../actions/UpdateButtonState";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import PopUpConsumerViewComp from "./PopUpConsumerViewComp";
 
 const ConsumerListComp = () => {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const ConsumerListComp = () => {
   const [editFlowFlag, setEditFlowFlag] = useState(true);
   const [consumerListData, setConsumerListData] = useState([]);
   const [loadingIndicator, setLoadingIndicator] = useState(false);
+  const [viewFlowFlag, setViewFlowFlag] = useState(false);
 
   useEffect(() => {
     consumer_getAllConsumers_service();
@@ -35,6 +38,10 @@ const ConsumerListComp = () => {
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
+  };
+  const onClickOk = () => {
+    console.log("onClickOk");
+    setViewFlowFlag(false);
   };
   const onClickSave = async (objectData) => {
     console.log("onClickSave:", objectData);
@@ -110,6 +117,15 @@ const ConsumerListComp = () => {
           ></PopUpConsumer>
         </div>
       )}
+      {viewFlowFlag === true && (
+        <div className="popup-comp">
+          <PopUpConsumerViewComp
+            onClickOk={onClickOk}
+            selectedRowData={selectedRowData}
+            viewFlowFlag={viewFlowFlag}
+          ></PopUpConsumerViewComp>
+        </div>
+      )}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
           className="button-add-new"
@@ -182,6 +198,20 @@ const ConsumerListComp = () => {
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+                // navigate("/ClientIdListComp", { state: { fromScreen: "ClientIdListComp", data: row.original } });
+                // dispatch(buttonSelectVal(2));
+                console.log("row data:", row.original);
+                setSelectedRowData(row.original);
+                setViewFlowFlag(true);
+              }}
+            >
+              <RemoveRedEyeIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

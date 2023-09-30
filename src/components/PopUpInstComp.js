@@ -16,6 +16,8 @@ const PopUpInstComp = (props) => {
   const [uatDepEnv, setUatDepEnv] = useState();
   const [prodDepEnv, setProdDepEnv] = useState();
   const [setsetselectedID, setSetsetselectedID] = useState();
+  const [uatUrl, setUatUrl] = useState("");
+  const [prodUrl, setProdUrl] = useState("");
 
   useEffect(() => {
     console.log(" dada ", props.editFlowFlag, props.selectedRowData);
@@ -189,17 +191,50 @@ const PopUpInstComp = (props) => {
               />
             </div>
           </div>
+          <div className="sub-fields">
+            <div style={{ display: "flex", width: "45%" }}>
+              <h4 style={{ textAlign: "start" }}>UAT URL</h4>
+            </div>
+            <input
+              type="text"
+              style={{ width: "70%", height: 35, paddingLeft: 5, fontSize: 15 }}
+              value={uatUrl}
+              onChange={(e) => {
+                setUatUrl(e.target.value);
+              }}
+            />
+          </div>
+          <div className="sub-fields">
+            <div style={{ display: "flex", width: "45%" }}>
+              <h4 style={{ textAlign: "start" }}>PROD URL</h4>
+            </div>
+            <input
+              type="text"
+              style={{ width: "70%", height: 35, paddingLeft: 5, fontSize: 15 }}
+              value={prodUrl}
+              onChange={(e) => {
+                setProdUrl(e.target.value);
+              }}
+            />
+          </div>
         </div>
 
         <div style={{ marginTop: 20 }}>
           <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            style={{
+              padding: 7,
+              backgroundColor: "red",
+              color: "white",
+              marginRight: 30,
+              borderRadius: 5,
+              fontWeight: "bold",
+            }}
             onClick={props.onClickCancel}
           >
             Cancel
           </button>
           <button
-            style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
+            style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5, fontWeight: "bold" }}
             onClick={() => {
               validateAndSave();
             }}

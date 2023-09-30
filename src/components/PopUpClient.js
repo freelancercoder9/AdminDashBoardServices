@@ -271,13 +271,20 @@ const PopUpClient = (props) => {
 
         <div style={{ marginTop: 20 }}>
           <button
-            style={{ padding: 7, backgroundColor: "red", color: "white", marginRight: 30, borderRadius: 5 }}
+            style={{
+              padding: 7,
+              backgroundColor: "red",
+              color: "white",
+              marginRight: 30,
+              borderRadius: 5,
+              fontWeight: "bold",
+            }}
             onClick={props.onClickCancel}
           >
             Cancel
           </button>
           <button
-            style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5 }}
+            style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5, fontWeight: "bold" }}
             onClick={() => {
               var apiId = 0;
               apiListData.forEach((item, index) => {

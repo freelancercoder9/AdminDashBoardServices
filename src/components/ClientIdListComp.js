@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Box, IconButton } from "@mui/material";
 import PopUpClient from "./PopUpClient";
 import {
@@ -17,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { buttonSelectVal } from "../actions/UpdateButtonState";
 import Dropdown from "react-dropdown";
 import { useLocation } from "react-router-dom";
+import PopUpClientViewComp from "./PopUpClientViewComp";
 
 const ClientIdListComp = () => {
   const navigate = useNavigate();
@@ -32,17 +34,26 @@ const ClientIdListComp = () => {
   const [appCodeList, setAppCodeList] = useState([]);
   const [apiName, setApiName] = useState("ALL");
   const [apiNameList, setApiNameList] = useState([]);
+  const [viewFlowFlag, setViewFlowFlag] = useState(false);
 
   useEffect(() => {
     getAllClientAPiDetails_service();
     consumer_getAllConsumers_service();
     getAllApiDetails_service();
     console.log("dataFromPreviousScreen:", dataFromPreviousScreen);
-    if (dataFromPreviousScreen !== null && dataFromPreviousScreen.data !== undefined && dataFromPreviousScreen.data.appCode !== undefined) {
+    if (
+      dataFromPreviousScreen !== null &&
+      dataFromPreviousScreen.data !== undefined &&
+      dataFromPreviousScreen.data.appCode !== undefined
+    ) {
       console.log("dataFromPreviousScreen:", dataFromPreviousScreen.data.appCode);
       setAppCode(dataFromPreviousScreen.data.appCode);
     }
-    if (dataFromPreviousScreen !== null && dataFromPreviousScreen.data !== undefined && dataFromPreviousScreen.data.apiName !== undefined) {
+    if (
+      dataFromPreviousScreen !== null &&
+      dataFromPreviousScreen.data !== undefined &&
+      dataFromPreviousScreen.data.apiName !== undefined
+    ) {
       console.log("dataFromPreviousScreen:", dataFromPreviousScreen.data.apiName);
       setApiName(dataFromPreviousScreen.data.apiName);
     }
@@ -110,7 +121,10 @@ const ClientIdListComp = () => {
       if (apiName === "ALL" && appCode === "ALL") {
         tempData.push(obj);
       } else {
-        if ((obj.apiDetails.apiName === apiName || apiName === "ALL") && (obj.consumerDetails.appCode === appCode || appCode === "ALL")) {
+        if (
+          (obj.apiDetails.apiName === apiName || apiName === "ALL") &&
+          (obj.consumerDetails.appCode === appCode || appCode === "ALL")
+        ) {
           tempData.push(obj);
         }
       }
@@ -122,6 +136,10 @@ const ClientIdListComp = () => {
   const onClickCancel = () => {
     console.log("onClickCancel");
     setIsPopUp(false);
+  };
+  const onClickOk = () => {
+    console.log("onClickOk");
+    setViewFlowFlag(false);
   };
   const onClickSave = async (objectData, consumerId, apiId) => {
     console.log("onClickSave:", objectData, consumerId, apiId);
@@ -217,17 +235,15 @@ const ClientIdListComp = () => {
           ></PopUpClient>
         </div>
       )}
-      {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className="button-add-new"
-          onClick={() => {
-            setEditFlowFlag(false);
-            setIsPopUp(true);
-          }}
-        >
-          Add New Client
-        </button>
-      </div> */}
+      {viewFlowFlag === true && (
+        <div className="popup-comp">
+          <PopUpClientViewComp
+            onClickOk={onClickOk}
+            selectedRowData={selectedRowData}
+            viewFlowFlag={viewFlowFlag}
+          ></PopUpClientViewComp>
+        </div>
+      )}
 
       <div
         style={{
@@ -348,6 +364,20 @@ const ClientIdListComp = () => {
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+                // navigate("/ConsumerListComp", { state: { fromScreen: "CLIENT_ID", data: "row.original" } });
+                // dispatch(buttonSelectVal(4));
+                console.log("row data:", row.original);
+                setSelectedRowData(row.original);
+                setViewFlowFlag(true);
+              }}
+            >
+              <RemoveRedEyeIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}

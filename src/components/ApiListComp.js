@@ -2,9 +2,16 @@ import React, { useMemo, useState, useEffect } from "react";
 import { MaterialReactTable } from "material-react-table";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import ForwardRoundedIcon from "@mui/icons-material/ForwardRounded";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Box, IconButton } from "@mui/material";
 import PopUpComp from "./PopUpComp";
-import { getAllApiDetails, updateApiDetails, deleteApiDetails, getAllMembers, getAllAppInstances } from "../services/ApiServiceDetails";
+import {
+  getAllApiDetails,
+  updateApiDetails,
+  deleteApiDetails,
+  getAllMembers,
+  getAllAppInstances,
+} from "../services/ApiServiceDetails";
 import LoadingIndicator from "./LoadingIndicator";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "../styles.css";
@@ -13,6 +20,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { buttonSelectVal } from "../actions/UpdateButtonState";
+import PopUpApiViewComp from "./PopUpApiViewComp";
 
 const ApiListComp = () => {
   const location = useLocation();
@@ -29,6 +37,7 @@ const ApiListComp = () => {
   const [appNameList, setAppNameList] = useState([]);
   const [developerNameList, setDeveloperNameList] = useState([]);
   const [developerName, setDeveloperName] = useState("ALL");
+  const [viewFlowFlag, setViewFlowFlag] = useState(false);
 
   useEffect(() => {
     getAllApiDetails_service();
@@ -171,6 +180,10 @@ const ApiListComp = () => {
     setLoadingIndicator(false);
   };
 
+  const onClickOk = () => {
+    console.log("onClickOk");
+    setViewFlowFlag(false);
+  };
   //should be memoized or stable
   const columns = useMemo(
     () => [
@@ -234,6 +247,11 @@ const ApiListComp = () => {
             onClickSave={onClickSave}
             editFlowFlag={editFlowFlag}
           ></PopUpComp>
+        </div>
+      )}
+      {viewFlowFlag === true && (
+        <div className="popup-comp">
+          <PopUpApiViewComp selectedRowData={selectedRowData} onClickOk={onClickOk}></PopUpApiViewComp>
         </div>
       )}
       <div
@@ -365,6 +383,20 @@ const ApiListComp = () => {
               }}
             >
               <ForwardRoundedIcon style={{ fontSize: 30 }} color="primary" />
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                // data.splice(row.index, 1); //assuming simple data table
+                // setData([...data]);
+                // navigate("/ClientIdListComp", { state: { fromScreen: "API_List", data: row.original } });
+                // dispatch(buttonSelectVal(2));
+                console.log("row details:", row.original);
+                setViewFlowFlag(true);
+                setselectedRowData(row.original);
+              }}
+            >
+              <RemoveRedEyeIcon style={{ fontSize: 30 }} color="primary" />
             </IconButton>
           </Box>
         )}
