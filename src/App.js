@@ -14,9 +14,11 @@ import ApiListComp from "./components/ApiListComp";
 import ConsumerListComp from "./components/ConsumerListComp";
 import TeamMembersComp from "./components/TeamMembersComp";
 import LoginComp from "./components/LoginComp";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [displayLeftNav, setDisplayLeftNav] = useState(false);
+  const loginUser = useSelector((state) => state.LoginUserReducer);
+  console.log("login in app js", loginUser);
 
   return (
     <div
@@ -47,10 +49,10 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginComp />} />
           </Routes>
-          {displayLeftNav && <LeftNavComp></LeftNavComp>}
+          {loginUser.login && <LeftNavComp></LeftNavComp>}
 
           <Routes>
-            {/* <Route path="/" element={<AppInstComp />} /> */}
+            <Route path="/appListComp" element={<AppInstComp />} />
             <Route path="/clientIdListComp" element={<ClientIdListComp />} />
             <Route path="/apiListComp" element={<ApiListComp />} />
             <Route path="/consumerListComp" element={<ConsumerListComp />} />

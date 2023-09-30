@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUsers } from "../actions/UpdateButtonState";
+import { useNavigate } from "react-router-dom";
 
 const LoginComp = () => {
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <div className="main-container">
       <div className="sub-container-login">
@@ -44,6 +49,12 @@ const LoginComp = () => {
             style={{ padding: 7, backgroundColor: "blue", color: "white", borderRadius: 5, fontWeight: "bold" }}
             onClick={() => {
               // onClickLogin();
+              if (userName === "admin" && passWord === "admin") {
+                dispatch(loginUsers({ login: true }));
+                navigate("/appListComp");
+              } else {
+                dispatch(loginUsers({ login: false }));
+              }
             }}
           >
             LOGIN

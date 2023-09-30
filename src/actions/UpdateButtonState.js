@@ -5,3 +5,11 @@ export const buttonSelectVal = (buttonVal) => {
     payload: buttonVal,
   };
 };
+
+export const loginUsers = (userVal) => {
+  console.log("loginUsers action");
+  return {
+    type: "LOGIN_USER",
+    payload: userVal,
+  };
+};
