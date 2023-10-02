@@ -13,31 +13,71 @@ const PopUpInstViewComp = (props) => {
             <div style={{ display: "flex", width: "45%" }}>
               <h4 style={{ textAlign: "start" }}>App Inst Name</h4>
             </div>
-            <label htmlFor="star" style={{ fontSize: 20 }}>
-              {props.selectedRowData.appInstanceName}
-            </label>
+            <div
+              style={{
+                width: "55%",
+                height: 35,
+                paddingLeft: 5,
+                fontSize: 15,
+                // backgroundColor: "red",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star">{props.selectedRowData.appInstanceName}</label>
+            </div>
           </div>
           <div className="sub-fields">
             <div style={{ width: "45%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>App Inst Type</h4>
             </div>
-            <label htmlFor="star" style={{ fontSize: 20 }}>
-              {props.selectedRowData.appInstanceType}
-            </label>
+            <div
+              style={{
+                width: "55%",
+                height: 35,
+                paddingLeft: 5,
+                fontSize: 15,
+                // backgroundColor: "red",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star">{props.selectedRowData.appInstanceType}</label>
+            </div>
           </div>
         </div>
         <div className="fields-container">
           <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Last Uat Dep Date</h4>
-            <label htmlFor="star" style={{ fontSize: 20 }}>
-              {props.selectedRowData.lastUatDeployedDate}
-            </label>
+            <div
+              style={{
+                width: "55%",
+                height: 35,
+                paddingLeft: 5,
+                fontSize: 15,
+                // backgroundColor: "red",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star">{props.selectedRowData.lastUatDeployedDate}</label>
+            </div>
           </div>
           <div className="sub-fields">
             <h4 style={{ width: "45%", textAlign: "start" }}>Last Prod Dep Date</h4>
-            <label htmlFor="star" style={{ fontSize: 20 }}>
-              {props.selectedRowData.lastProdDeployedDate}
-            </label>
+            <div
+              style={{
+                width: "55%",
+                height: 35,
+                paddingLeft: 5,
+                fontSize: 15,
+                // backgroundColor: "red",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star">{props.selectedRowData.lastProdDeployedDate}</label>
+            </div>
           </div>
         </div>
 
@@ -46,16 +86,77 @@ const PopUpInstViewComp = (props) => {
             <div style={{ width: "45%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>Uat Dep Env</h4>
             </div>
-            <label htmlFor="star" style={{ fontSize: 20 }}>
-              {props.selectedRowData.uatDeployedEnv}
-            </label>
+            <div
+              style={{
+                width: "55%",
+                height: 35,
+                paddingLeft: 5,
+                fontSize: 15,
+                // backgroundColor: "red",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star">{props.selectedRowData.uatDeployedEnv}</label>
+            </div>
           </div>
           <div className="sub-fields">
             <div style={{ width: "45%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>Prod Dep Env</h4>
             </div>
-            <label htmlFor="star" style={{ fontSize: 20 }}>
-              {props.selectedRowData.prodDeployedEnv}
+            <div
+              style={{
+                width: "55%",
+                height: 35,
+                paddingLeft: 5,
+                fontSize: 15,
+                // backgroundColor: "red",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star">{props.selectedRowData.prodDeployedEnv}</label>
+            </div>
+          </div>
+        </div>
+        <div style={{ width: "95%", marginTop: 20 }}>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <div style={{ width: "19%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Uat Url</h4>
+            </div>
+
+            <label
+              htmlFor="star"
+              style={{
+                fontSize: 16,
+                // backgroundColor: "yellow",
+                width: "81%",
+                display: "flex",
+                textAlign: "left",
+                padding: 5,
+              }}
+            >
+              {props.selectedRowData.uatUrl}
+            </label>
+          </div>
+        </div>
+        <div style={{ width: "95%", marginTop: 20 }}>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <div style={{ width: "19%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>Prod Url</h4>
+            </div>
+            <label
+              htmlFor="star"
+              style={{
+                fontSize: 16,
+                // backgroundColor: "yellow",
+                width: "81%",
+                display: "flex",
+                textAlign: "left",
+                padding: 5,
+              }}
+            >
+              {props.selectedRowData.prodUrl}
             </label>
           </div>
         </div>

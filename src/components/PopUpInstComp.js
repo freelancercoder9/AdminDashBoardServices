@@ -29,6 +29,8 @@ const PopUpInstComp = (props) => {
       setUatDepEnv(props.selectedRowData.uatDeployedEnv);
       setProdDepEnv(props.selectedRowData.prodDeployedEnv);
       setSetsetselectedID(props.selectedRowData.id);
+      setUatUrl(props.selectedRowData.uatUrl);
+      setProdUrl(props.selectedRowData.prodUrl);
     } else {
       setAppInstName();
       setAppInstanceType();
@@ -36,6 +38,8 @@ const PopUpInstComp = (props) => {
       setLastProdDeployedDate();
       setUatDepEnv();
       setProdDepEnv();
+      setUatUrl();
+      setProdUrl();
     }
   }, []);
 
@@ -62,6 +66,8 @@ const PopUpInstComp = (props) => {
           prodDeployedEnv: prodDepEnv,
           lastUatDeployedDate: lastUatDeployedDate,
           lastProdDeployedDate: lastProdDeployedDate,
+          uatUrl: uatUrl,
+          prodUrl: prodUrl,
           id: setsetselectedID,
         };
       } else {
@@ -72,6 +78,8 @@ const PopUpInstComp = (props) => {
           prodDeployedEnv: prodDepEnv,
           lastUatDeployedDate: lastUatDeployedDate,
           lastProdDeployedDate: lastProdDeployedDate,
+          uatUrl: uatUrl,
+          prodUrl: prodUrl,
         };
       }
       props.onClickSave(objectData);
@@ -191,26 +199,36 @@ const PopUpInstComp = (props) => {
               />
             </div>
           </div>
-          <div className="sub-fields">
-            <div style={{ display: "flex", width: "45%" }}>
+        </div>
+        <div style={{ width: "95%", marginTop: 20 }}>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <div style={{ width: "22%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>UAT URL</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
             </div>
             <input
               type="text"
-              style={{ width: "70%", height: 35, paddingLeft: 5, fontSize: 15 }}
+              style={{ width: "78%", height: 35, fontSize: 15, paddingLeft: 5 }}
               value={uatUrl}
               onChange={(e) => {
                 setUatUrl(e.target.value);
               }}
             />
           </div>
-          <div className="sub-fields">
-            <div style={{ display: "flex", width: "45%" }}>
+        </div>
+        <div style={{ width: "95%", marginTop: 20 }}>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <div style={{ width: "22%", display: "flex" }}>
               <h4 style={{ textAlign: "start" }}>PROD URL</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
             </div>
             <input
               type="text"
-              style={{ width: "70%", height: 35, paddingLeft: 5, fontSize: 15 }}
+              style={{ width: "78%", height: 35, fontSize: 15, paddingLeft: 5 }}
               value={prodUrl}
               onChange={(e) => {
                 setProdUrl(e.target.value);

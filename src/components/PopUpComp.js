@@ -25,6 +25,7 @@ const PopUpComp = (props) => {
   const [appInstList, setAppInstList] = useState([]);
 
   const [memberNameList, setMemberNameList] = useState([]);
+  const [uriLink, setUriLink] = useState();
 
   useEffect(() => {
     getAllAppInstances_service();
@@ -71,7 +72,7 @@ const PopUpComp = (props) => {
 
       var dataTemp = [];
       response.data.getAllAppInstances.forEach((item, index) => {
-        var obj = { value: item.id, label: item.appInstanceName };
+        var obj = { value: item.id, label: item.appInstanceName, uatUrl: item.uatUrl };
         dataTemp.push(obj);
       });
       setAppInstList(dataTemp);
@@ -331,6 +332,38 @@ const PopUpComp = (props) => {
                 selected={prodStatusDate}
                 onChange={(date) => setProdStatusDate(date)}
               />
+            </div>
+          </div>
+        </div>
+        <div style={{ width: "95%", marginTop: 20 }}>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <div style={{ width: "22%", display: "flex" }}>
+              <h4 style={{ textAlign: "start" }}>URI</h4>
+              <label htmlFor="star" style={{ color: "red", fontSize: 20 }}>
+                *
+              </label>
+            </div>
+            <div
+              style={{
+                width: "78%",
+
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="star" style={{}}>
+                {appInstName.uatUrl}
+              </label>
+              <input
+                type="text"
+                style={{ height: 35, fontSize: 15, paddingLeft: 5 }}
+                value={uriLink}
+                onChange={(e) => {
+                  setUriLink(e.target.value);
+                }}
+              />
+              <div style={{ width: "20%" }}></div>
             </div>
           </div>
         </div>

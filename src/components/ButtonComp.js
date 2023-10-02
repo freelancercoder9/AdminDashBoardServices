@@ -24,7 +24,7 @@ const ButtonComp = (props) => {
         }}
         onClick={() => {
           dispatch(buttonSelectVal(1));
-          navigate("/");
+          navigate("/appListComp");
         }}
       >
         App Inst List
